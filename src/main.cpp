@@ -1,5 +1,6 @@
-#include <iostream>
-#include "Spider.hh"
+#include	<iostream>
+
+#include	"Spider.hh"
 
 int			main( int argc, char * * argv )
 {

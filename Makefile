@@ -1,21 +1,42 @@
 NAME = spider
 
+BINF = ./bin
+SRCF = ./src
+OBJF = ./obj
+
+
 CC = g++
-CFLAGS = -W -Wall -Wextra -static
-INCLUDES = -I./include
-LIBS = -L./lib/ -lchilkat-9.5.0
-LDFLAGS = $(LIBS)
-OBJ = main.o Spider.o
+CFLAGS =	-W -Wall -Wextra -static
+
+LIBSI =		-I./lib/inc
+LIBS =		-L./lib/ -lchilkat-9.5.0
+LDFLAGS =	$(LIBS)
+
+INCS =		-I./inc $(LIBSI)
+
+
+OBJ =		$(OBJF)/main.o			\
+			$(OBJF)/Spider.o
 
 all: $(NAME)
 
-%.o: %.cpp
-	$(CC) $(CFLAGS) $(INCLUDES) -o $@ -c $<
+obj/%.o: src/%.cpp
+	@mkdir -p $(OBJF)
+	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
+	@mkdir -p $(BINF)
+	$(CC) -o $(BINF)/$(NAME) $(OBJ) $(LDFLAGS)
 
 clean:
-	rm *.o
+	@rm -f *~
+	@rm -rf $(BINF)/*~
+	@rm -rf $(SRCF)/*~
+	@rm -rf $(OBJF)/*~
+fclean: clean
+	@rm -rf $(OBJF)
+	@rm -rf $(BINF)
 
-re: clean $(NAME)
+re: fclean all
+
+.PHONY: all $(NAME) clean fclean re
