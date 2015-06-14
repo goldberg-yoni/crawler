@@ -1,10 +1,18 @@
 #include <iostream>
-#include "Spider.hpp"
+#include "Spider.hh"
 
-int main()
+int			main( int argc, char * * argv )
 {
-  Spider *spider = new Spider("www.topito.com");
+	for (int i = 0; i < argc; i++)
+	{
+		std::cout << "Crawling at: " << argv[i] << std::endl;
+		
+		Spider *	spider = new Spider(argv[i]);
 
-  spider->CrawlDomain();
-  return 0;
+		spider->CrawlDomain();
+		
+		delete (spider);
+	}
+	
+	return (0);
 }

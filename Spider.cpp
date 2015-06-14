@@ -1,4 +1,4 @@
-#include "Spider.hpp"
+#include "Spider.hh"
 
 Spider::Spider(std::string url)
 {
