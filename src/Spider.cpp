@@ -1,25 +1,39 @@
+#include	<string>
+#include	<iostream>
+
+#include	<CkString.h>
+#include	<CkSpider.h>
+
 #include	"Spider.hh"
 
-Spider::Spider(std::string url)
+Spider::Spider( std::string _s_crawlURL )
+	:s_crawlURL(_s_crawlURL)
 {
-  this->url = url;
-  this->spider.Initialize(this->url.c_str());
+	this->spider.Initialize(this->s_crawlURL.c_str());
 }
 
-void Spider::CrawlDomain()
+std::ostream * &	Spider::getLoger( unsigned int type )
 {
-  std::string str = "http://";
-  str += this->url;
-  this->spider.AddUnspidered(str.c_str());
-  bool success;
-  while ((success = this->spider.CrawlNext()) && this->spider.get_NumUnspidered())
-    {
-      std::cout << this->spider.lastUrl() << std::endl;
-      std::cout << "\t title : \t" << this->spider.lastHtmlTitle() << std::endl;
-      std::cout << "\t description :\t" << this->spider.lastHtmlDescription() << std::endl;
-      std::cout << "\t mots cles :\t" << this->spider.lastHtmlKeywords() << std::endl;
-      std::cout << std::endl;
-      this->spider.CrawlNext();      
+	return (this->logers[type]);
+}
 
-    }
+void				Spider::crawlDomain( void )
+{
+	std::ostream &	inf = *(this->getLoger(INFO));
+	std::ostream &	rdt = *(this->getLoger(RAWDATA));
+	std::string		domain = ("http://"+ this->s_crawlURL);
+	
+	inf << "Crawling at: " << domain << std::endl;
+	
+	this->spider.AddUnspidered(domain.c_str());
+	bool success;
+	while ((success = this->spider.CrawlNext()) && this->spider.get_NumUnspidered())
+	{
+		rdt << this->spider.lastUrl() << std::endl;
+		rdt << "\t title : \t" << this->spider.lastHtmlTitle() << std::endl;
+		rdt << "\t description :\t" << this->spider.lastHtmlDescription() << std::endl;
+		rdt << "\t mots cles :\t" << this->spider.lastHtmlKeywords() << std::endl;
+		rdt << std::endl;
+		this->spider.CrawlNext();
+	}
 }

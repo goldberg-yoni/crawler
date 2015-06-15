@@ -4,16 +4,18 @@
 
 int			main( int argc, char * * argv )
 {
-	for (int i = 0; i < argc; i++)
+	for (int i = 1; i < argc; i++)
 	{
-		std::cout << "Crawling at: " << argv[i] << std::endl;
-		
 		Spider *	spider = new Spider(argv[i]);
-
-		spider->CrawlDomain();
 		
+		spider->getLoger() = &(std::cout);
+		spider->getLoger(Spider::INFO) = &(std::cout);
+		spider->getLoger(Spider::RAWDATA) = &(std::cout);
+
+		spider->crawlDomain();
+
 		delete (spider);
 	}
-	
+
 	return (0);
 }
