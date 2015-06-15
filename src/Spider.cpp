@@ -4,6 +4,8 @@
 #include	<CkString.h>
 #include	<CkSpider.h>
 
+#include	"utils.h"
+
 #include	"Spider.hh"
 
 Spider::Spider( std::string _s_crawlURL )
@@ -15,6 +17,11 @@ Spider::Spider( std::string _s_crawlURL )
 std::ostream * &	Spider::getLoger( unsigned int type )
 {
 	return (this->logers[type]);
+}
+
+int &				Spider::getThsPrint( void )
+{
+	return (this->thsPrint);
 }
 
 void				Spider::crawlDomain( void )
@@ -29,11 +36,31 @@ void				Spider::crawlDomain( void )
 	bool success;
 	while ((success = this->spider.CrawlNext()) && this->spider.get_NumUnspidered())
 	{
-		rdt << this->spider.lastUrl() << std::endl;
-		rdt << "\t title : \t" << this->spider.lastHtmlTitle() << std::endl;
-		rdt << "\t description :\t" << this->spider.lastHtmlDescription() << std::endl;
-		rdt << "\t mots cles :\t" << this->spider.lastHtmlKeywords() << std::endl;
+		if (IS(thsPrint, EXPRESSION))
+			;
+		else
+		{
+			//~ if (HAS(thsPrint, ERRORHTML))
+				//~ rdt << this->spider.lastErrorHTML() << std::endl;
+			if (HAS(thsPrint, ERRORTEXT))
+				rdt << this->spider.lastErrorText() << std::endl;
+			if (HAS(thsPrint, ERRORXML))
+				rdt << this->spider.lastErrorXml() << std::endl;
+			if (HAS(thsPrint, HTML))
+				rdt << this->spider.lastHtml() << std::endl;
+			if (HAS(thsPrint, HTMLDESCRIPTION))
+				rdt << this->spider.lastHtmlDescription() << std::endl;
+			if (HAS(thsPrint, HTMLKEYWORDS))
+				rdt << this->spider.lastHtmlKeywords() << std::endl;
+			if (HAS(thsPrint, HTMLTITLE))
+				rdt << this->spider.lastHtmlTitle() << std::endl;
+			if (HAS(thsPrint, MODDATESTR))
+				rdt << this->spider.lastModDateStr() << std::endl;
+			if (HAS(thsPrint, URL))
+				rdt << this->spider.lastUrl() << std::endl;
+		}
 		rdt << std::endl;
+		
 		this->spider.CrawlNext();
 	}
 }
