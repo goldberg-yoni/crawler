@@ -24,6 +24,7 @@ int &				Spider::getThsPrint( void )
 	return (this->thsPrint);
 }
 
+#include <stack>
 void				Spider::crawlDomain( void )
 {
 	std::ostream &	inf = *(this->getLoger(INFO));
@@ -36,31 +37,54 @@ void				Spider::crawlDomain( void )
 	bool success;
 	while ((success = this->spider.CrawlNext()) && this->spider.get_NumUnspidered())
 	{
-		if (IS(thsPrint, EXPRESSION))
-			;
-		else
+		//~ if (IS(thsPrint, EXPRESSION))
+			//~ ;
+		//~ else
+		//~ {
+			//~ //~ if (HAS(thsPrint, ERRORHTML))
+				//~ //~ rdt << this->spider.lastErrorHTML() << std::endl;
+			//~ if (HAS(thsPrint, ERRORTEXT))
+				//~ rdt << this->spider.lastErrorText() << std::endl;
+			//~ if (HAS(thsPrint, ERRORXML))
+				//~ rdt << this->spider.lastErrorXml() << std::endl;
+			//~ if (HAS(thsPrint, HTML))
+				//~ rdt << this->spider.lastHtml() << std::endl;
+			//~ if (HAS(thsPrint, HTMLDESCRIPTION))
+				//~ rdt << this->spider.lastHtmlDescription() << std::endl;
+			//~ if (HAS(thsPrint, HTMLKEYWORDS))
+				//~ rdt << this->spider.lastHtmlKeywords() << std::endl;
+			//~ if (HAS(thsPrint, HTMLTITLE))
+				//~ rdt << this->spider.lastHtmlTitle() << std::endl;
+			//~ if (HAS(thsPrint, MODDATESTR))
+				//~ rdt << this->spider.lastModDateStr() << std::endl;
+			//~ if (HAS(thsPrint, URL))
+				//~ rdt << this->spider.lastUrl() << std::endl;
+		//~ }
+		
+		std::string const metaStart = "<meta ";
+		std::string const metaStop = "/>";
+		std::stack<std::string> s;
+		std::string t = this->spider.lastHtml();
+		size_t pos = std::string::npos;
+		
+		std::cout << this->spider.lastHtmlTitle();
+		do
 		{
-			//~ if (HAS(thsPrint, ERRORHTML))
-				//~ rdt << this->spider.lastErrorHTML() << std::endl;
-			if (HAS(thsPrint, ERRORTEXT))
-				rdt << this->spider.lastErrorText() << std::endl;
-			if (HAS(thsPrint, ERRORXML))
-				rdt << this->spider.lastErrorXml() << std::endl;
-			if (HAS(thsPrint, HTML))
-				rdt << this->spider.lastHtml() << std::endl;
-			if (HAS(thsPrint, HTMLDESCRIPTION))
-				rdt << this->spider.lastHtmlDescription() << std::endl;
-			if (HAS(thsPrint, HTMLKEYWORDS))
-				rdt << this->spider.lastHtmlKeywords() << std::endl;
-			if (HAS(thsPrint, HTMLTITLE))
-				rdt << this->spider.lastHtmlTitle() << std::endl;
-			if (HAS(thsPrint, MODDATESTR))
-				rdt << this->spider.lastModDateStr() << std::endl;
-			if (HAS(thsPrint, URL))
-				rdt << this->spider.lastUrl() << std::endl;
+			pos = t.find(metaStart);
+			t.erase(0, pos);
+			pos = t.find(metaStop);
+			s.push(t.substr(0, pos + metaStop.length()));
+			t.erase(0, pos + metaStop.length());
+		}
+		while (pos != std::string::npos);
+		
+		while (!(s.empty()))
+		{
+			std::cout << s.top() << std::endl;
+			s.pop();
 		}
 		rdt << std::endl;
-		
+		break;
 		this->spider.CrawlNext();
 	}
 }

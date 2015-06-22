@@ -12,7 +12,7 @@ int			main( int argc, char * * argv )
 		spider->getLoger(Spider::INFO) = &(std::cout);
 		spider->getLoger(Spider::RAWDATA) = &(std::cout);
 		
-		spider->getThsPrint() = Spider::HTMLTITLE | Spider::HTMLKEYWORDS;
+		spider->getThsPrint() = Spider::HTML;
 
 		spider->crawlDomain();
 
