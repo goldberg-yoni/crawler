@@ -38,7 +38,7 @@ stdrule:
 	@mkdir -p $(BINF)
 
 	@$(MAKE) -C ./lib/balls/TinyXML/ all __CFLAGS=-static
-	@cp ./lib/balls/TinyXML/bin/tinyXML.a $(BINF)
+	@cp ./lib/balls/TinyXML/bin/libtinyXML.a $(BINF)
 
 preope:			stdrule
 	@$(MAKE) $(__OPTLD) compile
