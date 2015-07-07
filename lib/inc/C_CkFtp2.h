@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkFtp2_H
 #define _C_CkFtp2_H
 #include "chilkatDefs.h"
@@ -16,6 +16,8 @@ CK_VISIBLE_PUBLIC int CkFtp2_getActivePortRangeStart(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC void CkFtp2_putActivePortRangeStart(HCkFtp2 cHandle, int newVal);
 CK_VISIBLE_PUBLIC unsigned long CkFtp2_getAllocateSize(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC void CkFtp2_putAllocateSize(HCkFtp2 cHandle, unsigned long newVal);
+CK_VISIBLE_PUBLIC BOOL CkFtp2_getAllowMlsd(HCkFtp2 cHandle);
+CK_VISIBLE_PUBLIC void CkFtp2_putAllowMlsd(HCkFtp2 cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC unsigned long CkFtp2_getAsyncBytesReceived(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC __int64 CkFtp2_getAsyncBytesReceived64(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC void CkFtp2_getAsyncBytesReceivedStr(HCkFtp2 cHandle, HCkString retval);
@@ -195,6 +197,9 @@ CK_VISIBLE_PUBLIC void CkFtp2_putSyncMustNotMatch(HCkFtp2 cHandle, const char *n
 CK_VISIBLE_PUBLIC const char *CkFtp2_syncMustNotMatch(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC void CkFtp2_getSyncPreview(HCkFtp2 cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkFtp2_syncPreview(HCkFtp2 cHandle);
+CK_VISIBLE_PUBLIC void CkFtp2_getSyncedFiles(HCkFtp2 cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkFtp2_putSyncedFiles(HCkFtp2 cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkFtp2_syncedFiles(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC void CkFtp2_getTlsCipherSuite(HCkFtp2 cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkFtp2_tlsCipherSuite(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC void CkFtp2_getTlsVersion(HCkFtp2 cHandle, HCkString retval);
@@ -255,6 +260,8 @@ CK_VISIBLE_PUBLIC int CkFtp2_GetDirCount(HCkFtp2 cHandle);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetFile(HCkFtp2 cHandle, const char *remoteFilePath, const char *localFilePath);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetFilename(HCkFtp2 cHandle, int index, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkFtp2_getFilename(HCkFtp2 cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkFtp2_GetGroup(HCkFtp2 cHandle, int index, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkFtp2_getGroup(HCkFtp2 cHandle, int index);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetIsDirectory(HCkFtp2 cHandle, int index);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetIsSymbolicLink(HCkFtp2 cHandle, int index);
 CK_VISIBLE_PUBLIC HCkDateTime CkFtp2_GetLastAccessDt(HCkFtp2 cHandle, int index);
@@ -273,6 +280,12 @@ CK_VISIBLE_PUBLIC BOOL CkFtp2_GetLastModifiedTimeByNameStr(HCkFtp2 cHandle, cons
 CK_VISIBLE_PUBLIC const char *CkFtp2_getLastModifiedTimeByNameStr(HCkFtp2 cHandle, const char *filename);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetLastModifiedTimeStr(HCkFtp2 cHandle, int index, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkFtp2_getLastModifiedTimeStr(HCkFtp2 cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkFtp2_GetOwner(HCkFtp2 cHandle, int index, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkFtp2_getOwner(HCkFtp2 cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkFtp2_GetPermType(HCkFtp2 cHandle, int index, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkFtp2_getPermType(HCkFtp2 cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkFtp2_GetPermissions(HCkFtp2 cHandle, int index, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkFtp2_getPermissions(HCkFtp2 cHandle, int index);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetRemoteFileBinaryData(HCkFtp2 cHandle, const char *remoteFilename, HCkByteData outData);
 CK_VISIBLE_PUBLIC BOOL CkFtp2_GetRemoteFileTextC(HCkFtp2 cHandle, const char *remoteFilename, const char *charset, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkFtp2_getRemoteFileTextC(HCkFtp2 cHandle, const char *remoteFilename, const char *charset);

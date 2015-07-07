@@ -222,10 +222,12 @@ class CK_VISIBLE_PUBLIC CkPfx  : public CkMultiByteBase
 	// If ARG5 is not empty, it indicates the encryption algorithm to be used for
 	// encrypting the private keys (otherwise the private keys are output unencrypted).
 	// The possible choices for the ARG5 are "des3", "aes128", "aes192", and "aes256".
-	// If the private keys are to be encrypted, then ARG6 is the password to be used.
-	// Otherwise, ARG6 may be left empty. For example:
+	// (All encryption algorithm choices use CBC mode.) If the private keys are to be
+	// encrypted, then ARG6 is the password to be used. Otherwise, ARG6 may be left
+	// empty. For example:
 	// Bag Attributes
-	//     Microsoft Local Key set: localKeyID: 01 00 00 00 
+	//     Microsoft Local Key set: <No Values>
+	//     localKeyID: 01 00 00 00 
 	//     friendlyName: le-2b09a3d2-9037-4a05-95cc-4d44518e8607
 	//     Microsoft CSP Name: Microsoft RSA SChannel Cryptographic Provider
 	// Key Attributes
@@ -268,10 +270,12 @@ class CK_VISIBLE_PUBLIC CkPfx  : public CkMultiByteBase
 	// If ARG5 is not empty, it indicates the encryption algorithm to be used for
 	// encrypting the private keys (otherwise the private keys are output unencrypted).
 	// The possible choices for the ARG5 are "des3", "aes128", "aes192", and "aes256".
-	// If the private keys are to be encrypted, then ARG6 is the password to be used.
-	// Otherwise, ARG6 may be left empty. For example:
+	// (All encryption algorithm choices use CBC mode.) If the private keys are to be
+	// encrypted, then ARG6 is the password to be used. Otherwise, ARG6 may be left
+	// empty. For example:
 	// Bag Attributes
-	//     Microsoft Local Key set: localKeyID: 01 00 00 00 
+	//     Microsoft Local Key set: <No Values>
+	//     localKeyID: 01 00 00 00 
 	//     friendlyName: le-2b09a3d2-9037-4a05-95cc-4d44518e8607
 	//     Microsoft CSP Name: Microsoft RSA SChannel Cryptographic Provider
 	// Key Attributes

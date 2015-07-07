@@ -107,6 +107,29 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// 
 	void put_AllocateSize(unsigned long newVal);
 
+	// If true, then uses the MLSD command to fetch directory listings when the FTP
+	// server supports MLSD. This property is true by default.
+	// 
+	// When MLSD is used, the GetPermissions method will return the "perm fact" for a
+	// given file or directory. This is a different format than the more commonly
+	// recognized UNIX permissions string. Note: MLSD provides more accurate and
+	// dependable file listings, especially for last-mod date/time information. If
+	// usage of the MLSD command is turned off, it may adversely affect the quality and
+	// availability of other information.
+	// 
+	bool get_AllowMlsd(void);
+	// If true, then uses the MLSD command to fetch directory listings when the FTP
+	// server supports MLSD. This property is true by default.
+	// 
+	// When MLSD is used, the GetPermissions method will return the "perm fact" for a
+	// given file or directory. This is a different format than the more commonly
+	// recognized UNIX permissions string. Note: MLSD provides more accurate and
+	// dependable file listings, especially for last-mod date/time information. If
+	// usage of the MLSD command is turned off, it may adversely affect the quality and
+	// availability of other information.
+	// 
+	void put_AllowMlsd(bool newVal);
+
 	// The number of bytes received during an asynchronous FTP download. This property
 	// is updated in real-time and an application may periodically fetch and display
 	// it's value while the download is in progress.
@@ -241,6 +264,23 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// is not required and therefore for performance reasons this property defaults to
 	// false.
 	void put_AutoGetSizeForProgress(bool newVal);
+
+	// When true (which is the default value), then an "OPTS UTF8 ON" command is
+	// automatically sent when connecting/authenticating if it is discovered via the
+	// FEAT command that the UTF8 option is supported.
+	// 
+	// Set this property to false to prevent the "OPTS UTF8 ON" command from being
+	// sent.
+	// 
+	bool get_AutoOptsUtf8(void);
+	// When true (which is the default value), then an "OPTS UTF8 ON" command is
+	// automatically sent when connecting/authenticating if it is discovered via the
+	// FEAT command that the UTF8 option is supported.
+	// 
+	// Set this property to false to prevent the "OPTS UTF8 ON" command from being
+	// sent.
+	// 
+	void put_AutoOptsUtf8(bool newVal);
 
 	// If true then the UseEpsv property is automatically set upon connecting to the
 	// FTP server. The default value of this property is false.
@@ -557,13 +597,13 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	void put_Hostname(const char *newVal);
 
 	// If an HTTP proxy requiring authentication is to be used, set this property to
-	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// the HTTP proxy authentication method name. Valid choices are "Basic" or "NTLM".
 	void get_HttpProxyAuthMethod(CkString &str);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
-	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// the HTTP proxy authentication method name. Valid choices are "Basic" or "NTLM".
 	const char *httpProxyAuthMethod(void);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
-	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// the HTTP proxy authentication method name. Valid choices are "Basic" or "NTLM".
 	void put_HttpProxyAuthMethod(const char *newVal);
 
 	// If an HTTP proxy is used, and it uses NTLM authentication, then this optional
@@ -754,6 +794,35 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	const char *password(void);
 	// Password for logging into the FTP server.
 	void put_Password(const char *newVal);
+
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	int get_PercentDoneScale(void);
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	void put_PercentDoneScale(int newVal);
 
 	// Port number. Automatically defaults to the default port for the FTP service.
 	int get_Port(void);
@@ -1020,11 +1089,9 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// Contains the session log if KeepSessionLog is turned on.
 	const char *sessionLog(void);
 
-	// Special property used to help specific customers with a certain type of embedded
-	// FTP server. Do not use unless advised by Chilkat.
+	// This property is deprecated and has no effect.
 	bool get_SkipFinalReply(void);
-	// Special property used to help specific customers with a certain type of embedded
-	// FTP server. Do not use unless advised by Chilkat.
+	// This property is deprecated and has no effect.
 	void put_SkipFinalReply(bool newVal);
 
 	// Sets the receive buffer size socket option. Normally, this property should be
@@ -1149,6 +1216,52 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// connecting to port 990 on FTP servers that support TLS/SSL mode. Note: It is
 	// more common to use AuthTls.
 	void put_Ssl(bool newVal);
+
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void get_SslAllowedCiphers(CkString &str);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	const char *sslAllowedCiphers(void);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void put_SslAllowedCiphers(const char *newVal);
 
 	// Selects the secure protocol to be used for secure (SSL/TLS) implicit and
 	// explicit (AUTH TLS / AUTH SSL) connections . Possible values are:
@@ -1281,6 +1394,28 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// files that would be uploaded to the FTP server.
 	const char *syncPreview(void);
 
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	void get_TlsCipherSuite(CkString &str);
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	const char *tlsCipherSuite(void);
+
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const char *tlsVersion(void);
+
 	// The average upload rate in bytes/second. This property is updated in real-time
 	// during any FTP upload (asynchronous or synchronous).
 	int get_UploadTransferRate(void);
@@ -1321,119 +1456,21 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// Username for logging into the FTP server. Defaults to "anonymous".
 	void put_Username(const char *newVal);
 
-	// When true (which is the default value), then an "OPTS UTF8 ON" command is
-	// automatically sent when connecting/authenticating if it is discovered via the
-	// FEAT command that the UTF8 option is supported.
-	// 
-	// Set this property to false to prevent the "OPTS UTF8 ON" command from being
-	// sent.
-	// 
-	bool get_AutoOptsUtf8(void);
-	// When true (which is the default value), then an "OPTS UTF8 ON" command is
-	// automatically sent when connecting/authenticating if it is discovered via the
-	// FEAT command that the UTF8 option is supported.
-	// 
-	// Set this property to false to prevent the "OPTS UTF8 ON" command from being
-	// sent.
-	// 
-	void put_AutoOptsUtf8(bool newVal);
-
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void get_SslAllowedCiphers(CkString &str);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	const char *sslAllowedCiphers(void);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void put_SslAllowedCiphers(const char *newVal);
-
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	int get_PercentDoneScale(void);
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	void put_PercentDoneScale(int newVal);
-
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const char *tlsVersion(void);
-
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	void get_TlsCipherSuite(CkString &str);
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	const char *tlsCipherSuite(void);
+	// The paths of the files uploaded or downloaded in the last call to
+	// SyncDeleteTree, SyncLocalDir, SyncLocalTree, SyncRemoteTree, or SyncRemoteTree2.
+	// The paths are listed one per line. In both cases (for upload and download) each
+	// line contains the paths relative to the root synced directory.
+	void get_SyncedFiles(CkString &str);
+	// The paths of the files uploaded or downloaded in the last call to
+	// SyncDeleteTree, SyncLocalDir, SyncLocalTree, SyncRemoteTree, or SyncRemoteTree2.
+	// The paths are listed one per line. In both cases (for upload and download) each
+	// line contains the paths relative to the root synced directory.
+	const char *syncedFiles(void);
+	// The paths of the files uploaded or downloaded in the last call to
+	// SyncDeleteTree, SyncLocalDir, SyncLocalTree, SyncRemoteTree, or SyncRemoteTree2.
+	// The paths are listed one per line. In both cases (for upload and download) each
+	// line contains the paths relative to the root synced directory.
+	void put_SyncedFiles(const char *newVal);
 
 
 
@@ -1894,6 +1931,40 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// (NumFilesAndDirs-1)
 	const char *filename(int index);
 
+	// Returns group name, if available, for the Nth file. If empty, then no group
+	// information is available.
+	// 
+	// Note: When MLSD is used to get directory listings, it is likely that the owner
+	// and group information is not transmitted. In cases where the FTP server is on a
+	// UNIX/Linux system, the AllowMlsd property can be set to false to force UNIX
+	// directory listings instead of MLSD directory listings. This should result in
+	// being able to obtain owner/group information. However, it may sacrifice the
+	// quality and accuracy of the various date/time values that are returned.
+	// 
+	bool GetGroup(int index, CkString &outStr);
+	// Returns group name, if available, for the Nth file. If empty, then no group
+	// information is available.
+	// 
+	// Note: When MLSD is used to get directory listings, it is likely that the owner
+	// and group information is not transmitted. In cases where the FTP server is on a
+	// UNIX/Linux system, the AllowMlsd property can be set to false to force UNIX
+	// directory listings instead of MLSD directory listings. This should result in
+	// being able to obtain owner/group information. However, it may sacrifice the
+	// quality and accuracy of the various date/time values that are returned.
+	// 
+	const char *getGroup(int index);
+	// Returns group name, if available, for the Nth file. If empty, then no group
+	// information is available.
+	// 
+	// Note: When MLSD is used to get directory listings, it is likely that the owner
+	// and group information is not transmitted. In cases where the FTP server is on a
+	// UNIX/Linux system, the AllowMlsd property can be set to false to force UNIX
+	// directory listings instead of MLSD directory listings. This should result in
+	// being able to obtain owner/group information. However, it may sacrifice the
+	// quality and accuracy of the various date/time values that are returned.
+	// 
+	const char *group(int index);
+
 	// Returns true for a sub-directory and false for a file, for the Nth entry in
 	// the current remote directory. The first file/dir is at index 0, and the last one
 	// is at index (NumFilesAndDirs-1)
@@ -2098,6 +2169,552 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// remote directory. The first file/dir is at index 0, and the last one is at index
 	// (NumFilesAndDirs-1)
 	const char *lastModifiedTimeStr(int index);
+
+	// Returns owner name, if available, for the Nth file. If empty, then no owner
+	// information is available.
+	// 
+	// Note: When MLSD is used to get directory listings, it is likely that the owner
+	// and group information is not transmitted. In cases where the FTP server is on a
+	// UNIX/Linux system, the AllowMlsd property can be set to false to force UNIX
+	// directory listings instead of MLSD directory listings. This should result in
+	// being able to obtain owner/group information. However, it may sacrifice the
+	// quality and accuracy of the various date/time values that are returned.
+	// 
+	bool GetOwner(int index, CkString &outStr);
+	// Returns owner name, if available, for the Nth file. If empty, then no owner
+	// information is available.
+	// 
+	// Note: When MLSD is used to get directory listings, it is likely that the owner
+	// and group information is not transmitted. In cases where the FTP server is on a
+	// UNIX/Linux system, the AllowMlsd property can be set to false to force UNIX
+	// directory listings instead of MLSD directory listings. This should result in
+	// being able to obtain owner/group information. However, it may sacrifice the
+	// quality and accuracy of the various date/time values that are returned.
+	// 
+	const char *getOwner(int index);
+	// Returns owner name, if available, for the Nth file. If empty, then no owner
+	// information is available.
+	// 
+	// Note: When MLSD is used to get directory listings, it is likely that the owner
+	// and group information is not transmitted. In cases where the FTP server is on a
+	// UNIX/Linux system, the AllowMlsd property can be set to false to force UNIX
+	// directory listings instead of MLSD directory listings. This should result in
+	// being able to obtain owner/group information. However, it may sacrifice the
+	// quality and accuracy of the various date/time values that are returned.
+	// 
+	const char *owner(int index);
+
+	// Returns the type of permissions information that is available for the Nth file.
+	// If empty, then no permissions information is available. The value returned by
+	// this method defines the content and format of the permissions string returned by
+	// the GetPermissions method. Possible values are "mlsd", "unix", "netware",
+	// "openvms", and "batchStatusFlags".
+	bool GetPermType(int index, CkString &outStr);
+	// Returns the type of permissions information that is available for the Nth file.
+	// If empty, then no permissions information is available. The value returned by
+	// this method defines the content and format of the permissions string returned by
+	// the GetPermissions method. Possible values are "mlsd", "unix", "netware",
+	// "openvms", and "batchStatusFlags".
+	const char *getPermType(int index);
+	// Returns the type of permissions information that is available for the Nth file.
+	// If empty, then no permissions information is available. The value returned by
+	// this method defines the content and format of the permissions string returned by
+	// the GetPermissions method. Possible values are "mlsd", "unix", "netware",
+	// "openvms", and "batchStatusFlags".
+	const char *permType(int index);
+
+	// Returns permissions information, if available, for the Nth file. If empty, then
+	// no permissions information is available. The value returned by the GetPermType
+	// method defines the content and format of the permissions string returned by this
+	// method. Possible permission types are "mlsd", "unix", "netware", "openvms", and
+	// "batchStatusFlags". The format of each permission type is as follows:
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: mlsd:
+	// 
+	// A "perm fact" is returned. The format of the perm fact is defined in RFC 3659 as
+	// follows:
+	//   The perm fact is used to indicate access rights the current FTP user
+	//    has over the object listed.  Its value is always an unordered
+	//    sequence of alphabetic characters.
+	// 
+	//       perm-fact    = "Perm" "=" *pvals
+	//       pvals        = "a" / "c" / "d" / "e" / "f" /
+	//                      "l" / "m" / "p" / "r" / "w"
+	// 
+	//    There are ten permission indicators currently defined.  Many are
+	//    meaningful only when used with a particular type of object.  The
+	//    indicators are case independent, "d" and "D" are the same indicator.
+	// 
+	//    The "a" permission applies to objects of type=file, and indicates
+	//    that the APPE (append) command may be applied to the file named.
+	// 
+	//    The "c" permission applies to objects of type=dir (and type=pdir,
+	//    type=cdir).  It indicates that files may be created in the directory
+	//    named.  That is, that a STOU command is likely to succeed, and that
+	//    STOR and APPE commands might succeed if the file named did not
+	//    previously exist, but is to be created in the directory object that
+	//    has the "c" permission.  It also indicates that the RNTO command is
+	//    likely to succeed for names in the directory.
+	// 
+	//    The "d" permission applies to all types.  It indicates that the
+	//    object named may be deleted, that is, that the RMD command may be
+	//    applied to it if it is a directory, and otherwise that the DELE
+	//    command may be applied to it.
+	// 
+	//    The "e" permission applies to the directory types.  When set on an
+	//    object of type=dir, type=cdir, or type=pdir it indicates that a CWD
+	//    command naming the object should succeed, and the user should be able
+	//    to enter the directory named.  For type=pdir it also indicates that
+	//    the CDUP command may succeed (if this particular pathname is the one
+	//    to which a CDUP would apply.)
+	// 
+	//    The "f" permission for objects indicates that the object named may be
+	//    renamed - that is, may be the object of an RNFR command.
+	// 
+	//    The "l" permission applies to the directory file types, and indicates
+	//    that the listing commands, LIST, NLST, and MLSD may be applied to the
+	//    directory in question.
+	// 
+	//    The "m" permission applies to directory types, and indicates that the
+	//    MKD command may be used to create a new directory within the
+	//    directory under consideration.
+	// 
+	//    The "p" permission applies to directory types, and indicates that
+	//    objects in the directory may be deleted, or (stretching naming a
+	//    little) that the directory may be purged.  Note: it does not indicate
+	//    that the RMD command may be used to remove the directory named
+	//    itself, the "d" permission indicator indicates that.
+	// 
+	//    The "r" permission applies to type=file objects, and for some
+	//    systems, perhaps to other types of objects, and indicates that the
+	//    RETR command may be applied to that object.
+	// 
+	//    The "w" permission applies to type=file objects, and for some
+	//    systems, perhaps to other types of objects, and indicates that the
+	//    STOR command may be applied to the object named.
+	// 
+	//    Note: That a permission indicator is set can never imply that the
+	//       appropriate command is guaranteed to work -- just that it might.
+	//       Other system specific limitations, such as limitations on
+	//       available space for storing files, may cause an operation to fail,
+	//       where the permission flags may have indicated that it was likely
+	//       to succeed.  The permissions are a guide only.
+	// 
+	//    Implementation note: The permissions are described here as they apply
+	//       to FTP commands.  They may not map easily into particular
+	//       permissions available on the server's operating system.  Servers
+	//       are expected to synthesize these permission bits from the
+	//       permission information available from operating system.  For
+	//       example, to correctly determine whether the "D" permission bit
+	//       should be set on a directory for a server running on the UNIX(TM)
+	//       operating system, the server should check that the directory named
+	//       is empty, and that the user has write permission on both the
+	//       directory under consideration, and its parent directory.
+	// 
+	//       Some systems may have more specific permissions than those listed
+	//       here, such systems should map those to the flags defined as best
+	//       they are able.  Other systems may have only more broad access
+	//       controls.  They will generally have just a few possible
+	//       permutations of permission flags, however they should attempt to
+	//       correctly represent what is permitted.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: unix:
+	// 
+	// A Unix/Linux permissions string is returned ( such as "drwxr-xr-x" or
+	// "-rw-r--r--")
+	//     The UNIX permissions string is 10 characters. Each character has a specific meaning. If the first character is:
+	//     d 	the entry is a directory.
+	//     b 	the entry is a block special file.
+	//     c 	the entry is a character special file.
+	//     l 	the entry is a symbolic link. Either the -N flag was specified, or the symbolic link did not point to an existing file.
+	//     p 	the entry is a first-in, first-out (FIFO) special file.
+	//     s 	the entry is a local socket.
+	//     - 	the entry is an ordinary file.
+	// 
+	//     The next nine characters are divided into three sets of three characters each. The first set of three characters show 
+	// the owner's permission. The next set of three characters show the permission of the other users in the group. The last
+	// set of three characters shows the permission of anyone else with access to the file. The three characters in each set 
+	// indicate, respectively, read, write, and execute permission of the file. With execute permission of a directory, you can search 
+	// a directory for a specified file. Permissions are indicated like this:
+	// 
+	//     r 	read
+	//     w 	write (edit)
+	//     x 	execute (search)
+	//     - 	corresponding permission not granted 
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: netware:
+	// 
+	// Contains the NetWare rights string from a NetWare FTP server directory listing
+	// format. For example "-WCE---S" or "RWCEAFMS".
+	// Directory Rights	Description
+	// ----------------	-------------------------------
+	// Read (R)		Read data from an existing file.
+	// Write (W)		Write data to an existing file.
+	// Create (C)		Create a new file or subdirectory.
+	// Erase (E)		Delete an existing files or directory.
+	// Modify (M)	Rename and change attributes of a file.
+	// File Scan (F)	List the contents of a directory.
+	// Access Control (A)	Control the rights of other users to access files or directories.
+	// Supervisor (S)	Automatically allowed all rights.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: openvms:
+	// 
+	// Contains the OpenVMS permissions string. For example "(RWED,RWED,RWED,RWED)",
+	// "(RWED,RWED,,)", "(RWED,RWED,R,R)", etc.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: batchStatusFlags:
+	// 
+	// Contains the batch status flags from a Connect:Enterprise Server. Such as
+	// "-CR--M----" or "-ART------".
+	// The Batch Status Flags  is a 10-character string where each character describes an attribute of the batch. 
+	// A dash indicates that flag is turned off and therefore has no meaning to the 
+	// batch in question. The flags are always displayed in the same order: 
+	// 
+	// 1) I  -- Incomplete batch which will NOT be processed. 
+	// 2) A or C -- Added or Collected
+	// 3) R -- Requestable by partner 
+	// 4) T -- Transmitted to partner 
+	// 5) E -- Extracted (inbound file processed by McLane) 
+	// 6) M -- Multi-transmittable 
+	// 7) U -- Un-extractable 
+	// 8) N -- Non-transmittable 
+	// 9) P -- In Progress 
+	// 10) - -- Always a dash.
+	// 
+	bool GetPermissions(int index, CkString &outStr);
+	// Returns permissions information, if available, for the Nth file. If empty, then
+	// no permissions information is available. The value returned by the GetPermType
+	// method defines the content and format of the permissions string returned by this
+	// method. Possible permission types are "mlsd", "unix", "netware", "openvms", and
+	// "batchStatusFlags". The format of each permission type is as follows:
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: mlsd:
+	// 
+	// A "perm fact" is returned. The format of the perm fact is defined in RFC 3659 as
+	// follows:
+	//   The perm fact is used to indicate access rights the current FTP user
+	//    has over the object listed.  Its value is always an unordered
+	//    sequence of alphabetic characters.
+	// 
+	//       perm-fact    = "Perm" "=" *pvals
+	//       pvals        = "a" / "c" / "d" / "e" / "f" /
+	//                      "l" / "m" / "p" / "r" / "w"
+	// 
+	//    There are ten permission indicators currently defined.  Many are
+	//    meaningful only when used with a particular type of object.  The
+	//    indicators are case independent, "d" and "D" are the same indicator.
+	// 
+	//    The "a" permission applies to objects of type=file, and indicates
+	//    that the APPE (append) command may be applied to the file named.
+	// 
+	//    The "c" permission applies to objects of type=dir (and type=pdir,
+	//    type=cdir).  It indicates that files may be created in the directory
+	//    named.  That is, that a STOU command is likely to succeed, and that
+	//    STOR and APPE commands might succeed if the file named did not
+	//    previously exist, but is to be created in the directory object that
+	//    has the "c" permission.  It also indicates that the RNTO command is
+	//    likely to succeed for names in the directory.
+	// 
+	//    The "d" permission applies to all types.  It indicates that the
+	//    object named may be deleted, that is, that the RMD command may be
+	//    applied to it if it is a directory, and otherwise that the DELE
+	//    command may be applied to it.
+	// 
+	//    The "e" permission applies to the directory types.  When set on an
+	//    object of type=dir, type=cdir, or type=pdir it indicates that a CWD
+	//    command naming the object should succeed, and the user should be able
+	//    to enter the directory named.  For type=pdir it also indicates that
+	//    the CDUP command may succeed (if this particular pathname is the one
+	//    to which a CDUP would apply.)
+	// 
+	//    The "f" permission for objects indicates that the object named may be
+	//    renamed - that is, may be the object of an RNFR command.
+	// 
+	//    The "l" permission applies to the directory file types, and indicates
+	//    that the listing commands, LIST, NLST, and MLSD may be applied to the
+	//    directory in question.
+	// 
+	//    The "m" permission applies to directory types, and indicates that the
+	//    MKD command may be used to create a new directory within the
+	//    directory under consideration.
+	// 
+	//    The "p" permission applies to directory types, and indicates that
+	//    objects in the directory may be deleted, or (stretching naming a
+	//    little) that the directory may be purged.  Note: it does not indicate
+	//    that the RMD command may be used to remove the directory named
+	//    itself, the "d" permission indicator indicates that.
+	// 
+	//    The "r" permission applies to type=file objects, and for some
+	//    systems, perhaps to other types of objects, and indicates that the
+	//    RETR command may be applied to that object.
+	// 
+	//    The "w" permission applies to type=file objects, and for some
+	//    systems, perhaps to other types of objects, and indicates that the
+	//    STOR command may be applied to the object named.
+	// 
+	//    Note: That a permission indicator is set can never imply that the
+	//       appropriate command is guaranteed to work -- just that it might.
+	//       Other system specific limitations, such as limitations on
+	//       available space for storing files, may cause an operation to fail,
+	//       where the permission flags may have indicated that it was likely
+	//       to succeed.  The permissions are a guide only.
+	// 
+	//    Implementation note: The permissions are described here as they apply
+	//       to FTP commands.  They may not map easily into particular
+	//       permissions available on the server's operating system.  Servers
+	//       are expected to synthesize these permission bits from the
+	//       permission information available from operating system.  For
+	//       example, to correctly determine whether the "D" permission bit
+	//       should be set on a directory for a server running on the UNIX(TM)
+	//       operating system, the server should check that the directory named
+	//       is empty, and that the user has write permission on both the
+	//       directory under consideration, and its parent directory.
+	// 
+	//       Some systems may have more specific permissions than those listed
+	//       here, such systems should map those to the flags defined as best
+	//       they are able.  Other systems may have only more broad access
+	//       controls.  They will generally have just a few possible
+	//       permutations of permission flags, however they should attempt to
+	//       correctly represent what is permitted.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: unix:
+	// 
+	// A Unix/Linux permissions string is returned ( such as "drwxr-xr-x" or
+	// "-rw-r--r--")
+	//     The UNIX permissions string is 10 characters. Each character has a specific meaning. If the first character is:
+	//     d 	the entry is a directory.
+	//     b 	the entry is a block special file.
+	//     c 	the entry is a character special file.
+	//     l 	the entry is a symbolic link. Either the -N flag was specified, or the symbolic link did not point to an existing file.
+	//     p 	the entry is a first-in, first-out (FIFO) special file.
+	//     s 	the entry is a local socket.
+	//     - 	the entry is an ordinary file.
+	// 
+	//     The next nine characters are divided into three sets of three characters each. The first set of three characters show 
+	// the owner's permission. The next set of three characters show the permission of the other users in the group. The last
+	// set of three characters shows the permission of anyone else with access to the file. The three characters in each set 
+	// indicate, respectively, read, write, and execute permission of the file. With execute permission of a directory, you can search 
+	// a directory for a specified file. Permissions are indicated like this:
+	// 
+	//     r 	read
+	//     w 	write (edit)
+	//     x 	execute (search)
+	//     - 	corresponding permission not granted 
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: netware:
+	// 
+	// Contains the NetWare rights string from a NetWare FTP server directory listing
+	// format. For example "-WCE---S" or "RWCEAFMS".
+	// Directory Rights	Description
+	// ----------------	-------------------------------
+	// Read (R)		Read data from an existing file.
+	// Write (W)		Write data to an existing file.
+	// Create (C)		Create a new file or subdirectory.
+	// Erase (E)		Delete an existing files or directory.
+	// Modify (M)	Rename and change attributes of a file.
+	// File Scan (F)	List the contents of a directory.
+	// Access Control (A)	Control the rights of other users to access files or directories.
+	// Supervisor (S)	Automatically allowed all rights.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: openvms:
+	// 
+	// Contains the OpenVMS permissions string. For example "(RWED,RWED,RWED,RWED)",
+	// "(RWED,RWED,,)", "(RWED,RWED,R,R)", etc.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: batchStatusFlags:
+	// 
+	// Contains the batch status flags from a Connect:Enterprise Server. Such as
+	// "-CR--M----" or "-ART------".
+	// The Batch Status Flags  is a 10-character string where each character describes an attribute of the batch. 
+	// A dash indicates that flag is turned off and therefore has no meaning to the 
+	// batch in question. The flags are always displayed in the same order: 
+	// 
+	// 1) I  -- Incomplete batch which will NOT be processed. 
+	// 2) A or C -- Added or Collected
+	// 3) R -- Requestable by partner 
+	// 4) T -- Transmitted to partner 
+	// 5) E -- Extracted (inbound file processed by McLane) 
+	// 6) M -- Multi-transmittable 
+	// 7) U -- Un-extractable 
+	// 8) N -- Non-transmittable 
+	// 9) P -- In Progress 
+	// 10) - -- Always a dash.
+	// 
+	const char *getPermissions(int index);
+	// Returns permissions information, if available, for the Nth file. If empty, then
+	// no permissions information is available. The value returned by the GetPermType
+	// method defines the content and format of the permissions string returned by this
+	// method. Possible permission types are "mlsd", "unix", "netware", "openvms", and
+	// "batchStatusFlags". The format of each permission type is as follows:
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: mlsd:
+	// 
+	// A "perm fact" is returned. The format of the perm fact is defined in RFC 3659 as
+	// follows:
+	//   The perm fact is used to indicate access rights the current FTP user
+	//    has over the object listed.  Its value is always an unordered
+	//    sequence of alphabetic characters.
+	// 
+	//       perm-fact    = "Perm" "=" *pvals
+	//       pvals        = "a" / "c" / "d" / "e" / "f" /
+	//                      "l" / "m" / "p" / "r" / "w"
+	// 
+	//    There are ten permission indicators currently defined.  Many are
+	//    meaningful only when used with a particular type of object.  The
+	//    indicators are case independent, "d" and "D" are the same indicator.
+	// 
+	//    The "a" permission applies to objects of type=file, and indicates
+	//    that the APPE (append) command may be applied to the file named.
+	// 
+	//    The "c" permission applies to objects of type=dir (and type=pdir,
+	//    type=cdir).  It indicates that files may be created in the directory
+	//    named.  That is, that a STOU command is likely to succeed, and that
+	//    STOR and APPE commands might succeed if the file named did not
+	//    previously exist, but is to be created in the directory object that
+	//    has the "c" permission.  It also indicates that the RNTO command is
+	//    likely to succeed for names in the directory.
+	// 
+	//    The "d" permission applies to all types.  It indicates that the
+	//    object named may be deleted, that is, that the RMD command may be
+	//    applied to it if it is a directory, and otherwise that the DELE
+	//    command may be applied to it.
+	// 
+	//    The "e" permission applies to the directory types.  When set on an
+	//    object of type=dir, type=cdir, or type=pdir it indicates that a CWD
+	//    command naming the object should succeed, and the user should be able
+	//    to enter the directory named.  For type=pdir it also indicates that
+	//    the CDUP command may succeed (if this particular pathname is the one
+	//    to which a CDUP would apply.)
+	// 
+	//    The "f" permission for objects indicates that the object named may be
+	//    renamed - that is, may be the object of an RNFR command.
+	// 
+	//    The "l" permission applies to the directory file types, and indicates
+	//    that the listing commands, LIST, NLST, and MLSD may be applied to the
+	//    directory in question.
+	// 
+	//    The "m" permission applies to directory types, and indicates that the
+	//    MKD command may be used to create a new directory within the
+	//    directory under consideration.
+	// 
+	//    The "p" permission applies to directory types, and indicates that
+	//    objects in the directory may be deleted, or (stretching naming a
+	//    little) that the directory may be purged.  Note: it does not indicate
+	//    that the RMD command may be used to remove the directory named
+	//    itself, the "d" permission indicator indicates that.
+	// 
+	//    The "r" permission applies to type=file objects, and for some
+	//    systems, perhaps to other types of objects, and indicates that the
+	//    RETR command may be applied to that object.
+	// 
+	//    The "w" permission applies to type=file objects, and for some
+	//    systems, perhaps to other types of objects, and indicates that the
+	//    STOR command may be applied to the object named.
+	// 
+	//    Note: That a permission indicator is set can never imply that the
+	//       appropriate command is guaranteed to work -- just that it might.
+	//       Other system specific limitations, such as limitations on
+	//       available space for storing files, may cause an operation to fail,
+	//       where the permission flags may have indicated that it was likely
+	//       to succeed.  The permissions are a guide only.
+	// 
+	//    Implementation note: The permissions are described here as they apply
+	//       to FTP commands.  They may not map easily into particular
+	//       permissions available on the server's operating system.  Servers
+	//       are expected to synthesize these permission bits from the
+	//       permission information available from operating system.  For
+	//       example, to correctly determine whether the "D" permission bit
+	//       should be set on a directory for a server running on the UNIX(TM)
+	//       operating system, the server should check that the directory named
+	//       is empty, and that the user has write permission on both the
+	//       directory under consideration, and its parent directory.
+	// 
+	//       Some systems may have more specific permissions than those listed
+	//       here, such systems should map those to the flags defined as best
+	//       they are able.  Other systems may have only more broad access
+	//       controls.  They will generally have just a few possible
+	//       permutations of permission flags, however they should attempt to
+	//       correctly represent what is permitted.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: unix:
+	// 
+	// A Unix/Linux permissions string is returned ( such as "drwxr-xr-x" or
+	// "-rw-r--r--")
+	//     The UNIX permissions string is 10 characters. Each character has a specific meaning. If the first character is:
+	//     d 	the entry is a directory.
+	//     b 	the entry is a block special file.
+	//     c 	the entry is a character special file.
+	//     l 	the entry is a symbolic link. Either the -N flag was specified, or the symbolic link did not point to an existing file.
+	//     p 	the entry is a first-in, first-out (FIFO) special file.
+	//     s 	the entry is a local socket.
+	//     - 	the entry is an ordinary file.
+	// 
+	//     The next nine characters are divided into three sets of three characters each. The first set of three characters show 
+	// the owner's permission. The next set of three characters show the permission of the other users in the group. The last
+	// set of three characters shows the permission of anyone else with access to the file. The three characters in each set 
+	// indicate, respectively, read, write, and execute permission of the file. With execute permission of a directory, you can search 
+	// a directory for a specified file. Permissions are indicated like this:
+	// 
+	//     r 	read
+	//     w 	write (edit)
+	//     x 	execute (search)
+	//     - 	corresponding permission not granted 
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: netware:
+	// 
+	// Contains the NetWare rights string from a NetWare FTP server directory listing
+	// format. For example "-WCE---S" or "RWCEAFMS".
+	// Directory Rights	Description
+	// ----------------	-------------------------------
+	// Read (R)		Read data from an existing file.
+	// Write (W)		Write data to an existing file.
+	// Create (C)		Create a new file or subdirectory.
+	// Erase (E)		Delete an existing files or directory.
+	// Modify (M)	Rename and change attributes of a file.
+	// File Scan (F)	List the contents of a directory.
+	// Access Control (A)	Control the rights of other users to access files or directories.
+	// Supervisor (S)	Automatically allowed all rights.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: openvms:
+	// 
+	// Contains the OpenVMS permissions string. For example "(RWED,RWED,RWED,RWED)",
+	// "(RWED,RWED,,)", "(RWED,RWED,R,R)", etc.
+	// --------------------------------------------------------------------------------
+	// 
+	// PermType: batchStatusFlags:
+	// 
+	// Contains the batch status flags from a Connect:Enterprise Server. Such as
+	// "-CR--M----" or "-ART------".
+	// The Batch Status Flags  is a 10-character string where each character describes an attribute of the batch. 
+	// A dash indicates that flag is turned off and therefore has no meaning to the 
+	// batch in question. The flags are always displayed in the same order: 
+	// 
+	// 1) I  -- Incomplete batch which will NOT be processed. 
+	// 2) A or C -- Added or Collected
+	// 3) R -- Requestable by partner 
+	// 4) T -- Transmitted to partner 
+	// 5) E -- Extracted (inbound file processed by McLane) 
+	// 6) M -- Multi-transmittable 
+	// 7) U -- Un-extractable 
+	// 8) N -- Non-transmittable 
+	// 9) P -- In Progress 
+	// 10) - -- Always a dash.
+	// 
+	const char *permissions(int index);
 
 	// Downloads the contents of a remote file into a byte array.
 	bool GetRemoteFileBinaryData(const char *remoteFilename, CkByteData &outData);
@@ -2454,11 +3071,19 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// Delete remote files that do not exist locally. The remote directory tree rooted
 	// at the current remote directory is traversed and remote files that have no
 	// corresponding local file are deleted.
+	// 
+	// Note: In v9.5.0.51 and higher, the list of deleted files is available in the
+	// SyncedFiles property.
+	// 
 	bool SyncDeleteRemote(const char *localRoot);
 
 	// The same as SyncLocalTree, except the sub-directories are not traversed. The
 	// files in the current remote directory are synchronized (downloaded) with the
 	// files in localRoot. For possible  mode settings, see SyncLocalTree.
+	// 
+	// Note: In v9.5.0.51 and higher, the list of downloaded files is available in the
+	// SyncedFiles property.
+	// 
 	bool SyncLocalDir(const char *localRoot, int mode);
 
 	// Downloads files from the FTP server to a local directory tree. Synchronization
@@ -2477,6 +3102,9 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	//     method.
 	//     
 	// 
+	// Note: In v9.5.0.51 and higher, the list of downloaded (or deleted) files is
+	// available in the SyncedFiles property.
+	// 
 	bool SyncLocalTree(const char *localRoot, int mode);
 
 	// Uploads a directory tree from the local filesystem to the FTP server.
@@ -2490,6 +3118,9 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	//     mode=4: transfer missing files or files with size differences.
 	//     mode=5: same as mode 4, but also newer files.
 	// 
+	// Note: In v9.5.0.51 and higher, the list of uploaded files is available in the
+	// SyncedFiles property.
+	// 
 	bool SyncRemoteTree(const char *localRoot, int mode);
 
 	// Same as SyncRemoteTree, except two extra arguments are added to allow for more
@@ -2500,6 +3131,9 @@ class CK_VISIBLE_PUBLIC CkFtp2  : public CkMultiByteBase
 	// 
 	// Note: If  bPreviewOnly is set to true, the remote directories (if they do not exist)
 	// are created. It is only the files that are not uploaded.
+	// 
+	// Note: In v9.5.0.51 and higher, the list of uploaded files is available in the
+	// SyncedFiles property.
 	// 
 	bool SyncRemoteTree2(const char *localRoot, int mode, bool bDescend, bool bPreviewOnly);
 

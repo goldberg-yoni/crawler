@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkAsnWH
 #define _C_CkAsnWH
 #include "chilkatDefs.h"
@@ -35,12 +35,18 @@ CK_VISIBLE_PUBLIC const wchar_t *CkAsnW_version(HCkAsnW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendBigInt(HCkAsnW cHandle, const wchar_t *encodedBytes, const wchar_t *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendBits(HCkAsnW cHandle, const wchar_t *encodedBytes, const wchar_t *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendBool(HCkAsnW cHandle, BOOL value);
+CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendContextConstructed(HCkAsnW cHandle, int tag);
+CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendContextPrimitive(HCkAsnW cHandle, int tag, const wchar_t *encodedBytes, const wchar_t *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendInt(HCkAsnW cHandle, int value);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendNull(HCkAsnW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendOctets(HCkAsnW cHandle, const wchar_t *encodedBytes, const wchar_t *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendOid(HCkAsnW cHandle, const wchar_t *oid);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendSequence(HCkAsnW cHandle);
+CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendSequence2(HCkAsnW cHandle);
+CK_VISIBLE_PUBLIC HCkAsnW CkAsnW_AppendSequenceR(HCkAsnW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendSet(HCkAsnW cHandle);
+CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendSet2(HCkAsnW cHandle);
+CK_VISIBLE_PUBLIC HCkAsnW CkAsnW_AppendSetR(HCkAsnW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendString(HCkAsnW cHandle, const wchar_t *strType, const wchar_t *value);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AppendTime(HCkAsnW cHandle, const wchar_t *timeFormat, const wchar_t *dateTimeStr);
 CK_VISIBLE_PUBLIC BOOL CkAsnW_AsnToXml(HCkAsnW cHandle, HCkString outStr);

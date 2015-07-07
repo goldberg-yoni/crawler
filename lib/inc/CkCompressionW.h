@@ -62,22 +62,25 @@ class CK_VISIBLE_PUBLIC CkCompressionW  : public CkWideCharBase
 	// The compression algorithm to be used. Should be set to either "ppmd", "deflate",
 	// "zlib", "bzip2", or "lzw".
 	// 
-	// Note: The PPMD compression algorithm is only available for Windows OS builds. It
-	// is not yet available on non-Windows platforms.
+	// Note: The PPMD compression algorithm is only available for 32-bit builds. It is
+	// not available for 64-bit implementations. Also, this PPMD implementation is the
+	// "J" variant.
 	// 
 	void get_Algorithm(CkString &str);
 	// The compression algorithm to be used. Should be set to either "ppmd", "deflate",
 	// "zlib", "bzip2", or "lzw".
 	// 
-	// Note: The PPMD compression algorithm is only available for Windows OS builds. It
-	// is not yet available on non-Windows platforms.
+	// Note: The PPMD compression algorithm is only available for 32-bit builds. It is
+	// not available for 64-bit implementations. Also, this PPMD implementation is the
+	// "J" variant.
 	// 
 	const wchar_t *algorithm(void);
 	// The compression algorithm to be used. Should be set to either "ppmd", "deflate",
 	// "zlib", "bzip2", or "lzw".
 	// 
-	// Note: The PPMD compression algorithm is only available for Windows OS builds. It
-	// is not yet available on non-Windows platforms.
+	// Note: The PPMD compression algorithm is only available for 32-bit builds. It is
+	// not available for 64-bit implementations. Also, this PPMD implementation is the
+	// "J" variant.
 	// 
 	void put_Algorithm(const wchar_t *newVal);
 

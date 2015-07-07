@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkUrl_H
 #define _C_CkUrl_H
 #include "chilkatDefs.h"
@@ -23,5 +23,7 @@ CK_VISIBLE_PUBLIC int CkUrl_getPort(HCkUrl cHandle);
 CK_VISIBLE_PUBLIC void CkUrl_getQuery(HCkUrl cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkUrl_query(HCkUrl cHandle);
 CK_VISIBLE_PUBLIC BOOL CkUrl_getSsl(HCkUrl cHandle);
+CK_VISIBLE_PUBLIC BOOL CkUrl_getUtf8(HCkUrl cHandle);
+CK_VISIBLE_PUBLIC void CkUrl_putUtf8(HCkUrl cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC BOOL CkUrl_ParseUrl(HCkUrl cHandle, const char *url);
 #endif

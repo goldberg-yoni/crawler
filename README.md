@@ -2,7 +2,7 @@
 
 Spider Crawler aims for crawling sites and harvest the required datas as keywords, description, title, etc.
 
-## To install
+## To build
 ```
     make
 ```
@@ -13,3 +13,9 @@ Spider Crawler aims for crawling sites and harvest the required datas as keyword
 ## To run the project
 ```
     ./bin/spider FAV_URLs
+```
+## Special
+### To build for MinGW
+```
+	make OPTLD=WIN32
+```

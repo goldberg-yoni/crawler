@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkHttpWH
 #define _C_CkHttpWH
 #include "chilkatDefs.h"
@@ -263,6 +263,8 @@ CK_VISIBLE_PUBLIC BOOL CkHttpW_ExtractMetaRefreshUrl(HCkHttpW cHandle, const wch
 CK_VISIBLE_PUBLIC const wchar_t *CkHttpW_extractMetaRefreshUrl(HCkHttpW cHandle, const wchar_t *htmlContent);
 CK_VISIBLE_PUBLIC BOOL CkHttpW_G_SvcOauthAccessToken(HCkHttpW cHandle, const wchar_t *iss, const wchar_t *scope, const wchar_t *subEmail, int numSec, HCkCertW cert, HCkString outStr);
 CK_VISIBLE_PUBLIC const wchar_t *CkHttpW_g_SvcOauthAccessToken(HCkHttpW cHandle, const wchar_t *iss, const wchar_t *scope, const wchar_t *subEmail, int numSec, HCkCertW cert);
+CK_VISIBLE_PUBLIC BOOL CkHttpW_G_SvcOauthAccessToken2(HCkHttpW cHandle, HCkHashtableW params, int numSec, HCkCertW cert, HCkString outStr);
+CK_VISIBLE_PUBLIC const wchar_t *CkHttpW_g_SvcOauthAccessToken2(HCkHttpW cHandle, HCkHashtableW params, int numSec, HCkCertW cert);
 CK_VISIBLE_PUBLIC BOOL CkHttpW_GenTimeStamp(HCkHttpW cHandle, HCkString outStr);
 CK_VISIBLE_PUBLIC const wchar_t *CkHttpW_genTimeStamp(HCkHttpW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkHttpW_GetCacheRoot(HCkHttpW cHandle, int index, HCkString outStr);

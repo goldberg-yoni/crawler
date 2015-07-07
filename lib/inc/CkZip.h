@@ -739,6 +739,35 @@ class CK_VISIBLE_PUBLIC CkZip  : public CkMultiByteBase
 	// when unzipping.
 	void put_PathPrefix(const char *newVal);
 
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	int get_PercentDoneScale(void);
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	void put_PercentDoneScale(int newVal);
+
 	// The temporary directory to use when unzipping files. When running in ASP or
 	// ASP.NET, the default value of TempDir is set to the directory where the .zip is
 	// being written. Set this property to override the default.
@@ -833,35 +862,6 @@ class CK_VISIBLE_PUBLIC CkZip  : public CkMultiByteBase
 	// This feature will come at a later date. Currently, this property is ignored.
 	// 
 	void put_ZipxDefaultAlg(const char *newVal);
-
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	int get_PercentDoneScale(void);
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	void put_PercentDoneScale(int newVal);
 
 
 
@@ -994,6 +994,12 @@ class CK_VISIBLE_PUBLIC CkZip  : public CkMultiByteBase
 
 	// Appends a new and empty entry to the Zip object and returns the ZipEntry object.
 	// Data can be appended to the entry by calling ZipEntry.AppendData.
+	// 
+	// Important: To append an already-existing file, call the AppendOneFileOrDir
+	// method. The AppendNew method inserts a new and empty file entry within the Zip
+	// object. The purpose of AppendNew is to either create an empty file within the
+	// Zip, or to create a new file entry which can then be filled with data by calling
+	// the entry's AppendData method.
 	// 
 	// Note: This method only updates the zip object. To update (rewrite) a zip file,
 	// either the WriteZip or WriteZipAndClose method would need to be called.
@@ -1214,15 +1220,16 @@ class CK_VISIBLE_PUBLIC CkZip  : public CkMultiByteBase
 	bool ReplaceEmbedded(const char *exeFilename, const char *resourceName, const char *zipFilename);
 #endif
 
-	// Sets the compression level for all Zip entries. The default compression level is
-	// 6. A compression level of 0 is equivalent to no compression. The maximum
-	// compression level is 9.
+	// Sets the compression level for all file and data entries. The compression level
+	// for a mapped entry (i.e. an entry that is contained within an opened .zip,
+	// cannot be changed.) The default compression level is 6. A compression level of 0
+	// is equivalent to no compression. The maximum compression level is 9.
 	// 
 	// The zip.SetCompressionLevel method must be called after appending the files
 	// (i.e. after the calls to AppendFile*, AppendData, or AppendOneFileOrDir).
 	// 
 	// A single call to SetCompressionLevel will set the compression level for all
-	// existing entries.
+	// existing file and data entries.
 	// 
 	void SetCompressionLevel(int level);
 

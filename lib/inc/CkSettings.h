@@ -3,6 +3,8 @@
 #if !defined(_CKSETTINGS_H_INCLUDED_)
 #define _CKSETTINGS_H_INCLUDED_
 
+#include "chilkatDefs.h"
+
 #ifndef __sun__
 #pragma pack (push, 8)
 #endif
@@ -10,7 +12,7 @@
 // Do not uncomment this line.
 //#define CK_SIM_OUT_OF_MEMORY
 
-class CkSettings  
+class CK_VISIBLE_PUBLIC CkSettings  
 {
 public:
 	CkSettings();
@@ -90,7 +92,7 @@ public:
 
 	// Get the sum of the sizes of all the process heaps.
 	// Only valid/implemented on Windows..
-	static unsigned long getTotalSizeProcessHeaps(void);
+	//static unsigned long getTotalSizeProcessHeaps(void);
 
 	// Only valid/implemented on Windows.  Returns true if all process heaps are valid,
 	// returns false if any process heaps are corrupted.

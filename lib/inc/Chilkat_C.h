@@ -101,8 +101,6 @@ typedef void *HCkCache;
 typedef void *HCkDkim;
 typedef void *HCkDkimProgress;
 typedef void *HCkFileAccess;
-typedef void *HCkSocksProxy;
-typedef void *HCkSocksProxyProgress;
 typedef void *HCkDateTime;
 typedef void *HCkCsv;
 typedef void *HCkSshTunnel;
@@ -120,6 +118,8 @@ typedef void *HCkAsn;
 typedef void *HCkPem;
 typedef void *HCkUrl;
 typedef void *HCkGlobal;
+typedef void *HCkScp;
+typedef void *HCkHashtable;
 
 
 typedef void *HCkByteDataW;
@@ -197,8 +197,6 @@ typedef void *HCkCacheW;
 typedef void *HCkDkimW;
 typedef void *HCkDkimProgressW;
 typedef void *HCkFileAccessW;
-typedef void *HCkSocksProxyW;
-typedef void *HCkSocksProxyProgressW;
 typedef void *HCkDateTimeW;
 typedef void *HCkCsvW;
 typedef void *HCkSshTunnelW;
@@ -216,5 +214,7 @@ typedef void *HCkAsnW;
 typedef void *HCkPemW;
 typedef void *HCkUrlW;
 typedef void *HCkGlobalW;
+typedef void *HCkScpW;
+typedef void *HCkHashtableW;
 
 #endif

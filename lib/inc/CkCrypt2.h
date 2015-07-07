@@ -1275,13 +1275,27 @@ class CK_VISIBLE_PUBLIC CkCrypt2  : public CkMultiByteBase
 	// 
 	const char *encryptStringENC(const char *str);
 
+	// Important: In the v9.5.0.49 release, a bug involving this method was introduced:
+	// The  encoding is ignored and instead the encoding used is the current value of the
+	// EncodingMode property. The workaround is to make sure the EncodingMode property
+	// is set to the value of the desired output encoding. This problem will be fixed
+	// in v9.5.0.50.
+	// 
 	// Identical to the GenerateSecretKey method, except it returns the binary secret
 	// key as a string encoded according to  encoding, which may be "base64", "hex", "url",
 	// etc. Please see the documentation for GenerateSecretKey for more information.
+	// 
 	bool GenEncodedSecretKey(const char *password, const char *encoding, CkString &outStr);
+	// Important: In the v9.5.0.49 release, a bug involving this method was introduced:
+	// The  encoding is ignored and instead the encoding used is the current value of the
+	// EncodingMode property. The workaround is to make sure the EncodingMode property
+	// is set to the value of the desired output encoding. This problem will be fixed
+	// in v9.5.0.50.
+	// 
 	// Identical to the GenerateSecretKey method, except it returns the binary secret
 	// key as a string encoded according to  encoding, which may be "base64", "hex", "url",
 	// etc. Please see the documentation for GenerateSecretKey for more information.
+	// 
 	const char *genEncodedSecretKey(const char *password, const char *encoding);
 
 	// Generates numBytes random bytes and returns them as an encoded string. The encoding,
@@ -1482,6 +1496,13 @@ class CK_VISIBLE_PUBLIC CkCrypt2  : public CkMultiByteBase
 	// Charset is set to "iso-8859-1", the input string is first implicitly converted
 	// to iso-8859-1 (1 byte per character) before hashing. The full list fo supported
 	// charsets is listed in the EncryptString method description.
+	// 
+	// IMPORTANT: Hash algorithms hash bytes. Changing the bytes passed to a hash
+	// algorithm changes the result. A character (i.e. a visible glyph) can have
+	// different byte representations. The byte representation is defined by the
+	// Charset. For example, 'A' in us-ascii is a single byte 0x41, whereas in utf-16
+	// it is 2 bytes (0x41 0x00). The byte representation should be explicitly
+	// specified, otherwise unexpected results may occur.
 	// 
 	bool HashString(const char *str, CkByteData &outData);
 

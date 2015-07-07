@@ -127,6 +127,23 @@ class CK_VISIBLE_PUBLIC CkGzipW  : public CkWideCharBase
 	// within the Gzip format.
 	void put_UseCurrentDate(bool newVal);
 
+	// The compression level to be used when compressing. The default is 6, which is
+	// the typical value used for zip utility programs when compressing data. The
+	// compression level may range from 0 (no compression) to 9 (the most compression).
+	// The benefits of trying to increase compression may not be worth the added
+	// expense in compression time. In many cases (which is data dependent), the
+	// improvement in compression is minimal while the increase in computation time is
+	// significant.
+	int get_CompressionLevel(void);
+	// The compression level to be used when compressing. The default is 6, which is
+	// the typical value used for zip utility programs when compressing data. The
+	// compression level may range from 0 (no compression) to 9 (the most compression).
+	// The benefits of trying to increase compression may not be worth the added
+	// expense in compression time. In many cases (which is data dependent), the
+	// improvement in compression is minimal while the increase in computation time is
+	// significant.
+	void put_CompressionLevel(int newVal);
+
 
 
 	// ----------------------

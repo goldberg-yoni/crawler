@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkZipEntry_H
 #define _C_CkZipEntry_H
 #include "chilkatDefs.h"
@@ -67,6 +67,7 @@ CK_VISIBLE_PUBLIC BOOL CkZipEntry_ExtractInto(HCkZipEntry cHandle, const char *d
 CK_VISIBLE_PUBLIC HCkDateTime CkZipEntry_GetDt(HCkZipEntry cHandle);
 CK_VISIBLE_PUBLIC BOOL CkZipEntry_Inflate(HCkZipEntry cHandle, HCkByteData outData);
 CK_VISIBLE_PUBLIC HCkZipEntry CkZipEntry_NextEntry(HCkZipEntry cHandle);
+CK_VISIBLE_PUBLIC HCkZipEntry CkZipEntry_NextMatchingEntry(HCkZipEntry cHandle, const char *matchStr);
 CK_VISIBLE_PUBLIC BOOL CkZipEntry_ReplaceData(HCkZipEntry cHandle, HCkByteData inData);
 CK_VISIBLE_PUBLIC BOOL CkZipEntry_ReplaceString(HCkZipEntry cHandle, const char *strContent, const char *charset);
 CK_VISIBLE_PUBLIC BOOL CkZipEntry_SaveLastError(HCkZipEntry cHandle, const char *path);

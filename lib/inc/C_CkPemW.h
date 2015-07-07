@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkPemWH
 #define _C_CkPemWH
 #include "chilkatDefs.h"
@@ -22,6 +22,7 @@ CK_VISIBLE_PUBLIC const wchar_t *CkPemW_lastErrorText(HCkPemW cHandle);
 CK_VISIBLE_PUBLIC void CkPemW_getLastErrorXml(HCkPemW cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const wchar_t *CkPemW_lastErrorXml(HCkPemW cHandle);
 CK_VISIBLE_PUBLIC int CkPemW_getNumCerts(HCkPemW cHandle);
+CK_VISIBLE_PUBLIC int CkPemW_getNumCsrs(HCkPemW cHandle);
 CK_VISIBLE_PUBLIC int CkPemW_getNumPrivateKeys(HCkPemW cHandle);
 CK_VISIBLE_PUBLIC int CkPemW_getNumPublicKeys(HCkPemW cHandle);
 CK_VISIBLE_PUBLIC void CkPemW_getPrivateKeyFormat(HCkPemW cHandle, HCkString retval);
@@ -40,6 +41,8 @@ CK_VISIBLE_PUBLIC BOOL CkPemW_AddPrivateKey2(HCkPemW cHandle, HCkPrivateKeyW pri
 CK_VISIBLE_PUBLIC BOOL CkPemW_AddPublicKey(HCkPemW cHandle, HCkPublicKeyW pubkey);
 CK_VISIBLE_PUBLIC BOOL CkPemW_Clear(HCkPemW cHandle);
 CK_VISIBLE_PUBLIC HCkCertW CkPemW_GetCert(HCkPemW cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkPemW_GetEncodedItem(HCkPemW cHandle, const wchar_t *itemType, const wchar_t *itemSubType, const wchar_t *encoding, int index, HCkString outStr);
+CK_VISIBLE_PUBLIC const wchar_t *CkPemW_getEncodedItem(HCkPemW cHandle, const wchar_t *itemType, const wchar_t *itemSubType, const wchar_t *encoding, int index);
 CK_VISIBLE_PUBLIC HCkPrivateKeyW CkPemW_GetPrivateKey(HCkPemW cHandle, int index);
 CK_VISIBLE_PUBLIC HCkPublicKeyW CkPemW_GetPublicKey(HCkPemW cHandle, int index);
 CK_VISIBLE_PUBLIC BOOL CkPemW_LoadP7b(HCkPemW cHandle, HCkByteData p7bData);

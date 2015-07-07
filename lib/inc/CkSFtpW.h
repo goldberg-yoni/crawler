@@ -202,9 +202,10 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 
 	// Set to one of the following encryption algorithms to force that cipher to be
 	// used. By default, the component will automatically choose the first cipher
-	// supported by the server in the order listed here: "aes256-cbc", "aes128-cbc",
-	// "twofish256-cbc", "twofish128-cbc", "blowfish-cbc", "3des-cbc", "arcfour128",
-	// "arcfour256". (If blowfish is chosen, the encryption strength is 128 bits.)
+	// supported by the server in the order listed here: "aes256-ctr", "aes128-ctr",
+	// "aes256-cbc", "aes128-cbc", "twofish256-cbc", "twofish128-cbc", "blowfish-cbc",
+	// "3des-cbc", "arcfour128", "arcfour256". (If blowfish is chosen, the encryption
+	// strength is 128 bits.)
 	// 
 	// Important: If this is property is set and the server does NOT support then
 	// encryption algorithm, then the Connect will fail.
@@ -212,9 +213,10 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 	void get_ForceCipher(CkString &str);
 	// Set to one of the following encryption algorithms to force that cipher to be
 	// used. By default, the component will automatically choose the first cipher
-	// supported by the server in the order listed here: "aes256-cbc", "aes128-cbc",
-	// "twofish256-cbc", "twofish128-cbc", "blowfish-cbc", "3des-cbc", "arcfour128",
-	// "arcfour256". (If blowfish is chosen, the encryption strength is 128 bits.)
+	// supported by the server in the order listed here: "aes256-ctr", "aes128-ctr",
+	// "aes256-cbc", "aes128-cbc", "twofish256-cbc", "twofish128-cbc", "blowfish-cbc",
+	// "3des-cbc", "arcfour128", "arcfour256". (If blowfish is chosen, the encryption
+	// strength is 128 bits.)
 	// 
 	// Important: If this is property is set and the server does NOT support then
 	// encryption algorithm, then the Connect will fail.
@@ -222,9 +224,10 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 	const wchar_t *forceCipher(void);
 	// Set to one of the following encryption algorithms to force that cipher to be
 	// used. By default, the component will automatically choose the first cipher
-	// supported by the server in the order listed here: "aes256-cbc", "aes128-cbc",
-	// "twofish256-cbc", "twofish128-cbc", "blowfish-cbc", "3des-cbc", "arcfour128",
-	// "arcfour256". (If blowfish is chosen, the encryption strength is 128 bits.)
+	// supported by the server in the order listed here: "aes256-ctr", "aes128-ctr",
+	// "aes256-cbc", "aes128-cbc", "twofish256-cbc", "twofish128-cbc", "blowfish-cbc",
+	// "3des-cbc", "arcfour128", "arcfour256". (If blowfish is chosen, the encryption
+	// strength is 128 bits.)
 	// 
 	// Important: If this is property is set and the server does NOT support then
 	// encryption algorithm, then the Connect will fail.
@@ -272,13 +275,13 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 	const wchar_t *hostKeyFingerprint(void);
 
 	// If an HTTP proxy requiring authentication is to be used, set this property to
-	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// the HTTP proxy authentication method name. Valid choices are "Basic" or "NTLM".
 	void get_HttpProxyAuthMethod(CkString &str);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
-	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// the HTTP proxy authentication method name. Valid choices are "Basic" or "NTLM".
 	const wchar_t *httpProxyAuthMethod(void);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
-	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// the HTTP proxy authentication method name. Valid choices are "Basic" or "NTLM".
 	void put_HttpProxyAuthMethod(const wchar_t *newVal);
 
 	// The NTLM authentication domain (optional) if NTLM authentication is used w/ the
@@ -562,29 +565,29 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 	void put_SocksVersion(int newVal);
 
 	// Can contain a wildcarded list of file patterns separated by semicolons. For
-	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload method will only
-	// transfer files that match any one of these patterns.
+	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload and SyncTreeDownload
+	// methods will only transfer files that match any one of these patterns.
 	void get_SyncMustMatch(CkString &str);
 	// Can contain a wildcarded list of file patterns separated by semicolons. For
-	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload method will only
-	// transfer files that match any one of these patterns.
+	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload and SyncTreeDownload
+	// methods will only transfer files that match any one of these patterns.
 	const wchar_t *syncMustMatch(void);
 	// Can contain a wildcarded list of file patterns separated by semicolons. For
-	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload method will only
-	// transfer files that match any one of these patterns.
+	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload and SyncTreeDownload
+	// methods will only transfer files that match any one of these patterns.
 	void put_SyncMustMatch(const wchar_t *newVal);
 
 	// Can contain a wildcarded list of file patterns separated by semicolons. For
-	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload method will not
-	// transfer files that match any one of these patterns.
+	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload and SyncTreeDownload
+	// methods will not transfer files that match any one of these patterns.
 	void get_SyncMustNotMatch(CkString &str);
 	// Can contain a wildcarded list of file patterns separated by semicolons. For
-	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload method will not
-	// transfer files that match any one of these patterns.
+	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload and SyncTreeDownload
+	// methods will not transfer files that match any one of these patterns.
 	const wchar_t *syncMustNotMatch(void);
 	// Can contain a wildcarded list of file patterns separated by semicolons. For
-	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload method will not
-	// transfer files that match any one of these patterns.
+	// example, "*.xml; *.txt; *.csv". If set, the SyncTreeUpload and SyncTreeDownload
+	// methods will not transfer files that match any one of these patterns.
 	void put_SyncMustNotMatch(const wchar_t *newVal);
 
 	// This property controls the use of the internal TCP_NODELAY socket option (which
@@ -662,6 +665,22 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 	// If non-zero, limits (throttles) the upload bandwidth to approximately this
 	// maximum number of bytes per second. The default value of this property is 0.
 	void put_BandwidthThrottleUp(int newVal);
+
+	// The paths of the files uploaded or downloaded in the last call to SyncUploadTree
+	// or SyncDownloadTree. The paths are listed one per line. In both cases (for
+	// upload and download) each line contains the paths relative to the root synced
+	// directory.
+	void get_SyncedFiles(CkString &str);
+	// The paths of the files uploaded or downloaded in the last call to SyncUploadTree
+	// or SyncDownloadTree. The paths are listed one per line. In both cases (for
+	// upload and download) each line contains the paths relative to the root synced
+	// directory.
+	const wchar_t *syncedFiles(void);
+	// The paths of the files uploaded or downloaded in the last call to SyncUploadTree
+	// or SyncDownloadTree. The paths are listed one per line. In both cases (for
+	// upload and download) each line contains the paths relative to the root synced
+	// directory.
+	void put_SyncedFiles(const wchar_t *newVal);
 
 
 
@@ -1582,15 +1601,18 @@ class CK_VISIBLE_PUBLIC CkSFtpW  : public CkWideCharBase
 	//     exist locally.
 	//     
 	// 
+	// If ARG4 is false, then the remotel directory tree is not recursively
+	// descended.
+	// 
 	bool SyncTreeDownload(const wchar_t *remoteRoot, const wchar_t *localRoot, int mode, bool recurse);
 
 	// Uploads a directory tree from the local filesystem to the SFTP server.
 	// Synchronization modes include:
 	// 
 	//     mode=0: Upload all files
-	//     mode=1: Upload all files that do not exist on the FTP server.
+	//     mode=1: Upload all files that do not exist on the server.
 	//     mode=2: Upload newer or non-existant files.
-	//     mode=3: Upload only newer files. If a file does not already exist on the FTP
+	//     mode=3: Upload only newer files. If a file does not already exist on the
 	//     server, it is not uploaded.
 	//     mode=4: transfer missing files or files with size differences.
 	//     mode=5: same as mode 4, but also newer files.

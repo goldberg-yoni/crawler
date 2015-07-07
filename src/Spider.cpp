@@ -1,4 +1,6 @@
 #include	<string>
+#include	<deque>
+#include	<map>
 #include	<iostream>
 
 #include	<CkString.h>
@@ -19,72 +21,59 @@ std::ostream * &	Spider::getLoger( unsigned int type )
 	return (this->logers[type]);
 }
 
-int &				Spider::getThsPrint( void )
+Spider *			Spider::addThsPrint( toPrint ask )
 {
-	return (this->thsPrint);
+	this->thsPrint.push_back(ask);
+
+	return (this);
 }
 
-#include <stack>
-void				Spider::crawlDomain( void )
+std::deque< std::string * > *		Spider::crawlDomain( void )
 {
-	std::ostream &	inf = *(this->getLoger(INFO));
-	std::ostream &	rdt = *(this->getLoger(RAWDATA));
-	std::string		domain = ("http://"+ this->s_crawlURL);
+	std::deque< std::string * > *	ret = new std::deque< std::string * >();
+	std::ostream &					inf = *(this->getLoger(INFO));
+	std::string						domain = ("http://"+ this->s_crawlURL);
 	
 	inf << "Crawling at: " << domain << std::endl;
 	
-	this->spider.AddUnspidered(domain.c_str());
-	bool success;
-	while ((success = this->spider.CrawlNext()) && this->spider.get_NumUnspidered())
-	{
-		//~ if (IS(thsPrint, EXPRESSION))
-			//~ ;
-		//~ else
-		//~ {
-			//~ //~ if (HAS(thsPrint, ERRORHTML))
-				//~ //~ rdt << this->spider.lastErrorHTML() << std::endl;
-			//~ if (HAS(thsPrint, ERRORTEXT))
-				//~ rdt << this->spider.lastErrorText() << std::endl;
-			//~ if (HAS(thsPrint, ERRORXML))
-				//~ rdt << this->spider.lastErrorXml() << std::endl;
-			//~ if (HAS(thsPrint, HTML))
-				//~ rdt << this->spider.lastHtml() << std::endl;
-			//~ if (HAS(thsPrint, HTMLDESCRIPTION))
-				//~ rdt << this->spider.lastHtmlDescription() << std::endl;
-			//~ if (HAS(thsPrint, HTMLKEYWORDS))
-				//~ rdt << this->spider.lastHtmlKeywords() << std::endl;
-			//~ if (HAS(thsPrint, HTMLTITLE))
-				//~ rdt << this->spider.lastHtmlTitle() << std::endl;
-			//~ if (HAS(thsPrint, MODDATESTR))
-				//~ rdt << this->spider.lastModDateStr() << std::endl;
-			//~ if (HAS(thsPrint, URL))
-				//~ rdt << this->spider.lastUrl() << std::endl;
-		//~ }
-		
-		std::string const metaStart = "<meta ";
-		std::string const metaStop = "/>";
-		std::stack<std::string> s;
-		std::string t = this->spider.lastHtml();
-		size_t pos = std::string::npos;
-		
-		std::cout << this->spider.lastHtmlTitle();
-		do
-		{
-			pos = t.find(metaStart);
-			t.erase(0, pos);
-			pos = t.find(metaStop);
-			s.push(t.substr(0, pos + metaStop.length()));
-			t.erase(0, pos + metaStop.length());
-		}
-		while (pos != std::string::npos);
-		
-		while (!(s.empty()))
-		{
-			std::cout << s.top() << std::endl;
-			s.pop();
-		}
-		rdt << std::endl;
-		break;
-		this->spider.CrawlNext();
-	}
+	/*this->spider.AddUnspidered(domain.c_str());*/
+	if (this->spider.CrawlNext() && this->spider.get_NumUnspidered())
+		for (std::deque< toPrint >::iterator it = this->thsPrint.begin(); it != this->thsPrint.end(); ++it)
+			{
+				switch (*it)
+				{
+					case (EXPRESSION):
+						ret->push_back(new std::string(this->spider.lastHtml()));
+						break;
+					//~ case (ERRORHTML):
+						//~ ret.push_back(new std::string(this->spider.lastErrorHTML()));
+						//~ break;
+					case (ERRORTEXT):
+						ret->push_back(new std::string(this->spider.lastErrorText()));
+						break;
+					case (ERRORXML):
+						ret->push_back(new std::string(this->spider.lastErrorXml()));
+						break;
+					case (HTML):
+						ret->push_back(new std::string(this->spider.lastHtml()));
+						break;
+					case (HTMLDESCRIPTION):
+						ret->push_back(new std::string(this->spider.lastHtmlDescription()));
+						break;
+					case (HTMLKEYWORDS):
+						ret->push_back(new std::string(this->spider.lastHtmlKeywords()));
+						break;
+					case (HTMLTITLE):
+						ret->push_back(new std::string(this->spider.lastHtmlTitle()));
+						break;
+					case (MODDATESTR):
+						ret->push_back(new std::string(this->spider.lastModDateStr()));
+						break;
+					case (URL):
+						ret->push_back(new std::string(this->spider.lastUrl()));
+						break;
+				}
+			}
+
+	return (ret);
 }

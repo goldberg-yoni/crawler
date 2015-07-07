@@ -59,29 +59,6 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// ----------------------
 	// Properties
 	// ----------------------
-	// May be set to the path of a log file that the SshTunnel will create and log
-	// activity regarding connections accepted.
-	void get_AcceptThreadSessionLogPath(CkString &str);
-	// May be set to the path of a log file that the SshTunnel will create and log
-	// activity regarding connections accepted.
-	const wchar_t *acceptThreadSessionLogPath(void);
-	// May be set to the path of a log file that the SshTunnel will create and log
-	// activity regarding connections accepted.
-	void put_AcceptThreadSessionLogPath(const wchar_t *newVal);
-
-	// Contains log text detailing the establishment of each SSH server connection.
-	// This log will continue to grow as new connections are accepted. This property
-	// may be cleared by setting it to an empty string.
-	void get_ConnectLog(CkString &str);
-	// Contains log text detailing the establishment of each SSH server connection.
-	// This log will continue to grow as new connections are accepted. This property
-	// may be cleared by setting it to an empty string.
-	const wchar_t *connectLog(void);
-	// Contains log text detailing the establishment of each SSH server connection.
-	// This log will continue to grow as new connections are accepted. This property
-	// may be cleared by setting it to an empty string.
-	void put_ConnectLog(const wchar_t *newVal);
-
 	// Maximum number of milliseconds to wait when connecting to an SSH server. The
 	// default value is 10000 (i.e. 10 seconds).
 	int get_ConnectTimeoutMs(void);
@@ -115,59 +92,127 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void get_HttpProxyAuthMethod(CkString &str);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	const wchar_t *httpProxyAuthMethod(void);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy authentication method name. Valid choices are "LOGIN" or "NTLM".
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void put_HttpProxyAuthMethod(const wchar_t *newVal);
 
 	// The NTLM authentication domain (optional) if NTLM authentication is used w/ the
 	// HTTP proxy.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void get_HttpProxyDomain(CkString &str);
 	// The NTLM authentication domain (optional) if NTLM authentication is used w/ the
 	// HTTP proxy.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	const wchar_t *httpProxyDomain(void);
 	// The NTLM authentication domain (optional) if NTLM authentication is used w/ the
 	// HTTP proxy.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void put_HttpProxyDomain(const wchar_t *newVal);
 
 	// If an HTTP proxy is to be used, set this property to the HTTP proxy hostname or
 	// IPv4 address (in dotted decimal notation).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void get_HttpProxyHostname(CkString &str);
 	// If an HTTP proxy is to be used, set this property to the HTTP proxy hostname or
 	// IPv4 address (in dotted decimal notation).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	const wchar_t *httpProxyHostname(void);
 	// If an HTTP proxy is to be used, set this property to the HTTP proxy hostname or
 	// IPv4 address (in dotted decimal notation).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void put_HttpProxyHostname(const wchar_t *newVal);
 
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy password.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void get_HttpProxyPassword(CkString &str);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy password.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	const wchar_t *httpProxyPassword(void);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy password.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void put_HttpProxyPassword(const wchar_t *newVal);
 
 	// If an HTTP proxy is to be used, set this property to the HTTP proxy port number.
 	// (Two commonly used HTTP proxy ports are 8080 and 3128.)
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	int get_HttpProxyPort(void);
 	// If an HTTP proxy is to be used, set this property to the HTTP proxy port number.
 	// (Two commonly used HTTP proxy ports are 8080 and 3128.)
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void put_HttpProxyPort(int newVal);
 
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy login name.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void get_HttpProxyUsername(CkString &str);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy login name.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	const wchar_t *httpProxyUsername(void);
 	// If an HTTP proxy requiring authentication is to be used, set this property to
 	// the HTTP proxy login name.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through an HTTP proxy.
+	// 
 	void put_HttpProxyUsername(const wchar_t *newVal);
 
 	// A tunnel will fail when progress for sending or receiving data halts for more
@@ -181,13 +226,6 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 
 	// true if a background thread is running and accepting connections.
 	bool get_IsAccepting(void);
-
-	// If true, then an in-memory log of connections is kept in the ConnectLog
-	// property. The default value is true.
-	bool get_KeepConnectLog(void);
-	// If true, then an in-memory log of connections is kept in the ConnectLog
-	// property. The default value is true.
-	void put_KeepConnectLog(bool newVal);
 
 	// In most cases, this property does not need to be set. It is provided for cases
 	// where it is required to bind the listen socket to a specific IP address (usually
@@ -215,13 +253,6 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// contain the actual allocated port number used. Otherwise it is equal to the port
 	// number passed to BeginAccepting, or 0 if BeginAccepting was never called.
 	int get_ListenPort(void);
-
-	// The maximum packet length to be used in the SSH transport protocol. The default
-	// value is 32768.
-	int get_MaxPacketSize(void);
-	// The maximum packet length to be used in the SSH transport protocol. The default
-	// value is 32768.
-	void put_MaxPacketSize(int newVal);
 
 	// In most cases, this property does not need to be set. It is provided for cases
 	// where it is required to bind the socket that is to connect to the SSH server (in
@@ -311,41 +342,85 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 
 	// The SOCKS4/SOCKS5 hostname or IPv4 address (in dotted decimal notation). This
 	// property is only used if the SocksVersion property is set to 4 or 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void get_SocksHostname(CkString &str);
 	// The SOCKS4/SOCKS5 hostname or IPv4 address (in dotted decimal notation). This
 	// property is only used if the SocksVersion property is set to 4 or 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	const wchar_t *socksHostname(void);
 	// The SOCKS4/SOCKS5 hostname or IPv4 address (in dotted decimal notation). This
 	// property is only used if the SocksVersion property is set to 4 or 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void put_SocksHostname(const wchar_t *newVal);
 
 	// The SOCKS5 password (if required). The SOCKS4 protocol does not include the use
 	// of a password, so this does not apply to SOCKS4.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void get_SocksPassword(CkString &str);
 	// The SOCKS5 password (if required). The SOCKS4 protocol does not include the use
 	// of a password, so this does not apply to SOCKS4.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	const wchar_t *socksPassword(void);
 	// The SOCKS5 password (if required). The SOCKS4 protocol does not include the use
 	// of a password, so this does not apply to SOCKS4.
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void put_SocksPassword(const wchar_t *newVal);
 
 	// The SOCKS4/SOCKS5 proxy port. The default value is 1080. This property only
 	// applies if a SOCKS proxy is used (if the SocksVersion property is set to 4 or
 	// 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	int get_SocksPort(void);
 	// The SOCKS4/SOCKS5 proxy port. The default value is 1080. This property only
 	// applies if a SOCKS proxy is used (if the SocksVersion property is set to 4 or
 	// 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void put_SocksPort(int newVal);
 
 	// The SOCKS4/SOCKS5 proxy username. This property is only used if the SocksVersion
 	// property is set to 4 or 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void get_SocksUsername(CkString &str);
 	// The SOCKS4/SOCKS5 proxy username. This property is only used if the SocksVersion
 	// property is set to 4 or 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	const wchar_t *socksUsername(void);
 	// The SOCKS4/SOCKS5 proxy username. This property is only used if the SocksVersion
 	// property is set to 4 or 5).
+	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void put_SocksUsername(const wchar_t *newVal);
 
 	// SocksVersion May be set to one of the following integer values:
@@ -354,6 +429,9 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// 4 - Connect via a SOCKS4 proxy.
 	// 5 - Connect via a SOCKS5 proxy.
 	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	int get_SocksVersion(void);
 	// SocksVersion May be set to one of the following integer values:
 	// 
@@ -361,36 +439,10 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// 4 - Connect via a SOCKS4 proxy.
 	// 5 - Connect via a SOCKS5 proxy.
 	// 
+	// Note: This is for the outbound connection to the SSH server. It is used when the
+	// outbound connection to the SSH server must go through a SOCKS4 or SOCKS5 proxy.
+	// 
 	void put_SocksVersion(int newVal);
-
-	// The SSH server's hostname or IP address (in dotted-decimal notation).
-	void get_SshHostname(CkString &str);
-	// The SSH server's hostname or IP address (in dotted-decimal notation).
-	const wchar_t *sshHostname(void);
-	// The SSH server's hostname or IP address (in dotted-decimal notation).
-	void put_SshHostname(const wchar_t *newVal);
-
-	// The SSH server login. Authentication is typically required to establish the SSH
-	// tunnel in the background thread.
-	void get_SshLogin(CkString &str);
-	// The SSH server login. Authentication is typically required to establish the SSH
-	// tunnel in the background thread.
-	const wchar_t *sshLogin(void);
-	// The SSH server login. Authentication is typically required to establish the SSH
-	// tunnel in the background thread.
-	void put_SshLogin(const wchar_t *newVal);
-
-	// The SSH server password.
-	void get_SshPassword(CkString &str);
-	// The SSH server password.
-	const wchar_t *sshPassword(void);
-	// The SSH server password.
-	void put_SshPassword(const wchar_t *newVal);
-
-	// The SSH server's port. The default is 22, and this typically won't change.
-	int get_SshPort(void);
-	// The SSH server's port. The default is 22, and this typically won't change.
-	void put_SshPort(int newVal);
 
 	// Controls whether the TCP_NODELAY socket option is used for the underlying TCP/IP
 	// socket. The default value is false. Setting this property equal to true
@@ -403,22 +455,99 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// amounts of data are sent.
 	void put_TcpNoDelay(bool newVal);
 
-	// Contains the accumulated errors, if any, of the background thread. Call
-	// ClearTunnelErrors to clear this in-memory log.
-	void get_TunnelErrors(CkString &str);
-	// Contains the accumulated errors, if any, of the background thread. Call
-	// ClearTunnelErrors to clear this in-memory log.
-	const wchar_t *tunnelErrors(void);
+	// If true, then this behaves as a SOCKS proxy server for inbound connections.
+	// When this property is true, the DestHostname and DestPort properties are
+	// unused because the destination IP:port is dynamically provided by the SOCKS
+	// client. The default value of this property is false.
+	// 
+	// When dynamic port forwarding is used, the InboundSocksVersion property must be
+	// set to 4 or 5. If inbound SOCKS5 is used, then the InboundSocksUsername and
+	// InboundSocksPassword may be set to the required login/password for a client to
+	// gain access.
+	// 
+	bool get_DynamicPortForwarding(void);
+	// If true, then this behaves as a SOCKS proxy server for inbound connections.
+	// When this property is true, the DestHostname and DestPort properties are
+	// unused because the destination IP:port is dynamically provided by the SOCKS
+	// client. The default value of this property is false.
+	// 
+	// When dynamic port forwarding is used, the InboundSocksVersion property must be
+	// set to 4 or 5. If inbound SOCKS5 is used, then the InboundSocksUsername and
+	// InboundSocksPassword may be set to the required login/password for a client to
+	// gain access.
+	// 
+	void put_DynamicPortForwarding(bool newVal);
 
-	// May be set to the path of a log file that the SshTunnel will create and log
-	// information regarding tunnel activity.
-	void get_TunnelThreadSessionLogPath(CkString &str);
-	// May be set to the path of a log file that the SshTunnel will create and log
-	// information regarding tunnel activity.
-	const wchar_t *tunnelThreadSessionLogPath(void);
-	// May be set to the path of a log file that the SshTunnel will create and log
-	// information regarding tunnel activity.
-	void put_TunnelThreadSessionLogPath(const wchar_t *newVal);
+	// If dynamic port forwarding is used, then this may be set to the username
+	// required for authenticating inbound connections. If no username is set, then the
+	// inbound connection needs no authentication.
+	void get_InboundSocksUsername(CkString &str);
+	// If dynamic port forwarding is used, then this may be set to the username
+	// required for authenticating inbound connections. If no username is set, then the
+	// inbound connection needs no authentication.
+	const wchar_t *inboundSocksUsername(void);
+	// If dynamic port forwarding is used, then this may be set to the username
+	// required for authenticating inbound connections. If no username is set, then the
+	// inbound connection needs no authentication.
+	void put_InboundSocksUsername(const wchar_t *newVal);
+
+	// If dynamic port forwarding is used, then this may be set to the password
+	// required for authenticating inbound connections.
+	void get_InboundSocksPassword(CkString &str);
+	// If dynamic port forwarding is used, then this may be set to the password
+	// required for authenticating inbound connections.
+	const wchar_t *inboundSocksPassword(void);
+	// If dynamic port forwarding is used, then this may be set to the password
+	// required for authenticating inbound connections.
+	void put_InboundSocksPassword(const wchar_t *newVal);
+
+	// If true, then an in-memory log of the listen thread is kept. The default value
+	// is false.
+	bool get_KeepAcceptLog(void);
+	// If true, then an in-memory log of the listen thread is kept. The default value
+	// is false.
+	void put_KeepAcceptLog(bool newVal);
+
+	// Contains an in-memory log of the listen thread. This will only contain content
+	// if the KeepAcceptLog property is true.
+	void get_AcceptLog(CkString &str);
+	// Contains an in-memory log of the listen thread. This will only contain content
+	// if the KeepAcceptLog property is true.
+	const wchar_t *acceptLog(void);
+	// Contains an in-memory log of the listen thread. This will only contain content
+	// if the KeepAcceptLog property is true.
+	void put_AcceptLog(const wchar_t *newVal);
+
+	// Specifies a log file to be kept for the activity in the listen thread.
+	void get_AcceptLogPath(CkString &str);
+	// Specifies a log file to be kept for the activity in the listen thread.
+	const wchar_t *acceptLogPath(void);
+	// Specifies a log file to be kept for the activity in the listen thread.
+	void put_AcceptLogPath(const wchar_t *newVal);
+
+	// Set to keep a log file of the SSH tunnel thread.
+	void get_TunnelLogPath(CkString &str);
+	// Set to keep a log file of the SSH tunnel thread.
+	const wchar_t *tunnelLogPath(void);
+	// Set to keep a log file of the SSH tunnel thread.
+	void put_TunnelLogPath(const wchar_t *newVal);
+
+	// Contains an in-memory log of the SSH tunnel thread. This will only contain
+	// content if the KeepTunnelLog property is true.
+	void get_TunnelLog(CkString &str);
+	// Contains an in-memory log of the SSH tunnel thread. This will only contain
+	// content if the KeepTunnelLog property is true.
+	const wchar_t *tunnelLog(void);
+	// Contains an in-memory log of the SSH tunnel thread. This will only contain
+	// content if the KeepTunnelLog property is true.
+	void put_TunnelLog(const wchar_t *newVal);
+
+	// If true, then a log of the SSH tunnel thread activity is kept in memory. The
+	// default value is false.
+	bool get_KeepTunnelLog(void);
+	// If true, then a log of the SSH tunnel thread activity is kept in memory. The
+	// default value is false.
+	void put_KeepTunnelLog(bool newVal);
 
 
 
@@ -438,78 +567,10 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// 
 	bool BeginAccepting(int listenPort);
 
-	// Clears the TunnelErrors property (i.e. sets it to the empty string).
-	void ClearTunnelErrors(void);
-
-	// Returns information about the current set of running SSH tunnels. This is a
-	// snapshot of the tunnels at a single point in time. The XML has this format:
-	// _LT_tunnels>
-	// 	_LT_t>
-	// 		_LT_uniqueId>..._LT_/uniqueId>
-	// 		_LT_clientIp>..._LT_/clientIp>
-	// 		_LT_clientPort>..._LT_/clientPort>
-	// 		_LT_serverIp>..._LT_/serverIp>
-	// 		_LT_serverPort>..._LT_/serverPort>
-	// 		_LT_tunnelType>..._LT_/tunnelType>
-	// 		_LT_login>..._LT_/login>
-	// 		_LT_password>..._LT_/password>
-	// 	_LT_/t>
-	// 	_LT_t>
-	// 	...
-	// 	_LT_/t>
-	// 	...
-	// _LT_/tunnels>
-	bool GetTunnelsXml(CkString &outStr);
-	// Returns information about the current set of running SSH tunnels. This is a
-	// snapshot of the tunnels at a single point in time. The XML has this format:
-	// _LT_tunnels>
-	// 	_LT_t>
-	// 		_LT_uniqueId>..._LT_/uniqueId>
-	// 		_LT_clientIp>..._LT_/clientIp>
-	// 		_LT_clientPort>..._LT_/clientPort>
-	// 		_LT_serverIp>..._LT_/serverIp>
-	// 		_LT_serverPort>..._LT_/serverPort>
-	// 		_LT_tunnelType>..._LT_/tunnelType>
-	// 		_LT_login>..._LT_/login>
-	// 		_LT_password>..._LT_/password>
-	// 	_LT_/t>
-	// 	_LT_t>
-	// 	...
-	// 	_LT_/t>
-	// 	...
-	// _LT_/tunnels>
-	const wchar_t *getTunnelsXml(void);
-	// Returns information about the current set of running SSH tunnels. This is a
-	// snapshot of the tunnels at a single point in time. The XML has this format:
-	// _LT_tunnels>
-	// 	_LT_t>
-	// 		_LT_uniqueId>..._LT_/uniqueId>
-	// 		_LT_clientIp>..._LT_/clientIp>
-	// 		_LT_clientPort>..._LT_/clientPort>
-	// 		_LT_serverIp>..._LT_/serverIp>
-	// 		_LT_serverPort>..._LT_/serverPort>
-	// 		_LT_tunnelType>..._LT_/tunnelType>
-	// 		_LT_login>..._LT_/login>
-	// 		_LT_password>..._LT_/password>
-	// 	_LT_/t>
-	// 	_LT_t>
-	// 	...
-	// 	_LT_/t>
-	// 	...
-	// _LT_/tunnels>
-	const wchar_t *tunnelsXml(void);
-
-	// Sets the key to be used for public-key SSH authentication. NOTE: The private key
-	// is required for authentication. The public-part of the key is installed on the
-	// server, and the client must present the private key.
-	bool SetSshAuthenticationKey(CkSshKeyW &key);
-
 	// Stops the listen background thread. It is possible to continue accepting
-	// connections by re-calling BeginAccepting.
-	bool StopAccepting(void);
-
-	// Stops all currently running tunnels in the SSH tunnel pool background thread.
-	bool StopAllTunnels(int maxWaitMs);
+	// connections by re-calling BeginAccepting. If ARG1 is true, the method will
+	// wait for the listen thread to exit before returning.
+	bool StopAccepting(bool waitForThread);
 
 	// Unlocks the component. This must be called once prior to calling any other
 	// method. A fully-functional 30-day trial is automatically started when an
@@ -517,6 +578,40 @@ class CK_VISIBLE_PUBLIC CkSshTunnelW  : public CkWideCharBase
 	// "abc123" will unlock the component for the 1st thirty days after the initial
 	// install.
 	bool UnlockComponent(const wchar_t *unlockCode);
+
+	// Connects to the SSH server to be used for SSH tunneling.
+	bool Connect(const wchar_t *hostname, int port);
+
+	// Returns true if the underlying TCP socket is connected to the SFTP server.
+	bool AuthenticatePk(const wchar_t *username, CkSshKeyW &privateKey);
+
+	// Authenticates with the SSH server using a login and  password.
+	// 
+	// An SSH session always begins by first calling Connect to connect to the SSH
+	// server, and then calling either AuthenticatePw or AuthenticatePk to login.
+	// 
+	// Important: When reporting problems, please send the full contents of the
+	// LastErrorText property to support@chilkatsoft.com.
+	// Note: To learn about how to handle password change requests, see the
+	// PasswordChangeRequested property (above).
+	// 
+	bool AuthenticatePw(const wchar_t *login, const wchar_t *password);
+
+	// Authentication for SSH servers that require both a password and private key.
+	// (Most SSH servers are configured to require one or the other, but not both.)
+	// 
+	// Important: When reporting problems, please send the full contents of the
+	// LastErrorText property to support@chilkatsoft.com.
+	// 
+	bool AuthenticatePwPk(const wchar_t *username, const wchar_t *password, CkSshKeyW &privateKey);
+
+	// Closes the SSH tunnel and disconnects all existing clients. If ARG1 is true,
+	// the method will wait for the tunnel and client threads to exit before returning.
+	bool CloseTunnel(bool waitForThreads);
+
+	// Disconnects all clients, keeping the SSH tunnel open. If ARG1 is true, the
+	// method will wait for the client threads to exit before returning.
+	bool DisconnectAllClients(bool waitForThreads);
 
 
 

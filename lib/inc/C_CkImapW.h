@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkImapWH
 #define _C_CkImapWH
 #include "chilkatDefs.h"
@@ -222,10 +222,12 @@ CK_VISIBLE_PUBLIC BOOL CkImapW_SetSslClientCertPem(HCkImapW cHandle, const wchar
 CK_VISIBLE_PUBLIC BOOL CkImapW_SetSslClientCertPfx(HCkImapW cHandle, const wchar_t *pfxFilename, const wchar_t *pfxPassword);
 CK_VISIBLE_PUBLIC BOOL CkImapW_SshAuthenticatePk(HCkImapW cHandle, const wchar_t *sshLogin, HCkSshKeyW privateKey);
 CK_VISIBLE_PUBLIC BOOL CkImapW_SshAuthenticatePw(HCkImapW cHandle, const wchar_t *sshLogin, const wchar_t *sshPassword);
-CK_VISIBLE_PUBLIC BOOL CkImapW_SshTunnel(HCkImapW cHandle, const wchar_t *sshServerHostname, int sshPort);
+CK_VISIBLE_PUBLIC BOOL CkImapW_SshCloseTunnel(HCkImapW cHandle);
+CK_VISIBLE_PUBLIC BOOL CkImapW_SshOpenTunnel(HCkImapW cHandle, const wchar_t *sshHostname, int sshPort);
 CK_VISIBLE_PUBLIC BOOL CkImapW_StoreFlags(HCkImapW cHandle, int msgId, BOOL bUid, const wchar_t *flagNames, int value);
 CK_VISIBLE_PUBLIC BOOL CkImapW_Subscribe(HCkImapW cHandle, const wchar_t *mailbox);
 CK_VISIBLE_PUBLIC BOOL CkImapW_UnlockComponent(HCkImapW cHandle, const wchar_t *unlockCode);
 CK_VISIBLE_PUBLIC BOOL CkImapW_Unsubscribe(HCkImapW cHandle, const wchar_t *mailbox);
 CK_VISIBLE_PUBLIC BOOL CkImapW_UseCertVault(HCkImapW cHandle, HCkXmlCertVaultW vault);
+CK_VISIBLE_PUBLIC BOOL CkImapW_UseSshTunnel(HCkImapW cHandle, HCkSocketW tunnel);
 #endif

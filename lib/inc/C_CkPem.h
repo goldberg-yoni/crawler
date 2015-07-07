@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkPem_H
 #define _C_CkPem_H
 #include "chilkatDefs.h"
@@ -21,6 +21,7 @@ CK_VISIBLE_PUBLIC const char *CkPem_lastErrorText(HCkPem cHandle);
 CK_VISIBLE_PUBLIC void CkPem_getLastErrorXml(HCkPem cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkPem_lastErrorXml(HCkPem cHandle);
 CK_VISIBLE_PUBLIC int CkPem_getNumCerts(HCkPem cHandle);
+CK_VISIBLE_PUBLIC int CkPem_getNumCsrs(HCkPem cHandle);
 CK_VISIBLE_PUBLIC int CkPem_getNumPrivateKeys(HCkPem cHandle);
 CK_VISIBLE_PUBLIC int CkPem_getNumPublicKeys(HCkPem cHandle);
 CK_VISIBLE_PUBLIC void CkPem_getPrivateKeyFormat(HCkPem cHandle, HCkString retval);
@@ -41,6 +42,8 @@ CK_VISIBLE_PUBLIC BOOL CkPem_AddPrivateKey2(HCkPem cHandle, HCkPrivateKey privKe
 CK_VISIBLE_PUBLIC BOOL CkPem_AddPublicKey(HCkPem cHandle, HCkPublicKey pubkey);
 CK_VISIBLE_PUBLIC BOOL CkPem_Clear(HCkPem cHandle);
 CK_VISIBLE_PUBLIC HCkCert CkPem_GetCert(HCkPem cHandle, int index);
+CK_VISIBLE_PUBLIC BOOL CkPem_GetEncodedItem(HCkPem cHandle, const char *itemType, const char *itemSubType, const char *encoding, int index, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkPem_getEncodedItem(HCkPem cHandle, const char *itemType, const char *itemSubType, const char *encoding, int index);
 CK_VISIBLE_PUBLIC HCkPrivateKey CkPem_GetPrivateKey(HCkPem cHandle, int index);
 CK_VISIBLE_PUBLIC HCkPublicKey CkPem_GetPublicKey(HCkPem cHandle, int index);
 CK_VISIBLE_PUBLIC BOOL CkPem_LoadP7b(HCkPem cHandle, HCkByteData p7bData);

@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkSFtpWH
 #define _C_CkSFtpWH
 #include "chilkatDefs.h"
@@ -112,6 +112,9 @@ CK_VISIBLE_PUBLIC const wchar_t *CkSFtpW_syncMustMatch(HCkSFtpW cHandle);
 CK_VISIBLE_PUBLIC void CkSFtpW_getSyncMustNotMatch(HCkSFtpW cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC void CkSFtpW_putSyncMustNotMatch(HCkSFtpW cHandle, const wchar_t *newVal);
 CK_VISIBLE_PUBLIC const wchar_t *CkSFtpW_syncMustNotMatch(HCkSFtpW cHandle);
+CK_VISIBLE_PUBLIC void CkSFtpW_getSyncedFiles(HCkSFtpW cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSFtpW_putSyncedFiles(HCkSFtpW cHandle, const wchar_t *newVal);
+CK_VISIBLE_PUBLIC const wchar_t *CkSFtpW_syncedFiles(HCkSFtpW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkSFtpW_getTcpNoDelay(HCkSFtpW cHandle);
 CK_VISIBLE_PUBLIC void CkSFtpW_putTcpNoDelay(HCkSFtpW cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC int CkSFtpW_getUploadChunkSize(HCkSFtpW cHandle);

@@ -22,6 +22,7 @@ class CkMailboxes;
 class CkCsp;
 class CkPrivateKey;
 class CkSshKey;
+class CkSocket;
 class CkXmlCertVault;
 class CkBaseProgress;
 
@@ -74,35 +75,6 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// The UID of the last email appended to a mailbox via an Append* method. (Not all
 	// IMAP servers report back the UID of the email appended.)
 	int get_AppendUid(void);
-
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	int get_PercentDoneScale(void);
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	void put_PercentDoneScale(int newVal);
 
 	// Can be set to "XOAUTH2", "CRAM-MD5", "NTLM", "PLAIN", or "LOGIN" to select the
 	// authentication method. NTLM is the most secure, and is a synonym for "Windows
@@ -381,6 +353,35 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// when email is retrieved. The default value of this property is false.
 	void put_PeekMode(bool newVal);
 
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	int get_PercentDoneScale(void);
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	void put_PercentDoneScale(int newVal);
+
 	// The IMAP port number. If using SSL, be sure to set this to the IMAP SSL port
 	// number, which is typically port 993. (If this is the case, make sure you also
 	// set the Ssl property = true.
@@ -640,6 +641,52 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// 
 	void put_Ssl(bool newVal);
 
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void get_SslAllowedCiphers(CkString &str);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	const char *sslAllowedCiphers(void);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void put_SslAllowedCiphers(const char *newVal);
+
 	// Selects the secure protocol to be used for secure (SSL/TLS) connections.
 	// Possible values are:
 	// 
@@ -717,6 +764,28 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// port of 993.
 	void put_StartTls(bool newVal);
 
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	void get_TlsCipherSuite(CkString &str);
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	const char *tlsCipherSuite(void);
+
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const char *tlsVersion(void);
+
 	// A positive integer value containing the UIDNEXT of the currently selected
 	// folder, or 0 if it's not available or no folder is selected.
 	int get_UidNext(void);
@@ -730,74 +799,6 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// maintain UID's between sessions.
 	// 
 	int get_UidValidity(void);
-
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void get_SslAllowedCiphers(CkString &str);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	const char *sslAllowedCiphers(void);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void put_SslAllowedCiphers(const char *newVal);
-
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const char *tlsVersion(void);
-
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	void get_TlsCipherSuite(CkString &str);
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	const char *tlsCipherSuite(void);
 
 
 
@@ -1691,25 +1692,34 @@ class CK_VISIBLE_PUBLIC CkImap  : public CkMultiByteBase
 	// 
 	bool SshAuthenticatePw(const char *sshLogin, const char *sshPassword);
 
-	// Connects to an SSH server and creates a tunnel for IMAP. The sshServerHostname is the
-	// hostname (or IP address) of the SSH server. The  sshPort is typically 22, which is
+	// Closes the SSH tunnel previously opened by SshOpenTunnel.
+	bool SshCloseTunnel(void);
+
+	// Uses an existing SSH tunnel. This is useful for sharing an existing SSH tunnel
+	// connection wth other objects. (SSH is a protocol where the tunnel contains many
+	// logical channels. IMAP connections can exist simultaneously with other
+	// connection within a single SSH tunnel as SSH channels.)
+	bool UseSshTunnel(CkSocket &tunnel);
+
+	// Connects to an SSH server and creates a tunnel for IMAP. The ARG1 is the
+	// hostname (or IP address) of the SSH server. The ARG2 is typically 22, which is
 	// the standard SSH port number.
 	// 
 	// An SSH tunneling (port forwarding) session always begins by first calling
-	// SshTunnel to connect to the SSH server, followed by calling either
-	// AuthenticatePw or AuthenticatePk to authenticate. Your program would then call
-	// Connect to connect with the IMAP server (via the SSH tunnel) and then Login to
-	// authenticate with the IMAP server.
+	// SshOpenTunnel to connect to the SSH server, followed by calling either
+	// SshAuthenticatePw or SshAuthenticatePk to authenticate. Your program would then
+	// call Connect to connect with the IMAP server (via the SSH tunnel) and then Login
+	// to authenticate with the IMAP server.
 	// 
-	// Note: Once the SSH tunnel is setup by calling SshTunnel and SshAuthenticatePw
-	// (or SshAuthenticatePk), all underlying communcations with the IMAP server use
-	// the SSH tunnel. No changes in programming are required other than making two
-	// initial calls to setup the tunnel.
+	// Note: Once the SSH tunnel is setup by calling SshOpenTunnel and
+	// SshAuthenticatePw (or SshAuthenticatePk), all underlying communcations with the
+	// IMAP server use the SSH tunnel. No changes in programming are required other
+	// than making two initial calls to setup the tunnel.
 	// 
 	// Important: When reporting problems, please send the full contents of the
 	// LastErrorText property to support@chilkatsoft.com.
 	// 
-	bool SshTunnel(const char *sshServerHostname, int sshServerPort);
+	bool SshOpenTunnel(const char *sshHostname, int sshPort);
 
 	// Sets one or more flags to a specific value for an email. The email is indicated
 	// by either a UID or sequence number, depending on whether  bUid is true (UID) or

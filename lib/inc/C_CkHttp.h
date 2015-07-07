@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkHttp_H
 #define _C_CkHttp_H
 #include "chilkatDefs.h"
@@ -264,6 +264,8 @@ CK_VISIBLE_PUBLIC BOOL CkHttp_ExtractMetaRefreshUrl(HCkHttp cHandle, const char 
 CK_VISIBLE_PUBLIC const char *CkHttp_extractMetaRefreshUrl(HCkHttp cHandle, const char *htmlContent);
 CK_VISIBLE_PUBLIC BOOL CkHttp_G_SvcOauthAccessToken(HCkHttp cHandle, const char *iss, const char *scope, const char *subEmail, int numSec, HCkCert cert, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkHttp_g_SvcOauthAccessToken(HCkHttp cHandle, const char *iss, const char *scope, const char *subEmail, int numSec, HCkCert cert);
+CK_VISIBLE_PUBLIC BOOL CkHttp_G_SvcOauthAccessToken2(HCkHttp cHandle, HCkHashtable params, int numSec, HCkCert cert, HCkString outStr);
+CK_VISIBLE_PUBLIC const char *CkHttp_g_SvcOauthAccessToken2(HCkHttp cHandle, HCkHashtable params, int numSec, HCkCert cert);
 CK_VISIBLE_PUBLIC BOOL CkHttp_GenTimeStamp(HCkHttp cHandle, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkHttp_genTimeStamp(HCkHttp cHandle);
 CK_VISIBLE_PUBLIC BOOL CkHttp_GetCacheRoot(HCkHttp cHandle, int index, HCkString outStr);

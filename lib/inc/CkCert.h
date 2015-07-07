@@ -449,12 +449,17 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 	CkCert *FindIssuer(void);
 
 	// Returns a certficate chain object containing all the certificates (including
-	// this one), in the chain of authentication to the trusted root. If this
-	// certificate object was loaded from a PFX, then the certiicates contained in the
-	// PFX are automatically available for building the certificate chain. The
+	// this one), in the chain of authentication to the trusted root (if possible). If
+	// this certificate object was loaded from a PFX, then the certiicates contained in
+	// the PFX are automatically available for building the certificate chain. The
 	// UseCertVault method can be called to provide additional certificates that might
 	// be required to build the cert chain. Finally, the TrustedRoots object can be
 	// used to provide a way of making trusted root certificates available.
+	// 
+	// Note: Prior to v9.5.0.50, this method would fail if the certificate chain could
+	// not be completed to the root. Starting in v9.5.0.50, the incomplete certificate
+	// chain will be returned. The certificate chain's ReachesRoot property can be
+	// examined to see if the chain was completed to the root.
 	// 
 	// On Windows systems, the registry-based certificate stores are automatically
 	// consulted if needed to locate intermediate or root certificates in the chain.
@@ -474,6 +479,34 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 	// format, which can be passed to SetFromEncoded to recreate the certificate
 	// object.
 	const char *encoded(void);
+
+	// Returns the certificate extension data in XML format (converted from ASN.1). The
+	// ARG1 is an OID, such as the ones listed here:
+	// http://www.alvestrand.no/objectid/2.5.29.html
+	// 
+	// Note: In many cases, the data within the XML is returned base64 encoded. An
+	// application may need to take one further step to base64 decode the information
+	// contained within the XML.
+	// 
+	bool GetExtensionAsXml(const char *oid, CkString &outStr);
+	// Returns the certificate extension data in XML format (converted from ASN.1). The
+	// ARG1 is an OID, such as the ones listed here:
+	// http://www.alvestrand.no/objectid/2.5.29.html
+	// 
+	// Note: In many cases, the data within the XML is returned base64 encoded. An
+	// application may need to take one further step to base64 decode the information
+	// contained within the XML.
+	// 
+	const char *getExtensionAsXml(const char *oid);
+	// Returns the certificate extension data in XML format (converted from ASN.1). The
+	// ARG1 is an OID, such as the ones listed here:
+	// http://www.alvestrand.no/objectid/2.5.29.html
+	// 
+	// Note: In many cases, the data within the XML is returned base64 encoded. An
+	// application may need to take one further step to base64 decode the information
+	// contained within the XML.
+	// 
+	const char *extensionAsXml(const char *oid);
 
 	// Exports the certificate's private key to a PEM string (if the private key is
 	// available).
@@ -554,6 +587,9 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 	// it won't work. This method does not load .p12 or .pfx (PKCS #12) files.
 	bool LoadFromFile(const char *path);
 
+	// Loads the certificate from a PEM string.
+	bool LoadPem(const char *strPem);
+
 	// Loads a PFX from an in-memory image of a PFX file. Note: If the PFX contains
 	// multiple certificates, the 1st certificate in the PFX is loaded.
 	bool LoadPfxData(const CkByteData &pfxData, const char *password);
@@ -595,37 +631,6 @@ class CK_VISIBLE_PUBLIC CkCert  : public CkMultiByteBase
 	// certificates in the chain of authentication to the trusted root. Returns true
 	// if all signatures are verified to the trusted root. Otherwise returns false.
 	bool VerifySignature(void);
-
-	// Returns the certificate extension data in XML format (converted from ASN.1). The
-	// ARG1 is an OID, such as the ones listed here:
-	// http://www.alvestrand.no/objectid/2.5.29.html
-	// 
-	// Note: In many cases, the data within the XML is returned base64 encoded. An
-	// application may need to take one further step to base64 decode the information
-	// contained within the XML.
-	// 
-	bool GetExtensionAsXml(const char *oid, CkString &outStr);
-	// Returns the certificate extension data in XML format (converted from ASN.1). The
-	// ARG1 is an OID, such as the ones listed here:
-	// http://www.alvestrand.no/objectid/2.5.29.html
-	// 
-	// Note: In many cases, the data within the XML is returned base64 encoded. An
-	// application may need to take one further step to base64 decode the information
-	// contained within the XML.
-	// 
-	const char *getExtensionAsXml(const char *oid);
-	// Returns the certificate extension data in XML format (converted from ASN.1). The
-	// ARG1 is an OID, such as the ones listed here:
-	// http://www.alvestrand.no/objectid/2.5.29.html
-	// 
-	// Note: In many cases, the data within the XML is returned base64 encoded. An
-	// application may need to take one further step to base64 decode the information
-	// contained within the XML.
-	// 
-	const char *extensionAsXml(const char *oid);
-
-	// Loads the certificate from a PEM string.
-	bool LoadPem(const char *strPem);
 
 
 

@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkMailMan_H
 #define _C_CkMailMan_H
 #include "chilkatDefs.h"
@@ -302,14 +302,15 @@ CK_VISIBLE_PUBLIC BOOL CkMailMan_SmtpNoop(HCkMailMan cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_SmtpReset(HCkMailMan cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_SmtpSendRawCommand(HCkMailMan cHandle, const char *command, const char *charset, BOOL bEncodeBase64, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkMailMan_smtpSendRawCommand(HCkMailMan cHandle, const char *command, const char *charset, BOOL bEncodeBase64);
-CK_VISIBLE_PUBLIC BOOL CkMailMan_SshAuthenticatePk(HCkMailMan cHandle, BOOL bSmtp, const char *sshUsername, HCkSshKey sshPrivateKey);
-CK_VISIBLE_PUBLIC BOOL CkMailMan_SshAuthenticatePw(HCkMailMan cHandle, BOOL bSmtp, const char *sshLogin, const char *sshPassword);
-CK_VISIBLE_PUBLIC BOOL CkMailMan_SshCloseTunnel(HCkMailMan cHandle, BOOL bSmtp);
-CK_VISIBLE_PUBLIC BOOL CkMailMan_SshTunnel(HCkMailMan cHandle, BOOL bSmtp, const char *sshServerHostname, int sshPort);
+CK_VISIBLE_PUBLIC BOOL CkMailMan_SshAuthenticatePk(HCkMailMan cHandle, const char *bSmtp, HCkSshKey sshUsername);
+CK_VISIBLE_PUBLIC BOOL CkMailMan_SshAuthenticatePw(HCkMailMan cHandle, const char *bSmtp, const char *sshLogin);
+CK_VISIBLE_PUBLIC BOOL CkMailMan_SshCloseTunnel(HCkMailMan cHandle);
+CK_VISIBLE_PUBLIC BOOL CkMailMan_SshOpenTunnel(HCkMailMan cHandle, const char *sshHostname, int sshPort);
 CK_VISIBLE_PUBLIC HCkEmailBundle CkMailMan_TransferMail(HCkMailMan cHandle);
 CK_VISIBLE_PUBLIC HCkStringArray CkMailMan_TransferMultipleMime(HCkMailMan cHandle, HCkStringArray uidlArray);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_UnlockComponent(HCkMailMan cHandle, const char *code);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_UseCertVault(HCkMailMan cHandle, HCkXmlCertVault vault);
+CK_VISIBLE_PUBLIC BOOL CkMailMan_UseSshTunnel(HCkMailMan cHandle, HCkSocket tunnel);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_VerifyPopConnection(HCkMailMan cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_VerifyPopLogin(HCkMailMan cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailMan_VerifyRecips(HCkMailMan cHandle, HCkEmail email, HCkStringArray badAddrs);

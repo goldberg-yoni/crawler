@@ -101,9 +101,19 @@ class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkWideCharBase
 	// The unique ID assigned by Zip.NET while the object is instantiated in memory.
 	int get_EntryID(void);
 
-	// Indicates the origin of the entry. There are three possible values: (0) an entry
-	// in an existing Zip file, (1) a file on disk referenced by Zip.NET and to be
-	// added to the Zip, and (2) an entry created directly from data in memory.
+	// Indicates the origin of the entry. There are three possible values:
+	//     Mapped Entry: An entry in an existing Zip file.
+	//     File Entry: A file not yet in memory, but referenced. These entries are
+	//     added by calling AppendFiles, AppendFilesEx, AppendOneFileOrDir, etc.
+	//     Data Entry: An entry containing uncompressed data from memory. These entries
+	//     are added by calling AppendData, AppendString, etc.
+	//     Null Entry: An entry that no longer exists in the .zip.
+	//     New Directory Entry: A directory entry added by calling AppendNewDir.
+	// When the zip is written by calling WriteZip or WriteToMemory, all of the zip
+	// entries are transformed into mapped entries. They become entries that contain
+	// the compressed data within the .zip that was just created. (The WriteZip method
+	// call effectively writes the zip and then opens it, replacing all of the existing
+	// entries with mapped entries.)
 	int get_EntryType(void);
 
 	// The local last-modified date/time.
@@ -185,24 +195,49 @@ class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkWideCharBase
 	bool AppendString(const wchar_t *inStr, const wchar_t *charset);
 
 	// Returns the compressed data as a byte array.
+	// 
+	// Note: The Copy method can only be called if the zip entry already contains
+	// compressed data (i.e. it is a "mapped entry"). This is the case when an existing
+	// .zip is opened (from memory or from a file), or after the .zip has been written
+	// (by calling WriteZip or WriteToMemory). If a zip entry is created via
+	// AppendData, AppendFiles, etc., then it does not yet contain compressed data.
+	// When the zip is written, each entry becomes a "mapped entry" (The value of the
+	// EntryType property becomes 0.)
+	// 
 	bool Copy(CkByteData &outData);
 
 	// Returns the compressed data as a Base64-encoded string. It is only possible to
 	// retrieve the compressed data from a pre-existing .zip that has been opened or
 	// after writing the .zip but not closing it.
+	// 
+	// Note: The CopyToBase64 method can only be called if the zip entry already
+	// contains compressed data (i.e. it is a "mapped entry").
+	// 
 	bool CopyToBase64(CkString &outStr);
 	// Returns the compressed data as a Base64-encoded string. It is only possible to
 	// retrieve the compressed data from a pre-existing .zip that has been opened or
 	// after writing the .zip but not closing it.
+	// 
+	// Note: The CopyToBase64 method can only be called if the zip entry already
+	// contains compressed data (i.e. it is a "mapped entry").
+	// 
 	const wchar_t *copyToBase64(void);
 
 	// Returns the compressed data as a hexidecimal encoded string. It is only possible
 	// to retrieve the compressed data from a pre-existing .zip that has been opened or
 	// after writing the .zip but not closing it.
+	// 
+	// Note: The CopyToBase64 method can only be called if the zip entry already
+	// contains compressed data (i.e. it is a "mapped entry").
+	// 
 	bool CopyToHex(CkString &outStr);
 	// Returns the compressed data as a hexidecimal encoded string. It is only possible
 	// to retrieve the compressed data from a pre-existing .zip that has been opened or
 	// after writing the .zip but not closing it.
+	// 
+	// Note: The CopyToBase64 method can only be called if the zip entry already
+	// contains compressed data (i.e. it is a "mapped entry").
+	// 
 	const wchar_t *copyToHex(void);
 
 	// Unzips this entry into the specified base directory. The file is unzipped to the
@@ -224,6 +259,12 @@ class CK_VISIBLE_PUBLIC CkZipEntryW  : public CkWideCharBase
 	// Return the next entry (file or directory) within the Zip
 	// The caller is responsible for deleting the object returned by this method.
 	CkZipEntryW *NextEntry(void);
+
+	// Returns the next entry having a filename matching the ARG1. The "*" characters
+	// matches 0 or more of any character. The full filename, including path, is used
+	// when matching against the pattern.
+	// The caller is responsible for deleting the object returned by this method.
+	CkZipEntryW *NextMatchingEntry(const wchar_t *matchStr);
 
 	// Replaces the zip entry's existing contents with new data.
 	bool ReplaceData(const CkByteData &inData);

@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkMailManWH
 #define _C_CkMailManWH
 #include "chilkatDefs.h"
@@ -301,14 +301,15 @@ CK_VISIBLE_PUBLIC BOOL CkMailManW_SmtpNoop(HCkMailManW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_SmtpReset(HCkMailManW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_SmtpSendRawCommand(HCkMailManW cHandle, const wchar_t *command, const wchar_t *charset, BOOL bEncodeBase64, HCkString outStr);
 CK_VISIBLE_PUBLIC const wchar_t *CkMailManW_smtpSendRawCommand(HCkMailManW cHandle, const wchar_t *command, const wchar_t *charset, BOOL bEncodeBase64);
-CK_VISIBLE_PUBLIC BOOL CkMailManW_SshAuthenticatePk(HCkMailManW cHandle, BOOL bSmtp, const wchar_t *sshUsername, HCkSshKeyW sshPrivateKey);
-CK_VISIBLE_PUBLIC BOOL CkMailManW_SshAuthenticatePw(HCkMailManW cHandle, BOOL bSmtp, const wchar_t *sshLogin, const wchar_t *sshPassword);
-CK_VISIBLE_PUBLIC BOOL CkMailManW_SshCloseTunnel(HCkMailManW cHandle, BOOL bSmtp);
-CK_VISIBLE_PUBLIC BOOL CkMailManW_SshTunnel(HCkMailManW cHandle, BOOL bSmtp, const wchar_t *sshServerHostname, int sshPort);
+CK_VISIBLE_PUBLIC BOOL CkMailManW_SshAuthenticatePk(HCkMailManW cHandle, const wchar_t *bSmtp, HCkSshKeyW sshUsername);
+CK_VISIBLE_PUBLIC BOOL CkMailManW_SshAuthenticatePw(HCkMailManW cHandle, const wchar_t *bSmtp, const wchar_t *sshLogin);
+CK_VISIBLE_PUBLIC BOOL CkMailManW_SshCloseTunnel(HCkMailManW cHandle);
+CK_VISIBLE_PUBLIC BOOL CkMailManW_SshOpenTunnel(HCkMailManW cHandle, const wchar_t *sshHostname, int sshPort);
 CK_VISIBLE_PUBLIC HCkEmailBundleW CkMailManW_TransferMail(HCkMailManW cHandle);
 CK_VISIBLE_PUBLIC HCkStringArrayW CkMailManW_TransferMultipleMime(HCkMailManW cHandle, HCkStringArrayW uidlArray);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_UnlockComponent(HCkMailManW cHandle, const wchar_t *code);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_UseCertVault(HCkMailManW cHandle, HCkXmlCertVaultW vault);
+CK_VISIBLE_PUBLIC BOOL CkMailManW_UseSshTunnel(HCkMailManW cHandle, HCkSocketW tunnel);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_VerifyPopConnection(HCkMailManW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_VerifyPopLogin(HCkMailManW cHandle);
 CK_VISIBLE_PUBLIC BOOL CkMailManW_VerifyRecips(HCkMailManW cHandle, HCkEmailW email, HCkStringArrayW badAddrs);

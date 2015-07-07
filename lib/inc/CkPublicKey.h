@@ -119,10 +119,11 @@ class CK_VISIBLE_PUBLIC CkPublicKey  : public CkMultiByteBase
 	// Loads a public key from an XML file.
 	bool LoadXmlFile(const char *path);
 
-	// Saves the public key to an OpenSSL DER format file.
+	// Saves the public key to an OpenSSL DER format file. (This is PKCS8 format.)
 	bool SaveOpenSslDerFile(const char *path);
 
-	// Saves the public key to an OpenSSL PEM format file.
+	// Saves the public key to an OpenSSL PEM format file. This is PKCS8 format where
+	// the PEM header contains "BEGIN PUBLIC KEY".
 	bool SaveOpenSslPemFile(const char *path);
 
 	// Saves the public key to an RSA DER format file.

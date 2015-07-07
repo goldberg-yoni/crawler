@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkSFtpFile_H
 #define _C_CkSFtpFile_H
 #include "chilkatDefs.h"
@@ -45,6 +45,8 @@ CK_VISIBLE_PUBLIC __int64 CkSFtpFile_getSize64(HCkSFtpFile cHandle);
 CK_VISIBLE_PUBLIC void CkSFtpFile_getSizeStr(HCkSFtpFile cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkSFtpFile_sizeStr(HCkSFtpFile cHandle);
 CK_VISIBLE_PUBLIC int CkSFtpFile_getUid(HCkSFtpFile cHandle);
+CK_VISIBLE_PUBLIC BOOL CkSFtpFile_getUtf8(HCkSFtpFile cHandle);
+CK_VISIBLE_PUBLIC void CkSFtpFile_putUtf8(HCkSFtpFile cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC HCkDateTime CkSFtpFile_GetCreateDt(HCkSFtpFile cHandle);
 CK_VISIBLE_PUBLIC HCkDateTime CkSFtpFile_GetLastAccessDt(HCkSFtpFile cHandle);
 CK_VISIBLE_PUBLIC HCkDateTime CkSFtpFile_GetLastModifiedDt(HCkSFtpFile cHandle);

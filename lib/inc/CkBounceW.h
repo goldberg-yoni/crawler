@@ -84,6 +84,7 @@ class CK_VISIBLE_PUBLIC CkBounceW  : public CkWideCharBase
 	// verified email addresses are accepted.
 	// 13. Address Change Notification Messages.
 	// 14. Success DSN indicating that the message was successfully relayed.
+	// 15. Abuse/fraud feedback report.
 	int get_BounceType(void);
 
 

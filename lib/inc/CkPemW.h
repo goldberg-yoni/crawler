@@ -150,6 +150,9 @@ class CK_VISIBLE_PUBLIC CkPemW  : public CkWideCharBase
 	// this PEM object. The default is false.
 	void put_AppendMode(bool newVal);
 
+	// The number of certificate signing requests (CSRs) in the loaded PEM.
+	int get_NumCsrs(void);
+
 
 
 	// ----------------------
@@ -370,6 +373,34 @@ class CK_VISIBLE_PUBLIC CkPemW  : public CkWideCharBase
 
 	// Removes all content from this PEM object.
 	bool Clear(void);
+
+	// Returns the encoded contents of the Nth item of a particular type (0-based
+	// ARG4). The possible values for ARG1 are "certificate" (or "cert"), "privateKey",
+	// "publicKey", or "csr". Input string args are case-insensitive. If the ARG1 is
+	// "privateKey", the ARG2 may be "der" or "pkcs8". If the ARG1 is "publicKey", the
+	// ARG2 may be "der" or "pkcs1". The ARG2 is ignored for other values of ARG1. The
+	// valid ARG3 modes are "Base64", "modBase64", "Base32", "Base58", "QP" (for
+	// quoted-printable), "URL" (for url-encoding), "Hex", "url_oauth", "url_rfc1738",
+	// "url_rfc2396", and "url_rfc3986".
+	bool GetEncodedItem(const wchar_t *itemType, const wchar_t *itemSubType, const wchar_t *encoding, int index, CkString &outStr);
+	// Returns the encoded contents of the Nth item of a particular type (0-based
+	// ARG4). The possible values for ARG1 are "certificate" (or "cert"), "privateKey",
+	// "publicKey", or "csr". Input string args are case-insensitive. If the ARG1 is
+	// "privateKey", the ARG2 may be "der" or "pkcs8". If the ARG1 is "publicKey", the
+	// ARG2 may be "der" or "pkcs1". The ARG2 is ignored for other values of ARG1. The
+	// valid ARG3 modes are "Base64", "modBase64", "Base32", "Base58", "QP" (for
+	// quoted-printable), "URL" (for url-encoding), "Hex", "url_oauth", "url_rfc1738",
+	// "url_rfc2396", and "url_rfc3986".
+	const wchar_t *getEncodedItem(const wchar_t *itemType, const wchar_t *itemSubType, const wchar_t *encoding, int index);
+	// Returns the encoded contents of the Nth item of a particular type (0-based
+	// ARG4). The possible values for ARG1 are "certificate" (or "cert"), "privateKey",
+	// "publicKey", or "csr". Input string args are case-insensitive. If the ARG1 is
+	// "privateKey", the ARG2 may be "der" or "pkcs8". If the ARG1 is "publicKey", the
+	// ARG2 may be "der" or "pkcs1". The ARG2 is ignored for other values of ARG1. The
+	// valid ARG3 modes are "Base64", "modBase64", "Base32", "Base58", "QP" (for
+	// quoted-printable), "URL" (for url-encoding), "Hex", "url_oauth", "url_rfc1738",
+	// "url_rfc2396", and "url_rfc3986".
+	const wchar_t *encodedItem(const wchar_t *itemType, const wchar_t *itemSubType, const wchar_t *encoding, int index);
 
 
 

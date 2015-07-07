@@ -81,7 +81,7 @@ typedef uint32_t ckUInt32;
     #define CK_VISIBLE_PUBLIC
     #define CK_VISIBLE_PRIVATE
 #else
-  #if __GNUC__ >= 4
+  #if __GNUC__ >= 3
     #define CK_VISIBLE_PUBLIC __attribute__ ((visibility ("default")))
     #define CK_VISIBLE_PRIVATE  __attribute__ ((visibility ("hidden")))
   #else

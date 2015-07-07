@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkAsn_H
 #define _C_CkAsn_H
 #include "chilkatDefs.h"
@@ -37,12 +37,18 @@ CK_VISIBLE_PUBLIC const char *CkAsn_version(HCkAsn cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendBigInt(HCkAsn cHandle, const char *encodedBytes, const char *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendBits(HCkAsn cHandle, const char *encodedBytes, const char *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendBool(HCkAsn cHandle, BOOL value);
+CK_VISIBLE_PUBLIC BOOL CkAsn_AppendContextConstructed(HCkAsn cHandle, int tag);
+CK_VISIBLE_PUBLIC BOOL CkAsn_AppendContextPrimitive(HCkAsn cHandle, int tag, const char *encodedBytes, const char *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendInt(HCkAsn cHandle, int value);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendNull(HCkAsn cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendOctets(HCkAsn cHandle, const char *encodedBytes, const char *encoding);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendOid(HCkAsn cHandle, const char *oid);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendSequence(HCkAsn cHandle);
+CK_VISIBLE_PUBLIC BOOL CkAsn_AppendSequence2(HCkAsn cHandle);
+CK_VISIBLE_PUBLIC HCkAsn CkAsn_AppendSequenceR(HCkAsn cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendSet(HCkAsn cHandle);
+CK_VISIBLE_PUBLIC BOOL CkAsn_AppendSet2(HCkAsn cHandle);
+CK_VISIBLE_PUBLIC HCkAsn CkAsn_AppendSetR(HCkAsn cHandle);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendString(HCkAsn cHandle, const char *strType, const char *value);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AppendTime(HCkAsn cHandle, const char *timeFormat, const char *dateTimeStr);
 CK_VISIBLE_PUBLIC BOOL CkAsn_AsnToXml(HCkAsn cHandle, HCkString outStr);

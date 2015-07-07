@@ -332,6 +332,9 @@ class CkDateTimeW  : public CkWideCharBase
 	// 
 	void SetFromUnixTime(bool bLocal, time_t t);
 
+
+	void SetFromNtpTime(int t);
+
 	// The same as SetFromUnixTime, except that it uses a 64-bit integer to solve the
 	// Y2038 problem. (See GetAsUnixTime for more information about Y2038).
 	// 
@@ -345,7 +348,6 @@ class CkDateTimeW  : public CkWideCharBase
 	// bLocal indicates whether the passed in date/time is local or UTC.
 	// 
 	void SetFromUnixTimeDbl(bool bLocal, double t);
-
 
 	CkDtObjW *GetDtObj(bool bLocal);
 	bool SetFromDtObj(CkDtObjW &dtObj);

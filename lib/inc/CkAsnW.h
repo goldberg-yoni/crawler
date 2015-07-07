@@ -52,6 +52,34 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 	// ----------------------
 	// Properties
 	// ----------------------
+	// The ASN.1 item's boolean value if it is a boolean item.
+	bool get_BoolValue(void);
+	// The ASN.1 item's boolean value if it is a boolean item.
+	void put_BoolValue(bool newVal);
+
+	// true if this ASN.1 item is a constructed item. Sequence and Set items are
+	// constructed and can contain sub-items. All other tags (boolean, integer, octets,
+	// utf8String, etc.) are primitive (non-constructed).
+	bool get_Constructed(void);
+
+	// The ASN.1 item's content if it is an ASN.1 string type (such as Utf8String,
+	// BmpString, PrintableString, VisibleString, T61String, IA5String, NumericString,
+	// or UniversalString).
+	void get_ContentStr(CkString &str);
+	// The ASN.1 item's content if it is an ASN.1 string type (such as Utf8String,
+	// BmpString, PrintableString, VisibleString, T61String, IA5String, NumericString,
+	// or UniversalString).
+	const wchar_t *contentStr(void);
+	// The ASN.1 item's content if it is an ASN.1 string type (such as Utf8String,
+	// BmpString, PrintableString, VisibleString, T61String, IA5String, NumericString,
+	// or UniversalString).
+	void put_ContentStr(const wchar_t *newVal);
+
+	// The ASN.1 item's integer value if it is a small integer item.
+	int get_IntValue(void);
+	// The ASN.1 item's integer value if it is a small integer item.
+	void put_IntValue(int newVal);
+
 	// The number of sub-items contained within this ASN.1 item. Only constructed
 	// items, such as Sequence and Set will contain sub-iitems. Primitive items such as
 	// OIDs, octet strings, integers, etc. will never contain sub-items.
@@ -114,86 +142,11 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 	// bmpString (30)
 	int get_TagValue(void);
 
-	// true if this ASN.1 item is a constructed item. Sequence and Set items are
-	// constructed and can contain sub-items. All other tags (boolean, integer, octets,
-	// utf8String, etc.) are primitive (non-constructed).
-	bool get_Constructed(void);
-
-	// The ASN.1 item's content if it is an ASN.1 string type (such as Utf8String,
-	// BmpString, PrintableString, VisibleString, T61String, IA5String, NumericString,
-	// or UniversalString).
-	void get_ContentStr(CkString &str);
-	// The ASN.1 item's content if it is an ASN.1 string type (such as Utf8String,
-	// BmpString, PrintableString, VisibleString, T61String, IA5String, NumericString,
-	// or UniversalString).
-	const wchar_t *contentStr(void);
-	// The ASN.1 item's content if it is an ASN.1 string type (such as Utf8String,
-	// BmpString, PrintableString, VisibleString, T61String, IA5String, NumericString,
-	// or UniversalString).
-	void put_ContentStr(const wchar_t *newVal);
-
-	// The ASN.1 item's boolean value if it is a boolean item.
-	bool get_BoolValue(void);
-	// The ASN.1 item's boolean value if it is a boolean item.
-	void put_BoolValue(bool newVal);
-
-	// The ASN.1 item's integer value if it is a small integer item.
-	int get_IntValue(void);
-	// The ASN.1 item's integer value if it is a small integer item.
-	void put_IntValue(int newVal);
-
 
 
 	// ----------------------
 	// Methods
 	// ----------------------
-	// Converts ASN.1 to XML and returns the XML string.
-	bool AsnToXml(CkString &outStr);
-	// Converts ASN.1 to XML and returns the XML string.
-	const wchar_t *asnToXml(void);
-
-	// Loads ASN.1 from an encoded string. The ARG2 can be "base64", "hex", "uu",
-	// "quoted-printable", "base32", or "modbase64".
-	bool LoadEncoded(const wchar_t *asnContent, const wchar_t *encoding);
-
-	// Loads ASN.1 from the XML representation (such as that created by the AsnToXml
-	// method).
-	bool LoadAsnXml(const wchar_t *xmlStr);
-
-	// Returns the binary DER in encoded string form. The ARG1 indicates the encoding
-	// and can be "base64", "hex", "uu", "quoted-printable", "base32", or "modbase64".
-	bool GetEncodedDer(const wchar_t *encoding, CkString &outStr);
-	// Returns the binary DER in encoded string form. The ARG1 indicates the encoding
-	// and can be "base64", "hex", "uu", "quoted-printable", "base32", or "modbase64".
-	const wchar_t *getEncodedDer(const wchar_t *encoding);
-	// Returns the binary DER in encoded string form. The ARG1 indicates the encoding
-	// and can be "base64", "hex", "uu", "quoted-printable", "base32", or "modbase64".
-	const wchar_t *encodedDer(const wchar_t *encoding);
-
-	// Returns the ASN.1 in binary DER form.
-	bool GetBinaryDer(CkByteData &outBytes);
-
-	// Loads ASN.1 from binary DER.
-	bool LoadBinary(const CkByteData &derBytes);
-
-	// Loads ASN.1 from a binary DER file.
-	bool LoadBinaryFile(const wchar_t *path);
-
-	// Writes the ASN.1 in binary DER form to a file.
-	bool WriteBinaryDer(const wchar_t *path);
-
-	// Appends an ASN.1 null item to the caller's sub-items. Items may only be appended
-	// to constructed data types such as Sequence and Set.
-	bool AppendNull(void);
-
-	// Appends an ASN.1 boolean item to the caller's sub-items. Items may only be
-	// appended to constructed data types such as Sequence and Set.
-	bool AppendBool(bool value);
-
-	// Appends an ASN.1 integer item to the caller's sub-items. Items may only be
-	// appended to constructed data types such as Sequence and Set.
-	bool AppendInt(int value);
-
 	// Appends an ASN.1 integer, but one that is a big (huge) integer that is too large
 	// to be represented by an integer variable. The bytes composing the integer are
 	// passed in encoded string format (such as base64, hex, etc.). The byte order must
@@ -204,22 +157,6 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 	// "base64" are treated the same).
 	bool AppendBigInt(const wchar_t *encodedBytes, const wchar_t *encoding);
 
-	// Appends a UTCTime item to the caller's sub-items. The ARG1 specifies the format
-	// of the ARG2. It should be set to "utc". (In the future, this method will be
-	// expanded to append GeneralizedTime items by using "generalized" for ARG1.) To
-	// append the current date/time, set ARG2 equal to the empty string or the keyword
-	// "now". Otherwise, the ARG2 should be in the UTC time format "YYMMDDhhmm[ss]Z" or
-	// "YYMMDDhhmm[ss](+|-)hhmm".
-	bool AppendTime(const wchar_t *timeFormat, const wchar_t *dateTimeStr);
-
-	// Appends a string item to the caller's sub-items. The ARG1 specifies the type of
-	// string to be added. It may be "utf8", "ia5", "t61", "printable", "visible",
-	// "numeric", "universal", or "bmp". The ARG2 must conform to the ASN.1
-	// restrictions imposed for a given string type. The "utf8", "bmp", and "universal"
-	// types have no restrictions on what characters are allowed. In general, unless a
-	// specific type of string is required, choose the "utf8" type.
-	bool AppendString(const wchar_t *strType, const wchar_t *value);
-
 	// Appends an ASN.1 bit string to the caller's sub-items. The bytes containing the
 	// bits are passed in encoded string format (such as base64, hex, etc.). The byte
 	// order must be big-endian (MSB first). The ARG2 may be any of the following
@@ -228,6 +165,18 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 	// "url_rfc1738", "url_rfc2396", and "url_rfc3986". The ARG2 name is case
 	// insensitive (for example, both "Base64" and "base64" are treated the same).
 	bool AppendBits(const wchar_t *encodedBytes, const wchar_t *encoding);
+
+	// Appends an ASN.1 boolean item to the caller's sub-items. Items may only be
+	// appended to constructed data types such as Sequence and Set.
+	bool AppendBool(bool value);
+
+	// Appends an ASN.1 integer item to the caller's sub-items. Items may only be
+	// appended to constructed data types such as Sequence and Set.
+	bool AppendInt(int value);
+
+	// Appends an ASN.1 null item to the caller's sub-items. Items may only be appended
+	// to constructed data types such as Sequence and Set.
+	bool AppendNull(void);
 
 	// Appends an ASN.1 octet string to the caller's sub-items. The bytes are passed in
 	// encoded string format (such as base64, hex, etc.). The ARG2 may be any of the
@@ -246,6 +195,33 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 
 	// Appends an ASN.1 set item to the caller's sub-items.
 	bool AppendSet(void);
+
+	// Appends a string item to the caller's sub-items. The ARG1 specifies the type of
+	// string to be added. It may be "utf8", "ia5", "t61", "printable", "visible",
+	// "numeric", "universal", or "bmp". The ARG2 must conform to the ASN.1
+	// restrictions imposed for a given string type. The "utf8", "bmp", and "universal"
+	// types have no restrictions on what characters are allowed. In general, unless a
+	// specific type of string is required, choose the "utf8" type.
+	bool AppendString(const wchar_t *strType, const wchar_t *value);
+
+	// Appends a UTCTime item to the caller's sub-items. The ARG1 specifies the format
+	// of the ARG2. It should be set to "utc". (In the future, this method will be
+	// expanded to append GeneralizedTime items by using "generalized" for ARG1.) To
+	// append the current date/time, set ARG2 equal to the empty string or the keyword
+	// "now". Otherwise, the ARG2 should be in the UTC time format "YYMMDDhhmm[ss]Z" or
+	// "YYMMDDhhmm[ss](+|-)hhmm".
+	bool AppendTime(const wchar_t *timeFormat, const wchar_t *dateTimeStr);
+
+	// Converts ASN.1 to XML and returns the XML string.
+	bool AsnToXml(CkString &outStr);
+	// Converts ASN.1 to XML and returns the XML string.
+	const wchar_t *asnToXml(void);
+
+	// Discards the Nth sub-item. (The 1st sub-item is at index 0.)
+	bool DeleteSubItem(int index);
+
+	// Returns the ASN.1 in binary DER form.
+	bool GetBinaryDer(CkByteData &outBytes);
 
 	// Returns the content of the ASN.1 item in encoded string form. The ARG1 may be
 	// any of the following encodings: "Base64", "Hex", "Base58", "modBase64",
@@ -266,24 +242,77 @@ class CK_VISIBLE_PUBLIC CkAsnW  : public CkWideCharBase
 	// case insensitive (for example, both "Base64" and "base64" are treated the same).
 	const wchar_t *encodedContent(const wchar_t *encoding);
 
-	// Sets the content of the ASN.1. The ARG2 may be any of the following encodings:
-	// "Base64", "Hex", "Base58", "modBase64", "Base32", "UU", "QP" (for
-	// quoted-printable), "URL" (for url-encoding), "Q", "B", "url_oath",
-	// "url_rfc1738", "url_rfc2396", and "url_rfc3986". The ARG2 name is case
-	// insensitive (for example, both "Base64" and "base64" are treated the same).
-	bool SetEncodedContent(const wchar_t *encodedBytes, const wchar_t *encoding);
-
-	// Returns the Nth ASN.1 sub-item. The 1st sub-item is at index 0.
-	// The caller is responsible for deleting the object returned by this method.
-	CkAsnW *GetSubItem(int index);
+	// Returns the binary DER in encoded string form. The ARG1 indicates the encoding
+	// and can be "base64", "hex", "uu", "quoted-printable", "base32", or "modbase64".
+	bool GetEncodedDer(const wchar_t *encoding, CkString &outStr);
+	// Returns the binary DER in encoded string form. The ARG1 indicates the encoding
+	// and can be "base64", "hex", "uu", "quoted-printable", "base32", or "modbase64".
+	const wchar_t *getEncodedDer(const wchar_t *encoding);
+	// Returns the binary DER in encoded string form. The ARG1 indicates the encoding
+	// and can be "base64", "hex", "uu", "quoted-printable", "base32", or "modbase64".
+	const wchar_t *encodedDer(const wchar_t *encoding);
 
 	// Returns the last ASN.1 sub-item. This method can be called immediately after any
 	// Append* method to access the appended item.
 	// The caller is responsible for deleting the object returned by this method.
 	CkAsnW *GetLastSubItem(void);
 
-	// Discards the Nth sub-item. (The 1st sub-item is at index 0.)
-	bool DeleteSubItem(int index);
+	// Returns the Nth ASN.1 sub-item. The 1st sub-item is at index 0.
+	// The caller is responsible for deleting the object returned by this method.
+	CkAsnW *GetSubItem(int index);
+
+	// Loads ASN.1 from the XML representation (such as that created by the AsnToXml
+	// method).
+	bool LoadAsnXml(const wchar_t *xmlStr);
+
+	// Loads ASN.1 from binary DER.
+	bool LoadBinary(const CkByteData &derBytes);
+
+	// Loads ASN.1 from a binary DER file.
+	bool LoadBinaryFile(const wchar_t *path);
+
+	// Loads ASN.1 from an encoded string. The ARG2 can be "base64", "hex", "uu",
+	// "quoted-printable", "base32", or "modbase64".
+	bool LoadEncoded(const wchar_t *asnContent, const wchar_t *encoding);
+
+	// Sets the content of this primitive ASN.1 item. The ARG2 may be any of the
+	// following encodings: "Base64", "Hex", "Base58", "modBase64", "Base32", "UU",
+	// "QP" (for quoted-printable), "URL" (for url-encoding), "Q", "B", "url_oath",
+	// "url_rfc1738", "url_rfc2396", and "url_rfc3986". The ARG2 name is case
+	// insensitive (for example, both "Base64" and "base64" are treated the same).
+	bool SetEncodedContent(const wchar_t *encodedBytes, const wchar_t *encoding);
+
+	// Writes the ASN.1 in binary DER form to a file.
+	bool WriteBinaryDer(const wchar_t *path);
+
+	// Appends an ASN.1 context-specific constructed item to the caller's sub-items.
+	bool AppendContextConstructed(int tag);
+
+	// Appends an ASN.1 context-specific primitive item to the caller's sub-items. The
+	// bytes are passed in encoded string format (such as base64, hex, etc.). The ARG3
+	// may be any of the following encodings: "Base64", "Hex", "Base58", "modBase64",
+	// "Base32", "UU", "QP" (for quoted-printable), "URL" (for url-encoding), "Q", "B",
+	// "url_oath", "url_rfc1738", "url_rfc2396", and "url_rfc3986". The ARG3 name is
+	// case insensitive (for example, both "Base64" and "base64" are treated the same).
+	bool AppendContextPrimitive(int tag, const wchar_t *encodedBytes, const wchar_t *encoding);
+
+	// Appends an ASN.1 sequence item to the caller's sub-items, and updates the
+	// internal reference to point to the newly appended sequence item.
+	bool AppendSequence2(void);
+
+	// Appends an ASN.1 set item to the caller's sub-items, and updates the internal
+	// reference to point to the newly appended set item.
+	bool AppendSet2(void);
+
+	// Appends an ASN.1 sequence item to the caller's sub-items, and returns the newly
+	// appended sequence item.
+	// The caller is responsible for deleting the object returned by this method.
+	CkAsnW *AppendSequenceR(void);
+
+	// Appends an ASN.1 set item to the caller's sub-items, and returns the newly
+	// appended set item.
+	// The caller is responsible for deleting the object returned by this method.
+	CkAsnW *AppendSetR(void);
 
 
 

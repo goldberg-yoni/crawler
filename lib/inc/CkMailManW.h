@@ -21,6 +21,7 @@ class CkCspW;
 class CkPrivateKeyW;
 class CkSshKeyW;
 class CkXmlCertVaultW;
+class CkSocketW;
 class CkMailManProgressW;
 
 
@@ -162,6 +163,43 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// SMTP connection.
 	// 
 	void put_AutoSmtpRset(bool newVal);
+
+	// If true, then digitally signed and/or encrypted email when downloaded from a
+	// mail server is automatically "unwrapped" and the results of the signature
+	// validation and decryption are available in various email object properties and
+	// methods. The default value of this property is true. Set this property to
+	// false to prevent unwrapping.
+	// 
+	// Note: A digitally signed or encrypted email can ONLY be verified and/or
+	// decrypted when initially loading the original MIME into the email object (i.e.
+	// when downloading from the server, or when loading from MIME). Once the MIME is
+	// parsed and stored in the internal email object format, the exactnes of the MIME
+	// has been lost and the signature can no longer be verified. This is why the
+	// signature is verified upon the intial loading of the MIME, and the results are
+	// made available through the various properties and methods. This property
+	// provides a means for downloading email where the .p7m (or .p7s) attachments are
+	// are to be treated as simple attachments and the desire is to access or save the
+	// original .p7m/.p7s files.
+	// 
+	bool get_AutoUnwrapSecurity(void);
+	// If true, then digitally signed and/or encrypted email when downloaded from a
+	// mail server is automatically "unwrapped" and the results of the signature
+	// validation and decryption are available in various email object properties and
+	// methods. The default value of this property is true. Set this property to
+	// false to prevent unwrapping.
+	// 
+	// Note: A digitally signed or encrypted email can ONLY be verified and/or
+	// decrypted when initially loading the original MIME into the email object (i.e.
+	// when downloading from the server, or when loading from MIME). Once the MIME is
+	// parsed and stored in the internal email object format, the exactnes of the MIME
+	// has been lost and the signature can no longer be verified. This is why the
+	// signature is verified upon the intial loading of the MIME, and the results are
+	// made available through the various properties and methods. This property
+	// provides a means for downloading email where the .p7m (or .p7s) attachments are
+	// are to be treated as simple attachments and the desire is to access or save the
+	// original .p7m/.p7s files.
+	// 
+	void put_AutoUnwrapSecurity(bool newVal);
 
 	// The IP address to use for computers with multiple network interfaces or IP
 	// addresses. For computers with a single network interface (i.e. most computers),
@@ -427,6 +465,20 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Note: This property only applies if the EmbedCertChain property is also true.
 	void put_IncludeRootCert(bool newVal);
 
+	// Returns true if still connected to the POP3 server. Otherwise returns false.
+	// 
+	// Note: Accessing this property does not trigger any communication with the POP3
+	// server. A connection to the POP3 server is established by explicitly calling
+	// Pop3BeginSession, or it is implicitly established as needed by any method that
+	// requires communication. A lost connection might only be detected when attempting
+	// to communicate with the server. To truly determine if a connection to the POP3
+	// server is open and valid, it may be necessary to call the Pop3Noop method
+	// instead. This property might return true if the server has disconnected, but
+	// the client has not attempted to communicate with the server since the
+	// disconnect.
+	// 
+	bool get_IsPop3Connected(void);
+
 	// Returns true if still connected to the SMTP server. Otherwise returns false
 	// (if there was never a connection in the first place, or if the connection was
 	// lost).
@@ -499,35 +551,6 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// to 995, which is the standard SSL/TLS port for POP3.)
 	void put_MailPort(int newVal);
 
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	int get_PercentDoneScale(void);
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	void put_PercentDoneScale(int newVal);
-
 	// Limits the number of messages the MailMan will try to retrieve from the POP3
 	// server in a single method call. If you are trying to read a large mailbox, you
 	// might set this to a value such as 100 to download 100 emails at a time.
@@ -589,6 +612,35 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// sending a signed email with a detached PKCS7 signature. The default value is
 	// "smime.p7s".
 	void put_P7sSigAttachFilename(const wchar_t *newVal);
+
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	int get_PercentDoneScale(void);
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	void put_PercentDoneScale(int newVal);
 
 	// Controls whether SPA authentication for POP3 is used or not. To use SPA
 	// authentication, set this propoerty = true. No other programming changes are
@@ -794,6 +846,75 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// to one of the following values: "NONE", "LOGIN", "PLAIN", "CRAM-MD5", or "NTLM".
 	void put_SmtpAuthMethod(const wchar_t *newVal);
 
+	// A keyword that indicates the cause of failure (or success) for the last SMTP
+	// related method called. Possible values are:
+	//     Success The method call was successful.
+	//     Failed A general failure not covered by any of the other possible keywords.
+	//     NoValidRecipients The SMTP server rejected all receipients.
+	//     NoRecipients The app failed to provide any recipients (TO, CC, or BCC).
+	//     SomeBadRecipients The AllOrNone property is true, and some recipients were
+	//     rejected by the SMTP server.
+	//     Aborted The application aborted the method.
+	//     NoFrom The failed to provide a FROM address.
+	//     FromFailure The SMTP replied with an error in response to the "MAIL FROM"
+	//     command.
+	//     NoCredentials The application did not provide the required credentials, such
+	//     as username or password.
+	//     AuthFailure The login (authentication) failed.
+	//     DataFailure The SMTP replied with an error in response to the "DATA"
+	//     command.
+	//     NoSmtpHostname The application failed to provide an SMTP hostname or IP
+	//     address.
+	//     StartTlsFailed Failed to convert the TCP connection to TLS via STARTTLS.
+	//     ConnectFailed Unable to establish a TCP or TLS connection to the SMTP
+	//     server.
+	//     GreetingError The SMTP server immediately responded with an error status in
+	//     the intial greeting.
+	//     ConnectionLost The connection to the SMTP server was lost at some point
+	//     during the method call.
+	//     Timeout A timeout occurred when reading or writing the socket connection.
+	//     RenderFailed A failure occurred when rendering the email. (Rendering the
+	//     email for sending includes tasks such as signing or encrypting.)
+	//     NotUnlocked The UnlockComponent method was not previously called on at least
+	//     one instance of the mailman object.
+	//     InternalFailure An internal failure that should be reported to Chilkat
+	//     support.
+	void get_SmtpFailReason(CkString &str);
+	// A keyword that indicates the cause of failure (or success) for the last SMTP
+	// related method called. Possible values are:
+	//     Success The method call was successful.
+	//     Failed A general failure not covered by any of the other possible keywords.
+	//     NoValidRecipients The SMTP server rejected all receipients.
+	//     NoRecipients The app failed to provide any recipients (TO, CC, or BCC).
+	//     SomeBadRecipients The AllOrNone property is true, and some recipients were
+	//     rejected by the SMTP server.
+	//     Aborted The application aborted the method.
+	//     NoFrom The failed to provide a FROM address.
+	//     FromFailure The SMTP replied with an error in response to the "MAIL FROM"
+	//     command.
+	//     NoCredentials The application did not provide the required credentials, such
+	//     as username or password.
+	//     AuthFailure The login (authentication) failed.
+	//     DataFailure The SMTP replied with an error in response to the "DATA"
+	//     command.
+	//     NoSmtpHostname The application failed to provide an SMTP hostname or IP
+	//     address.
+	//     StartTlsFailed Failed to convert the TCP connection to TLS via STARTTLS.
+	//     ConnectFailed Unable to establish a TCP or TLS connection to the SMTP
+	//     server.
+	//     GreetingError The SMTP server immediately responded with an error status in
+	//     the intial greeting.
+	//     ConnectionLost The connection to the SMTP server was lost at some point
+	//     during the method call.
+	//     Timeout A timeout occurred when reading or writing the socket connection.
+	//     RenderFailed A failure occurred when rendering the email. (Rendering the
+	//     email for sending includes tasks such as signing or encrypting.)
+	//     NotUnlocked The UnlockComponent method was not previously called on at least
+	//     one instance of the mailman object.
+	//     InternalFailure An internal failure that should be reported to Chilkat
+	//     support.
+	const wchar_t *smtpFailReason(void);
+
 	// The domain name of the SMTP server. Do not include "http://" in the domain name.
 	// This property may also be set to an IP address string, such as "168.144.70.227".
 	// Both IPv4 and IPv6 address formats are supported.
@@ -856,6 +977,15 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// authentication.
 	// 
 	void put_SmtpPassword(const wchar_t *newVal);
+
+	// Controls whether SMTP pipelining is automatically used when the SMTP server
+	// indicates support for it. The default is true. Setting this property equal to
+	// false will prevent the SMTP pipelining feature from being used.
+	bool get_SmtpPipelining(void);
+	// Controls whether SMTP pipelining is automatically used when the SMTP server
+	// indicates support for it. The default is true. Setting this property equal to
+	// false will prevent the SMTP pipelining feature from being used.
+	void put_SmtpPipelining(bool newVal);
 
 	// The port number of the SMTP server used to send email. Only needs to be set if
 	// the SMTP server is running on a non-standard port. The default value is 25. If
@@ -1045,6 +1175,52 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 
 	void put_SocksVersion(int newVal);
 
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void get_SslAllowedCiphers(CkString &str);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	const wchar_t *sslAllowedCiphers(void);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void put_SslAllowedCiphers(const wchar_t *newVal);
+
 	// Selects the secure protocol to be used for secure (SSL/TLS) connections (for
 	// both SMTP and POP3). Possible values are:
 	// 
@@ -1112,187 +1288,16 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// The default value is false.
 	void put_StartTLS(bool newVal);
 
-	// If true, will automatically use APOP authentication if the POP3 server
-	// supports it. The default value of this property is false.
-	bool get_UseApop(void);
-	// If true, will automatically use APOP authentication if the POP3 server
-	// supports it. The default value of this property is false.
-	void put_UseApop(bool newVal);
-
-	// A keyword that indicates the cause of failure (or success) for the last SMTP
-	// related method called. Possible values are:
-	//     Success The method call was successful.
-	//     Failed A general failure not covered by any of the other possible keywords.
-	//     NoValidRecipients The SMTP server rejected all receipients.
-	//     NoRecipients The app failed to provide any recipients (TO, CC, or BCC).
-	//     SomeBadRecipients The AllOrNone property is true, and some recipients were
-	//     rejected by the SMTP server.
-	//     Aborted The application aborted the method.
-	//     NoFrom The failed to provide a FROM address.
-	//     FromFailure The SMTP replied with an error in response to the "MAIL FROM"
-	//     command.
-	//     NoCredentials The application did not provide the required credentials, such
-	//     as username or password.
-	//     AuthFailure The login (authentication) failed.
-	//     DataFailure The SMTP replied with an error in response to the "DATA"
-	//     command.
-	//     NoSmtpHostname The application failed to provide an SMTP hostname or IP
-	//     address.
-	//     StartTlsFailed Failed to convert the TCP connection to TLS via STARTTLS.
-	//     ConnectFailed Unable to establish a TCP or TLS connection to the SMTP
-	//     server.
-	//     GreetingError The SMTP server immediately responded with an error status in
-	//     the intial greeting.
-	//     ConnectionLost The connection to the SMTP server was lost at some point
-	//     during the method call.
-	//     Timeout A timeout occurred when reading or writing the socket connection.
-	//     RenderFailed A failure occurred when rendering the email. (Rendering the
-	//     email for sending includes tasks such as signing or encrypting.)
-	//     NotUnlocked The UnlockComponent method was not previously called on at least
-	//     one instance of the mailman object.
-	//     InternalFailure An internal failure that should be reported to Chilkat
-	//     support.
-	void get_SmtpFailReason(CkString &str);
-	// A keyword that indicates the cause of failure (or success) for the last SMTP
-	// related method called. Possible values are:
-	//     Success The method call was successful.
-	//     Failed A general failure not covered by any of the other possible keywords.
-	//     NoValidRecipients The SMTP server rejected all receipients.
-	//     NoRecipients The app failed to provide any recipients (TO, CC, or BCC).
-	//     SomeBadRecipients The AllOrNone property is true, and some recipients were
-	//     rejected by the SMTP server.
-	//     Aborted The application aborted the method.
-	//     NoFrom The failed to provide a FROM address.
-	//     FromFailure The SMTP replied with an error in response to the "MAIL FROM"
-	//     command.
-	//     NoCredentials The application did not provide the required credentials, such
-	//     as username or password.
-	//     AuthFailure The login (authentication) failed.
-	//     DataFailure The SMTP replied with an error in response to the "DATA"
-	//     command.
-	//     NoSmtpHostname The application failed to provide an SMTP hostname or IP
-	//     address.
-	//     StartTlsFailed Failed to convert the TCP connection to TLS via STARTTLS.
-	//     ConnectFailed Unable to establish a TCP or TLS connection to the SMTP
-	//     server.
-	//     GreetingError The SMTP server immediately responded with an error status in
-	//     the intial greeting.
-	//     ConnectionLost The connection to the SMTP server was lost at some point
-	//     during the method call.
-	//     Timeout A timeout occurred when reading or writing the socket connection.
-	//     RenderFailed A failure occurred when rendering the email. (Rendering the
-	//     email for sending includes tasks such as signing or encrypting.)
-	//     NotUnlocked The UnlockComponent method was not previously called on at least
-	//     one instance of the mailman object.
-	//     InternalFailure An internal failure that should be reported to Chilkat
-	//     support.
-	const wchar_t *smtpFailReason(void);
-
-	// Returns true if still connected to the POP3 server. Otherwise returns false.
-	// 
-	// Note: Accessing this property does not trigger any communication with the POP3
-	// server. A connection to the POP3 server is established by explicitly calling
-	// Pop3BeginSession, or it is implicitly established as needed by any method that
-	// requires communication. A lost connection might only be detected when attempting
-	// to communicate with the server. To truly determine if a connection to the POP3
-	// server is open and valid, it may be necessary to call the Pop3Noop method
-	// instead. This property might return true if the server has disconnected, but
-	// the client has not attempted to communicate with the server since the
-	// disconnect.
-	// 
-	bool get_IsPop3Connected(void);
-
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void get_SslAllowedCiphers(CkString &str);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	const wchar_t *sslAllowedCiphers(void);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void put_SslAllowedCiphers(const wchar_t *newVal);
-
-	// If true, then digitally signed and/or encrypted email when downloaded from a
-	// mail server is automatically "unwrapped" and the results of the signature
-	// validation and decryption are available in various email object properties and
-	// methods. The default value of this property is true. Set this property to
-	// false to prevent unwrapping.
-	// 
-	// Note: A digitally signed or encrypted email can ONLY be verified and/or
-	// decrypted when initially loading the original MIME into the email object (i.e.
-	// when downloading from the server, or when loading from MIME). Once the MIME is
-	// parsed and stored in the internal email object format, the exactnes of the MIME
-	// has been lost and the signature can no longer be verified. This is why the
-	// signature is verified upon the intial loading of the MIME, and the results are
-	// made available through the various properties and methods. This property
-	// provides a means for downloading email where the .p7m (or .p7s) attachments are
-	// are to be treated as simple attachments and the desire is to access or save the
-	// original .p7m/.p7s files.
-	// 
-	bool get_AutoUnwrapSecurity(void);
-	// If true, then digitally signed and/or encrypted email when downloaded from a
-	// mail server is automatically "unwrapped" and the results of the signature
-	// validation and decryption are available in various email object properties and
-	// methods. The default value of this property is true. Set this property to
-	// false to prevent unwrapping.
-	// 
-	// Note: A digitally signed or encrypted email can ONLY be verified and/or
-	// decrypted when initially loading the original MIME into the email object (i.e.
-	// when downloading from the server, or when loading from MIME). Once the MIME is
-	// parsed and stored in the internal email object format, the exactnes of the MIME
-	// has been lost and the signature can no longer be verified. This is why the
-	// signature is verified upon the intial loading of the MIME, and the results are
-	// made available through the various properties and methods. This property
-	// provides a means for downloading email where the .p7m (or .p7s) attachments are
-	// are to be treated as simple attachments and the desire is to access or save the
-	// original .p7m/.p7s files.
-	// 
-	void put_AutoUnwrapSecurity(bool newVal);
-
-	// Controls whether SMTP pipelining is automatically used when the SMTP server
-	// indicates support for it. The default is true. Setting this property equal to
-	// false will prevent the SMTP pipelining feature from being used.
-	bool get_SmtpPipelining(void);
-	// Controls whether SMTP pipelining is automatically used when the SMTP server
-	// indicates support for it. The default is true. Setting this property equal to
-	// false will prevent the SMTP pipelining feature from being used.
-	void put_SmtpPipelining(bool newVal);
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	void get_TlsCipherSuite(CkString &str);
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	const wchar_t *tlsCipherSuite(void);
 
 	// Contains the current or last negotiated TLS protocol version. If no TLS
 	// connection has yet to be established, or if a connection as attempted and
@@ -1305,16 +1310,12 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 1.1", and "TLS 1.2".
 	const wchar_t *tlsVersion(void);
 
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	void get_TlsCipherSuite(CkString &str);
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	const wchar_t *tlsCipherSuite(void);
+	// If true, will automatically use APOP authentication if the POP3 server
+	// supports it. The default value of this property is false.
+	bool get_UseApop(void);
+	// If true, will automatically use APOP authentication if the POP3 server
+	// supports it. The default value of this property is false.
+	void put_UseApop(bool newVal);
 
 
 
@@ -1965,6 +1966,33 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Allows for a client-side certificate to be used for the SSL / TLS connection.
 	bool SetSslClientCertPfx(const wchar_t *pfxFilename, const wchar_t *pfxPassword);
 
+	// Authenticates with the SMTP server using the property settings such as
+	// SmtpUsername, SmtpPassword, etc. This method should only be called after a
+	// successful call to SmtpConnect.
+	// 
+	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
+	// equivalent of calling SmtpConnect followed by SmtpAuthenticate.
+	// 
+	// Note 2: All methods that communicate with the SMTP server, such as SendEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	bool SmtpAuthenticate(void);
+
+	// Explicitly establishes a connection to the SMTP server, which includes
+	// establishing a secure TLS channel if required, and receives the initial
+	// greeting. This method stop short of authenticating. The SmtpAuthenticate method
+	// should be called after a successful call to this method.
+	// 
+	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
+	// equivalent of calling SmtpConnect followed by SmtpAuthenticate.
+	// 
+	// Note 2: All methods that communicate with the SMTP server, such as SendEmail,
+	// will automatically connect and authenticate if not already connected and
+	// authenticated.
+	// 
+	bool SmtpConnect(void);
+
 	// Sends a no-op to the SMTP server. Calling this method is good for testing to see
 	// if the connection to the SMTP server is working and valid. The SmtpNoop method
 	// will automatically establish the SMTP connection if it does not already exist.
@@ -1997,20 +2025,16 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// 
 	const wchar_t *smtpSendRawCommand(const wchar_t *command, const wchar_t *charset, bool bEncodeBase64);
 
-	// Authenticates with the SSH server using public-key authentication. bSmtp should
-	// be set to true for SMTP SSH tunneling (port forwarding) or false for POP3
-	// SSH tunneling (port forwarding). The corresponding public key must have been
-	// installed on the SSH server for the  sshUsername. Authentication will succeed if the
-	// matching  sshPrivateKey is provided.
+	// Authenticates with the SSH server using public-key authentication. The
+	// corresponding public key must have been installed on the SSH server for the
+	// bSmtp. Authentication will succeed if the matching  sshUsername is provided.
 	// 
 	// Important: When reporting problems, please send the full contents of the
 	// LastErrorText property to support@chilkatsoft.com.
 	// 
-	bool SshAuthenticatePk(bool bSmtp, const wchar_t *sshLogin, CkSshKeyW &privateKey);
+	bool SshAuthenticatePk(const wchar_t *sshLogin, CkSshKeyW &privateKey);
 
-	// Authenticates with the SSH server using a  sshLogin and  sshPassword. bSmtp should be set to
-	// true for SMTP SSH tunneling (port forwarding) or false for POP3 SSH
-	// tunneling (port forwarding).
+	// Authenticates with the SSH server using a bSmtp and  sshLogin.
 	// 
 	// An SSH tunneling (port forwarding) session always begins by first calling
 	// SshTunnel to connect to the SSH server, then calling either AuthenticatePw or
@@ -2024,33 +2048,25 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// Important: When reporting problems, please send the full contents of the
 	// LastErrorText property to support@chilkatsoft.com.
 	// 
-	bool SshAuthenticatePw(bool bSmtp, const wchar_t *sshLogin, const wchar_t *sshPassword);
+	bool SshAuthenticatePw(const wchar_t *sshLogin, const wchar_t *sshPassword);
 
-	// Closes the SSH tunnel for SMTP or POP3. bSmtp should be set to true for SMTP
-	// and false for POP3.
-	bool SshCloseTunnel(bool bSmtp);
+	// Closes the SSH tunnel for SMTP or POP3.
+	bool SshCloseTunnel(void);
 
-	// Connects to an SSH server and creates a tunnel for SMTP or POP3. If bSmtp is
-	// true, then an SSH tunnel is created for SMTP. If bSmtp is false, the SSH
-	// tunnel is created for POP3. The  sshServerHostname is the hostname (or IP address) of the SSH
-	// server. The  sshPort is typically 22, which is the standard SSH port number.
+	// Connects to an SSH server and creates a tunnel for SMTP or POP3. The ARG1 is the
+	// hostname (or IP address) of the SSH server. The ARG2 is typically 22, which is
+	// the standard SSH port number.
 	// 
 	// An SSH tunneling (port forwarding) session always begins by first calling
 	// SshTunnel to connect to the SSH server, followed by calling either
-	// AuthenticatePw or AuthenticatePk to authenticate.
+	// SshAuthenticatePw or SshAuthenticatePk to authenticate.
 	// 
-	// Note: Once the SSH tunnel is setup by calling SshTunnel and SshAuthenticatePw
-	// (or SshAuthenticatePk), all underlying communcations with the SMTP or POP3
-	// server use the SSH tunnel. No changes in programming are required other than
-	// making two initial calls to setup the tunnel.
+	// Note: Once the SSH tunnel is setup by calling SshOpenTunnel and
+	// SshAuthenticatePw (or SshAuthenticatePk), all underlying communcations with the
+	// SMTP or POP3 server use the SSH tunnel. No changes in programming are required
+	// other than making two initial calls to setup the tunnel.
 	// 
-	// Note: Tunnels are setup separately for POP3 and SMTP. The bSmtp indicates whether
-	// the tunnel is for SMTP or POP3.
-	// 
-	// Important: When reporting problems, please send the full contents of the
-	// LastErrorText property to support@chilkatsoft.com.
-	// 
-	bool SshTunnel(bool bSmtp, const wchar_t *sshServerHostname, int sshServerPort);
+	bool SshOpenTunnel(const wchar_t *sshHostname, int sshPort);
 
 	// Downloads and removes all email from a POP3 server. A bundle containing the
 	// emails is returned. A null reference is returned on failure.
@@ -2105,32 +2121,11 @@ class CK_VISIBLE_PUBLIC CkMailManW  : public CkWideCharBase
 	// server. Otherwise returns false.
 	bool VerifySmtpLogin(void);
 
-	// Explicitly establishes a connection to the SMTP server, which includes
-	// establishing a secure TLS channel if required, and receives the initial
-	// greeting. This method stop short of authenticating. The SmtpAuthenticate method
-	// should be called after a successful call to this method.
-	// 
-	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
-	// equivalent of calling SmtpConnect followed by SmtpAuthenticate.
-	// 
-	// Note 2: All methods that communicate with the SMTP server, such as SendEmail,
-	// will automatically connect and authenticate if not already connected and
-	// authenticated.
-	// 
-	bool SmtpConnect(void);
-
-	// Authenticates with the SMTP server using the property settings such as
-	// SmtpUsername, SmtpPassword, etc. This method should only be called after a
-	// successful call to SmtpConnect.
-	// 
-	// Note 1: The OpenSmtpConnection method both connects and authenticates. It is the
-	// equivalent of calling SmtpConnect followed by SmtpAuthenticate.
-	// 
-	// Note 2: All methods that communicate with the SMTP server, such as SendEmail,
-	// will automatically connect and authenticate if not already connected and
-	// authenticated.
-	// 
-	bool SmtpAuthenticate(void);
+	// Uses an existing SSH tunnel. This is useful for sharing an existing SSH tunnel
+	// connection wth other objects. (SSH is a protocol where the tunnel contains many
+	// logical channels. SMTP and POP3 connections can exist simultaneously within a
+	// single SSH tunnel as SSH channels.)
+	bool UseSshTunnel(CkSocketW &tunnel);
 
 
 

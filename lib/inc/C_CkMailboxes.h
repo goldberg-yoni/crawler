@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkMailboxes_H
 #define _C_CkMailboxes_H
 #include "chilkatDefs.h"
@@ -8,6 +8,8 @@
 CK_VISIBLE_PUBLIC HCkMailboxes CkMailboxes_Create(void);
 CK_VISIBLE_PUBLIC void CkMailboxes_Dispose(HCkMailboxes handle);
 CK_VISIBLE_PUBLIC int CkMailboxes_getCount(HCkMailboxes cHandle);
+CK_VISIBLE_PUBLIC BOOL CkMailboxes_getUtf8(HCkMailboxes cHandle);
+CK_VISIBLE_PUBLIC void CkMailboxes_putUtf8(HCkMailboxes cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC BOOL CkMailboxes_GetFlags(HCkMailboxes cHandle, int index, HCkString outStr);
 CK_VISIBLE_PUBLIC const char *CkMailboxes_getFlags(HCkMailboxes cHandle, int index);
 CK_VISIBLE_PUBLIC int CkMailboxes_GetMailboxIndex(HCkMailboxes cHandle, const char *mbxName);

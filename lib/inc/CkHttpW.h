@@ -16,9 +16,10 @@ class CkByteData;
 class CkHttpResponseW;
 class CkCertW;
 class CkHttpRequestW;
+class CkStringArrayW;
 class CkDateTimeW;
 class CkPrivateKeyW;
-class CkStringArrayW;
+class CkHashtableW;
 class CkHttpProgressW;
 
 
@@ -193,6 +194,20 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// versionId, versioning, versions and website.
 	// 
 	void put_AwsSubResources(const wchar_t *newVal);
+
+	// If non-zero, limits (throttles) the download bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	int get_BandwidthThrottleDown(void);
+	// If non-zero, limits (throttles) the download bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	void put_BandwidthThrottleDown(int newVal);
+
+	// If non-zero, limits (throttles) the upload bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	int get_BandwidthThrottleUp(void);
+	// If non-zero, limits (throttles) the upload bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	void put_BandwidthThrottleUp(int newVal);
 
 	// If HTTP basic authentication is needed, this property must be set to true. The
 	// HTTP protocol allows for several different types of authentication schemes, such
@@ -393,10 +408,18 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// If an HTTP GET was redirected (as indicated by the WasRedirected property), this
 	// property will contain the final redirect URL, assuming the FollowRedirects
 	// property is true.
+	// 
+	// Note: Starting in v9.5.0.49, this property will contain the redirect URL for
+	// 301/302 responses even if FollowRedirects is not set to true.
+	// 
 	void get_FinalRedirectUrl(CkString &str);
 	// If an HTTP GET was redirected (as indicated by the WasRedirected property), this
 	// property will contain the final redirect URL, assuming the FollowRedirects
 	// property is true.
+	// 
+	// Note: Starting in v9.5.0.49, this property will contain the redirect URL for
+	// 301/302 responses even if FollowRedirects is not set to true.
+	// 
 	const wchar_t *finalRedirectUrl(void);
 
 	// If true, then 301 and 302 redirects are automatically followed when calling
@@ -1015,6 +1038,35 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// authentication is known in advance.
 	void put_Password(const wchar_t *newVal);
 
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	int get_PercentDoneScale(void);
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	void put_PercentDoneScale(int newVal);
+
 	// If true, then use IPv6 over IPv4 when both are supported for a particular
 	// domain. The default value of this property is false, which will choose IPv4
 	// over IPv6.
@@ -1342,6 +1394,52 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// 
 	void put_SocksVersion(int newVal);
 
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void get_SslAllowedCiphers(CkString &str);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	const wchar_t *sslAllowedCiphers(void);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void put_SslAllowedCiphers(const wchar_t *newVal);
+
 	// Selects the secure protocol to be used for secure (SSL/TLS) connections.
 	// Possible values are:
 	// 
@@ -1399,6 +1497,47 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// exact protocol is negotiated. It is better to choose "X or higher" than an exact
 	// protocol. The "default" is effectively "SSL 3.0 or higher".
 	void put_SslProtocol(const wchar_t *newVal);
+
+	// Allows for the HTTP response body to be streamed directly into a file. If this
+	// property is set, then any method returning an HTTP response object will stream
+	// the response body directly to the file path specified. The HTTP response object
+	// will still contain the response header. (This property is useful when the HTTP
+	// response is too large to fit into memory.)
+	void get_StreamResponseBodyPath(CkString &str);
+	// Allows for the HTTP response body to be streamed directly into a file. If this
+	// property is set, then any method returning an HTTP response object will stream
+	// the response body directly to the file path specified. The HTTP response object
+	// will still contain the response header. (This property is useful when the HTTP
+	// response is too large to fit into memory.)
+	const wchar_t *streamResponseBodyPath(void);
+	// Allows for the HTTP response body to be streamed directly into a file. If this
+	// property is set, then any method returning an HTTP response object will stream
+	// the response body directly to the file path specified. The HTTP response object
+	// will still contain the response header. (This property is useful when the HTTP
+	// response is too large to fit into memory.)
+	void put_StreamResponseBodyPath(const wchar_t *newVal);
+
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	void get_TlsCipherSuite(CkString &str);
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	const wchar_t *tlsCipherSuite(void);
+
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const wchar_t *tlsVersion(void);
 
 	// Controls whether the cache is automatically updated with the responses from HTTP
 	// GET requests.
@@ -1484,136 +1623,6 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// Indicates whether the last HTTP GET was redirected.
 	bool get_WasRedirected(void);
 
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void get_SslAllowedCiphers(CkString &str);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	const wchar_t *sslAllowedCiphers(void);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void put_SslAllowedCiphers(const wchar_t *newVal);
-
-	// Allows for the HTTP response body to be streamed directly into a file. If this
-	// property is set, then any method returning an HTTP response object will stream
-	// the response body directly to the file path specified. The HTTP response object
-	// will still contain the response header. (This property is useful when the HTTP
-	// response is too large to fit into memory.)
-	void get_StreamResponseBodyPath(CkString &str);
-	// Allows for the HTTP response body to be streamed directly into a file. If this
-	// property is set, then any method returning an HTTP response object will stream
-	// the response body directly to the file path specified. The HTTP response object
-	// will still contain the response header. (This property is useful when the HTTP
-	// response is too large to fit into memory.)
-	const wchar_t *streamResponseBodyPath(void);
-	// Allows for the HTTP response body to be streamed directly into a file. If this
-	// property is set, then any method returning an HTTP response object will stream
-	// the response body directly to the file path specified. The HTTP response object
-	// will still contain the response header. (This property is useful when the HTTP
-	// response is too large to fit into memory.)
-	void put_StreamResponseBodyPath(const wchar_t *newVal);
-
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	int get_PercentDoneScale(void);
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	void put_PercentDoneScale(int newVal);
-
-	// If non-zero, limits (throttles) the upload bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	int get_BandwidthThrottleUp(void);
-	// If non-zero, limits (throttles) the upload bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	void put_BandwidthThrottleUp(int newVal);
-
-	// If non-zero, limits (throttles) the download bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	int get_BandwidthThrottleDown(void);
-	// If non-zero, limits (throttles) the download bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	void put_BandwidthThrottleDown(int newVal);
-
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const wchar_t *tlsVersion(void);
-
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	void get_TlsCipherSuite(CkString &str);
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	const wchar_t *tlsCipherSuite(void);
-
 
 
 	// ----------------------
@@ -1636,7 +1645,7 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// 
 	// The RemoveQuickHeader method can be called to remove a custom header.
 	// 
-	// * Note: This method is deprecated. It is identical to theSetRequestHeader
+	// * Note: This method is deprecated. It is identical to the SetRequestHeader
 	// method. The SetRequestHeader method should be called instead because
 	// AddQuickHeader will be removed in a future version.
 	// 
@@ -2087,6 +2096,14 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// Deletes an Amazon S3 bucket.
 	bool S3_DeleteBucket(const wchar_t *bucketName);
 
+	// Deletes multiple objects from a bucket using a single HTTP request. The ARG1
+	// contains the names (also known as "keys") of the objects to be deleted. To
+	// delete a specific version of an object, append a versionId attribute to the
+	// object name. For example: "SampleDocument.txt;
+	// VersionId="OYcLXagmS.WaD..oyH4KRguB95_YhLs7""
+	// The caller is responsible for deleting the object returned by this method.
+	CkHttpResponseW *S3_DeleteMultipleObjects(const wchar_t *bucketName, CkStringArrayW &objectNames);
+
 	// Deletes a remote file (object) on the Amazon S3 service.
 	bool S3_DeleteObject(const wchar_t *bucketName, const wchar_t *objectName);
 
@@ -2257,13 +2274,16 @@ class CK_VISIBLE_PUBLIC CkHttpW  : public CkWideCharBase
 	// Same as XmlRpc, but uses the HTTP PUT method instead of the POST method.
 	const wchar_t *xmlRpcPut(const wchar_t *urlEndpoint, const wchar_t *xmlIn);
 
-	// Deletes multiple objects from a bucket using a single HTTP request. The ARG1
-	// contains the names (also known as "keys") of the objects to be deleted. To
-	// delete a specific version of an object, append a versionId attribute to the
-	// object name. For example: "SampleDocument.txt;
-	// VersionId="OYcLXagmS.WaD..oyH4KRguB95_YhLs7""
-	// The caller is responsible for deleting the object returned by this method.
-	CkHttpResponseW *S3_DeleteMultipleObjects(const wchar_t *bucketName, CkStringArrayW &objectNames);
+	// The same as the G_SvcOauthAccessToken method, but with added flexibility for
+	// more customization. The 1st three args of the G_SvcOauthAccessToken are replaced
+	// with ARG1 allowing for future expansion of name-value params. See the example
+	// below.
+	bool G_SvcOauthAccessToken2(CkHashtableW &params, int numSec, CkCertW &cert, CkString &outStr);
+	// The same as the G_SvcOauthAccessToken method, but with added flexibility for
+	// more customization. The 1st three args of the G_SvcOauthAccessToken are replaced
+	// with ARG1 allowing for future expansion of name-value params. See the example
+	// below.
+	const wchar_t *g_SvcOauthAccessToken2(CkHashtableW &params, int numSec, CkCertW &cert);
 
 
 

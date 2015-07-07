@@ -909,11 +909,15 @@ class CK_VISIBLE_PUBLIC CkEmailW  : public CkWideCharBase
 	// Adds an attachment directly from a string in memory to the email.
 	bool AddStringAttachment(const wchar_t *path, const wchar_t *content);
 
-	// Adds an attachment to an email. The filename argument specifies the filename to
-	// be used for the attachment and is not an actual filename existing on the local
-	// filesystem. The "str" argument contains the text data for the attachment. The
-	// string will be converted to the charset specified in the last argument before
-	// being added to the email.
+	// Adds an attachment to an email. The ARG1 specifies the filename to be used for
+	// the attachment and is not an actual filename existing on the local filesystem.
+	// The ARG2 contains the text data for the attachment. The string will be converted
+	// to the charset specified in ARG3 before being added to the email.
+	// 
+	// Note: Beginning in v9.5.0.48, the ARG3 may be prepended with "bom-" or "no-bom-"
+	// to include or exclude the BOM (preamble) for charsets such as utf-16 or utf-8.
+	// For example: "no-bom-utf-8" or "bom-utf-8".
+	// 
 	bool AddStringAttachment2(const wchar_t *path, const wchar_t *content, const wchar_t *charset);
 
 	// Adds a recipient to the "to" list. address is required, but name may be empty.

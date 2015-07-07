@@ -26,7 +26,7 @@ class CkDtObj;
 
  
 // CLASS: CkDateTime
-class CkDateTime  : public CkMultiByteBase
+class CK_VISIBLE_PUBLIC CkDateTime  : public CkMultiByteBase
 {
     private:
 	// Don't allow assignment or copying these objects.
@@ -70,6 +70,9 @@ class CkDateTime  : public CkMultiByteBase
 	// 32-bit Unix time.
 	time_t GetAsUnixTime(bool bLocal);
 	void SetFromUnixTime(bool bLocal, time_t t);
+
+	// 32-bit NTP time (number of seconds since 00:00 (midnight) 1 January 1900 GMT)
+	void SetFromNtpTime(int t);
 
 	// 64-bit Unix time.
 	__int64 GetAsUnixTime64(bool bLocal);

@@ -253,6 +253,12 @@ class CK_VISIBLE_PUBLIC CkZipEntry  : public CkMultiByteBase
 	// The caller is responsible for deleting the object returned by this method.
 	CkZipEntry *NextEntry(void);
 
+	// Returns the next entry having a filename matching the ARG1. The "*" characters
+	// matches 0 or more of any character. The full filename, including path, is used
+	// when matching against the pattern.
+	// The caller is responsible for deleting the object returned by this method.
+	CkZipEntry *NextMatchingEntry(const char *matchStr);
+
 	// Replaces the zip entry's existing contents with new data.
 	bool ReplaceData(const CkByteData &inData);
 

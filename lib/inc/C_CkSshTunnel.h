@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkSshTunnel_H
 #define _C_CkSshTunnel_H
 #include "chilkatDefs.h"
@@ -7,12 +7,12 @@
 
 CK_VISIBLE_PUBLIC HCkSshTunnel CkSshTunnel_Create(void);
 CK_VISIBLE_PUBLIC void CkSshTunnel_Dispose(HCkSshTunnel handle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getAcceptThreadSessionLogPath(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putAcceptThreadSessionLogPath(HCkSshTunnel cHandle, const char *newVal);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_acceptThreadSessionLogPath(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getConnectLog(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putConnectLog(HCkSshTunnel cHandle, const char *newVal);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_connectLog(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_getAcceptLog(HCkSshTunnel cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putAcceptLog(HCkSshTunnel cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkSshTunnel_acceptLog(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_getAcceptLogPath(HCkSshTunnel cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putAcceptLogPath(HCkSshTunnel cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkSshTunnel_acceptLogPath(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC int CkSshTunnel_getConnectTimeoutMs(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putConnectTimeoutMs(HCkSshTunnel cHandle, int newVal);
 CK_VISIBLE_PUBLIC void CkSshTunnel_getDebugLogFilePath(HCkSshTunnel cHandle, HCkString retval);
@@ -23,6 +23,8 @@ CK_VISIBLE_PUBLIC void CkSshTunnel_putDestHostname(HCkSshTunnel cHandle, const c
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_destHostname(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC int CkSshTunnel_getDestPort(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putDestPort(HCkSshTunnel cHandle, int newVal);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getDynamicPortForwarding(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putDynamicPortForwarding(HCkSshTunnel cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC void CkSshTunnel_getHttpProxyAuthMethod(HCkSshTunnel cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putHttpProxyAuthMethod(HCkSshTunnel cHandle, const char *newVal);
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_httpProxyAuthMethod(HCkSshTunnel cHandle);
@@ -42,9 +44,17 @@ CK_VISIBLE_PUBLIC void CkSshTunnel_putHttpProxyUsername(HCkSshTunnel cHandle, co
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_httpProxyUsername(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC int CkSshTunnel_getIdleTimeoutMs(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putIdleTimeoutMs(HCkSshTunnel cHandle, int newVal);
+CK_VISIBLE_PUBLIC void CkSshTunnel_getInboundSocksPassword(HCkSshTunnel cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putInboundSocksPassword(HCkSshTunnel cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkSshTunnel_inboundSocksPassword(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_getInboundSocksUsername(HCkSshTunnel cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putInboundSocksUsername(HCkSshTunnel cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkSshTunnel_inboundSocksUsername(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getIsAccepting(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getKeepConnectLog(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putKeepConnectLog(HCkSshTunnel cHandle, BOOL newVal);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getKeepAcceptLog(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putKeepAcceptLog(HCkSshTunnel cHandle, BOOL newVal);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getKeepTunnelLog(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putKeepTunnelLog(HCkSshTunnel cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC void CkSshTunnel_getLastErrorHtml(HCkSshTunnel cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_lastErrorHtml(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_getLastErrorText(HCkSshTunnel cHandle, HCkString retval);
@@ -55,8 +65,6 @@ CK_VISIBLE_PUBLIC void CkSshTunnel_getListenBindIpAddress(HCkSshTunnel cHandle, 
 CK_VISIBLE_PUBLIC void CkSshTunnel_putListenBindIpAddress(HCkSshTunnel cHandle, const char *newVal);
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_listenBindIpAddress(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC int CkSshTunnel_getListenPort(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC int CkSshTunnel_getMaxPacketSize(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putMaxPacketSize(HCkSshTunnel cHandle, int newVal);
 CK_VISIBLE_PUBLIC void CkSshTunnel_getOutboundBindIpAddress(HCkSshTunnel cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putOutboundBindIpAddress(HCkSshTunnel cHandle, const char *newVal);
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_outboundBindIpAddress(HCkSshTunnel cHandle);
@@ -79,37 +87,28 @@ CK_VISIBLE_PUBLIC void CkSshTunnel_putSocksUsername(HCkSshTunnel cHandle, const 
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_socksUsername(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC int CkSshTunnel_getSocksVersion(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putSocksVersion(HCkSshTunnel cHandle, int newVal);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getSshHostname(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putSshHostname(HCkSshTunnel cHandle, const char *newVal);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_sshHostname(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getSshLogin(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putSshLogin(HCkSshTunnel cHandle, const char *newVal);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_sshLogin(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getSshPassword(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putSshPassword(HCkSshTunnel cHandle, const char *newVal);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_sshPassword(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC int CkSshTunnel_getSshPort(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putSshPort(HCkSshTunnel cHandle, int newVal);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getTcpNoDelay(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putTcpNoDelay(HCkSshTunnel cHandle, BOOL newVal);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getTunnelErrors(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_tunnelErrors(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC void CkSshTunnel_getTunnelThreadSessionLogPath(HCkSshTunnel cHandle, HCkString retval);
-CK_VISIBLE_PUBLIC void CkSshTunnel_putTunnelThreadSessionLogPath(HCkSshTunnel cHandle, const char *newVal);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_tunnelThreadSessionLogPath(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_getTunnelLog(HCkSshTunnel cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putTunnelLog(HCkSshTunnel cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkSshTunnel_tunnelLog(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC void CkSshTunnel_getTunnelLogPath(HCkSshTunnel cHandle, HCkString retval);
+CK_VISIBLE_PUBLIC void CkSshTunnel_putTunnelLogPath(HCkSshTunnel cHandle, const char *newVal);
+CK_VISIBLE_PUBLIC const char *CkSshTunnel_tunnelLogPath(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getUtf8(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putUtf8(HCkSshTunnel cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_getVerboseLogging(HCkSshTunnel cHandle);
 CK_VISIBLE_PUBLIC void CkSshTunnel_putVerboseLogging(HCkSshTunnel cHandle, BOOL newVal);
 CK_VISIBLE_PUBLIC void CkSshTunnel_getVersion(HCkSshTunnel cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC const char *CkSshTunnel_version(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_AuthenticatePk(HCkSshTunnel cHandle, const char *username, HCkSshKey privateKey);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_AuthenticatePw(HCkSshTunnel cHandle, const char *login, const char *password);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_AuthenticatePwPk(HCkSshTunnel cHandle, const char *username, const char *password, HCkSshKey privateKey);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_BeginAccepting(HCkSshTunnel cHandle, int listenPort);
-CK_VISIBLE_PUBLIC void CkSshTunnel_ClearTunnelErrors(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC BOOL CkSshTunnel_GetTunnelsXml(HCkSshTunnel cHandle, HCkString outStr);
-CK_VISIBLE_PUBLIC const char *CkSshTunnel_getTunnelsXml(HCkSshTunnel cHandle);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_CloseTunnel(HCkSshTunnel cHandle, BOOL waitForThreads);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_Connect(HCkSshTunnel cHandle, const char *hostname, int port);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_DisconnectAllClients(HCkSshTunnel cHandle, BOOL waitForThreads);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_SaveLastError(HCkSshTunnel cHandle, const char *path);
-CK_VISIBLE_PUBLIC BOOL CkSshTunnel_SetSshAuthenticationKey(HCkSshTunnel cHandle, HCkSshKey key);
-CK_VISIBLE_PUBLIC BOOL CkSshTunnel_StopAccepting(HCkSshTunnel cHandle);
-CK_VISIBLE_PUBLIC BOOL CkSshTunnel_StopAllTunnels(HCkSshTunnel cHandle, int maxWaitMs);
+CK_VISIBLE_PUBLIC BOOL CkSshTunnel_StopAccepting(HCkSshTunnel cHandle, BOOL waitForThread);
 CK_VISIBLE_PUBLIC BOOL CkSshTunnel_UnlockComponent(HCkSshTunnel cHandle, const char *unlockCode);
 #endif

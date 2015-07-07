@@ -1,4 +1,4 @@
-// This is a generated source file for Chilkat version 9.5.0.48
+// This is a generated source file for Chilkat version 9.5.0.51
 #ifndef _C_CkGzip_H
 #define _C_CkGzip_H
 #include "chilkatDefs.h"
@@ -10,6 +10,8 @@ CK_VISIBLE_PUBLIC void CkGzip_Dispose(HCkGzip handle);
 CK_VISIBLE_PUBLIC void CkGzip_getComment(HCkGzip cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC void CkGzip_putComment(HCkGzip cHandle, const char *newVal);
 CK_VISIBLE_PUBLIC const char *CkGzip_comment(HCkGzip cHandle);
+CK_VISIBLE_PUBLIC int CkGzip_getCompressionLevel(HCkGzip cHandle);
+CK_VISIBLE_PUBLIC void CkGzip_putCompressionLevel(HCkGzip cHandle, int newVal);
 CK_VISIBLE_PUBLIC void CkGzip_getDebugLogFilePath(HCkGzip cHandle, HCkString retval);
 CK_VISIBLE_PUBLIC void CkGzip_putDebugLogFilePath(HCkGzip cHandle, const char *newVal);
 CK_VISIBLE_PUBLIC const char *CkGzip_debugLogFilePath(HCkGzip cHandle);

@@ -14,6 +14,7 @@
 
 class CkByteData;
 class CkCertW;
+class CkSshKeyW;
 class CkBaseProgressW;
 
 
@@ -143,6 +144,20 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 
 	// Set to true when an asynchronous send operation completes and is successful.
 	bool get_AsyncSendSuccess(void);
+
+	// If non-zero, limits (throttles) the receiving bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	int get_BandwidthThrottleDown(void);
+	// If non-zero, limits (throttles) the receiving bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	void put_BandwidthThrottleDown(int newVal);
+
+	// If non-zero, limits (throttles) the sending bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	int get_BandwidthThrottleUp(void);
+	// If non-zero, limits (throttles) the sending bandwidth to approximately this
+	// maximum number of bytes per second. The default value of this property is 0.
+	void put_BandwidthThrottleUp(int newVal);
 
 	// Applies to the SendCount and ReceiveCount methods. If BigEndian is set to true
 	// (the default) then the 4-byte count is in big endian format. Otherwise it is
@@ -317,6 +332,13 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// Returns true if the socket is connected. Otherwise returns false.
 	bool get_IsConnected(void);
 
+	// Controls whether the SO_KEEPALIVE socket option is used for the underlying
+	// TCP/IP socket. The default value is true.
+	bool get_KeepAlive(void);
+	// Controls whether the SO_KEEPALIVE socket option is used for the underlying
+	// TCP/IP socket. The default value is true.
+	void put_KeepAlive(bool newVal);
+
 	// Controls whether socket (or SSL) communications are logged to the SessionLog
 	// string property. To turn on session logging, set this property = true,
 	// otherwise set to false (which is the default value).
@@ -423,6 +445,35 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// object.
 	int get_ObjectId(void);
 
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	int get_PercentDoneScale(void);
+	// This property is only valid in programming environment and languages that allow
+	// for event callbacks.
+	// 
+	// Sets the value to be defined as 100% complete for the purpose of PercentDone
+	// event callbacks. The defaut value of 100 means that at most 100 event
+	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
+	// is such that it is possible to measure progress as a percentage completed. This
+	// property may be set to larger numbers to get more fine-grained PercentDone
+	// callbacks. For example, setting this property equal to 1000 will provide
+	// callbacks with .1 percent granularity. For example, a value of 453 would
+	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
+	// a maximum value of 100000.
+	// 
+	void put_PercentDoneScale(int newVal);
+
 	// If true, then use IPv6 over IPv4 when both are supported for a particular
 	// domain. The default value of this property is false, which will choose IPv4
 	// over IPv6.
@@ -431,6 +482,24 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// domain. The default value of this property is false, which will choose IPv4
 	// over IPv6.
 	void put_PreferIpv6(bool newVal);
+
+	// If a Receive method fails, this property can be checked to determine the reason
+	// for failure.
+	// 
+	// Possible values are:
+	// 0 = Success
+	// 1 = An async receive operation is already in progress.
+	// 2 = The socket is not connected, such as if it was never connected, or if the connection was previously lost.
+	// 3 = An unspecified internal failure, perhaps out-of-memory, caused the failure.
+	// 4 = Invalid parameters were passed to the receive method call.
+	// 5 = Timeout.  Data stopped arriving for more than the amount of time specified by the MaxReadIdleMs property.
+	// 6 = The receive was aborted by the application in an event callback.
+	// 7 = The connection was lost -- the remote peer reset the connection. (The connection was forcibly closed by the peer.)
+	// 8 = An established connection was aborted by the software in your host machine. (See https://www.chilkatsoft.com/p/p_299.asp )
+	// 9 = An unspecified fatal socket error occurred (less common).
+	// 10 = The connection was closed by the peer.
+	// 
+	int get_ReceiveFailReason(void);
 
 	// The number of bytes to receive at a time (internally). This setting has an
 	// effect on methods such as ReadBytes and ReadString where the number of bytes to
@@ -453,6 +522,13 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// received on a socket connection, regardless of which method calls are used to
 	// receive the data.
 	void put_ReceivedCount(int newVal);
+
+	// Contains the last integer received via a call to ReceiveByte, ReceiveInt16, or
+	// ReceiveInt32.
+	int get_ReceivedInt(void);
+	// Contains the last integer received via a call to ReceiveByte, ReceiveInt16, or
+	// ReceiveInt32.
+	void put_ReceivedInt(int newVal);
 
 	// When a socket is connected, the remote IP address of the connected peer is
 	// available in this property.
@@ -502,6 +578,25 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// more sockets are ready for writing, this property is used to select the socket
 	// in the "ready set" for writing.
 	void put_SelectorWriteIndex(int newVal);
+
+	// If a Send method fails, this property can be checked to determine the reason for
+	// failure.
+	// 
+	// Possible values are:
+	// 0 = Success
+	// 1 = An async receive operation is already in progress.
+	// 2 = The socket is not connected, such as if it was never connected, or if the connection was previously lost.
+	// 3 = An unspecified internal failure, perhaps out-of-memory, caused the failure.
+	// 4 = Invalid parameters were passed to the receive method call.
+	// 5 = Timeout.  Data stopped arriving for more than the amount of time specified by the MaxReadIdleMs property.
+	// 6 = The receive was aborted by the application in an event callback.
+	// 7 = The connection was lost -- the remote peer reset the connection. (The connection was forcibly closed by the peer.)
+	// 8 = An established connection was aborted by the software in your host machine. (See https://www.chilkatsoft.com/p/p_299.asp )
+	// 9 = An unspecified fatal socket error occurred (less common).
+	// 10 = The connection was closed by the peer.
+	// 11 = Decoding error (possible in SendString when coverting to the StringCharset, or in SendBytesENC).
+	// 
+	int get_SendFailReason(void);
 
 	// The number of bytes to send at a time (internally). This can also be though of
 	// as the "chunk size". If a large amount of data is to be sent, the data is sent
@@ -684,6 +779,52 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// default value is false.
 	void put_Ssl(bool newVal);
 
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void get_SslAllowedCiphers(CkString &str);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	const wchar_t *sslAllowedCiphers(void);
+	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
+	// connections. The default (empty string) indicates that all implemented ciphers
+	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
+	// connections to one or more specific ciphers, set this property to a
+	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
+	// should be in terms of preference, with the preferred algorithms listed first.
+	// The server however, chooses from among the algorithms listed.
+	// 
+	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
+	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
+	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
+	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
+	// chooses the same as the default.)
+	// 
+	void put_SslAllowedCiphers(const wchar_t *newVal);
+
 	// Selects the secure protocol to be used for secure (SSL/TLS) connections.
 	// Possible values are:
 	// 
@@ -775,6 +916,28 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// sent on the socket connection.
 	void put_TcpNoDelay(bool newVal);
 
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	void get_TlsCipherSuite(CkString &str);
+	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
+	// has yet to be established, or if a connection as attempted and failed, then this
+	// will be empty. A sample cipher suite string looks like this:
+	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
+	const wchar_t *tlsCipherSuite(void);
+
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	void get_TlsVersion(CkString &str);
+	// Contains the current or last negotiated TLS protocol version. If no TLS
+	// connection has yet to be established, or if a connection as attempted and
+	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
+	// 1.1", and "TLS 1.2".
+	const wchar_t *tlsVersion(void);
+
 	// Provides a way to store text data with the socket object. The UserData is purely
 	// for convenience and is not involved in the socket communications in any way. An
 	// application might use this property to keep extra information associated with
@@ -791,160 +954,20 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// the socket.
 	void put_UserData(const wchar_t *newVal);
 
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void get_SslAllowedCiphers(CkString &str);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	const wchar_t *sslAllowedCiphers(void);
-	// Provides a means for setting a list of ciphers that are allowed for SSL/TLS
-	// connections. The default (empty string) indicates that all implemented ciphers
-	// are possible: aes256-cbc, aes128-cbc, 3des-cbc, and rc4. To restrict SSL/TLS
-	// connections to one or more specific ciphers, set this property to a
-	// comma-separated list of ciphers such as "aes256-cbc, aes128-cbc". The order
-	// should be in terms of preference, with the preferred algorithms listed first.
-	// The server however, chooses from among the algorithms listed.
-	// 
-	// Starting in v9.5.0.48, Chilkat will by-default disallow all possible usage of
-	// RSA keys that are less than 1024 bits. To allow for 512 bits or above, add
-	// "rsa512" to the list of algorithms in the SslAllowedCiphers list. To allow only
-	// 2048 bits or above, add "rsa2048" to the list of algorithms. (Adding "rsa1024"
-	// chooses the same as the default.)
-	// 
-	void put_SslAllowedCiphers(const wchar_t *newVal);
-
-	// Controls whether the SO_KEEPALIVE socket option is used for the underlying
-	// TCP/IP socket. The default value is true.
-	bool get_KeepAlive(void);
-	// Controls whether the SO_KEEPALIVE socket option is used for the underlying
-	// TCP/IP socket. The default value is true.
-	void put_KeepAlive(bool newVal);
-
 	// If a Receive method fails, this property can be checked to determine the reason
 	// for failure.
 	// 
 	// Possible values are:
 	// 0 = Success
 	// 1 = An async receive operation is already in progress.
-	// 2 = The socket is not connected, such as if it was never connected, or if the connection was previously lost.
 	// 3 = An unspecified internal failure, perhaps out-of-memory, caused the failure.
-	// 4 = Invalid parameters were passed to the receive method call.
 	// 5 = Timeout.  Data stopped arriving for more than the amount of time specified by the MaxReadIdleMs property.
 	// 6 = The receive was aborted by the application in an event callback.
-	// 7 = The connection was lost -- the remote peer reset the connection. (The connection was forcibly closed by the peer.)
-	// 8 = An established connection was aborted by the software in your host machine. (See https://www.chilkatsoft.com/p/p_299.asp )
 	// 9 = An unspecified fatal socket error occurred (less common).
-	// 10 = The connection was closed by the peer.
+	// 20 = Must first bind and listen on a port.
+	// 99 = The component is not unlocked.
 	// 
-	int get_ReceiveFailReason(void);
-
-	// If a Send method fails, this property can be checked to determine the reason for
-	// failure.
-	// 
-	// Possible values are:
-	// 0 = Success
-	// 1 = An async receive operation is already in progress.
-	// 2 = The socket is not connected, such as if it was never connected, or if the connection was previously lost.
-	// 3 = An unspecified internal failure, perhaps out-of-memory, caused the failure.
-	// 4 = Invalid parameters were passed to the receive method call.
-	// 5 = Timeout.  Data stopped arriving for more than the amount of time specified by the MaxReadIdleMs property.
-	// 6 = The receive was aborted by the application in an event callback.
-	// 7 = The connection was lost -- the remote peer reset the connection. (The connection was forcibly closed by the peer.)
-	// 8 = An established connection was aborted by the software in your host machine. (See https://www.chilkatsoft.com/p/p_299.asp )
-	// 9 = An unspecified fatal socket error occurred (less common).
-	// 10 = The connection was closed by the peer.
-	// 11 = Decoding error (possible in SendString when coverting to the StringCharset, or in SendBytesENC).
-	// 
-	int get_SendFailReason(void);
-
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	int get_PercentDoneScale(void);
-	// This property is only valid in programming environment and languages that allow
-	// for event callbacks.
-	// 
-	// Sets the value to be defined as 100% complete for the purpose of PercentDone
-	// event callbacks. The defaut value of 100 means that at most 100 event
-	// PercentDone callbacks will occur in a method that (1) is event enabled and (2)
-	// is such that it is possible to measure progress as a percentage completed. This
-	// property may be set to larger numbers to get more fine-grained PercentDone
-	// callbacks. For example, setting this property equal to 1000 will provide
-	// callbacks with .1 percent granularity. For example, a value of 453 would
-	// indicate 45.3% competed. This property is clamped to a minimum value of 10, and
-	// a maximum value of 100000.
-	// 
-	void put_PercentDoneScale(int newVal);
-
-	// If non-zero, limits (throttles) the sending bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	int get_BandwidthThrottleUp(void);
-	// If non-zero, limits (throttles) the sending bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	void put_BandwidthThrottleUp(int newVal);
-
-	// If non-zero, limits (throttles) the receiving bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	int get_BandwidthThrottleDown(void);
-	// If non-zero, limits (throttles) the receiving bandwidth to approximately this
-	// maximum number of bytes per second. The default value of this property is 0.
-	void put_BandwidthThrottleDown(int newVal);
-
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	void get_TlsVersion(CkString &str);
-	// Contains the current or last negotiated TLS protocol version. If no TLS
-	// connection has yet to be established, or if a connection as attempted and
-	// failed, then this will be empty. Possible values are "SSL 3.0", "TLS 1.0", "TLS
-	// 1.1", and "TLS 1.2".
-	const wchar_t *tlsVersion(void);
-
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	void get_TlsCipherSuite(CkString &str);
-	// Contains the current or last negotiated TLS cipher suite. If no TLS connection
-	// has yet to be established, or if a connection as attempted and failed, then this
-	// will be empty. A sample cipher suite string looks like this:
-	// TLS_DHE_RSA_WITH_AES_256_CBC_SHA256.
-	const wchar_t *tlsCipherSuite(void);
+	int get_AcceptFailReason(void);
 
 
 
@@ -1130,8 +1153,8 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// The caller is responsible for deleting the object returned by this method.
 	CkSocketW *CloneSocket(void);
 
-	// Cleanly terminates and closes a TCP/IP (SSL or non-SSL) connection. The maxWaitMs
-	// applies to SSL connections because there is a handshake that occurs during
+	// Cleanly terminates and closes a TCP, TLS, or SSH channel connection. The maxWaitMs
+	// applies to SSL/TLS connections because there is a handshake that occurs during
 	// secure channel shutdown.
 	bool Close(int maxWaitMs);
 
@@ -1235,6 +1258,11 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// data is waiting and false if no data is waiting to be read.
 	bool PollDataAvailable(void);
 
+	// Receives a single byte. The received byte will be available in the ReceivedInt
+	// property. If ARG1 is true, then a value from 0 to 255 is returned in
+	// ReceivedInt. If ARG1 is false, then a value from -128 to +127 is returned.
+	bool ReceiveByte(bool bUnsigned);
+
 	// Receives as much data as is immediately available on a connected TCP socket. If
 	// no data is immediately available, it waits up to MaxReadIdleMs milliseconds for
 	// data to arrive.
@@ -1267,6 +1295,20 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// Receives a 4-byte signed integer and returns the value received. Returns -1 on
 	// error.
 	int ReceiveCount(void);
+
+	// Receives a 16-bit integer (2 bytes). The received integer will be available in
+	// the ReceivedInt property. Set ARG1 equal to true if the incoming 16-bit
+	// integer is in big-endian byte order. Otherwise set ARG1 equal to false for
+	// receving a little-endian integer. If ARG2 is true, the ReceivedInt will range
+	// from 0 to 65,535. If ARG2 is false, the ReceivedInt will range from -32,768
+	// through 32,767.
+	bool ReceiveInt16(bool bigEndian, bool bUnsigned);
+
+	// Receives a 32-bit integer (4 bytes). The received integer will be available in
+	// the ReceivedInt property. Set ARG1 equal to true if the incoming 32-bit
+	// integer is in big-endian byte order. Otherwise set ARG1 equal to false for
+	// receving a little-endian integer.
+	bool ReceiveInt32(bool bigEndian);
 
 	// The same as ReceiveBytesN, except the bytes are returned in encoded string form
 	// using the encoding specified by numBytes. The numBytes can be "Base64", "modBase64",
@@ -1376,6 +1418,9 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// 
 	int SelectForWriting(int timeoutMs);
 
+	// Sends a single byte. The integer must have a value from 0 to 255.
+	bool SendByte(int value);
+
 	// Sends bytes over a connected SSL or non-SSL socket. If transmission halts for
 	// more than MaxSendIdleMs milliseconds, the send is aborted. This is a blocking
 	// (synchronous) method. It returns only after the bytes have been sent.
@@ -1393,6 +1438,16 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// count followed by the data, and the receiver would receive the count first, and
 	// then knows how many data bytes it should expect to receive.
 	bool SendCount(int byteCount);
+
+	// Sends a 16-bit integer (2 bytes). Set ARG2 equal to true to send the integer
+	// in big-endian byte order (this is the standard network byte order). Otherwise
+	// set ARG2 equal to false to send in little-endian byte order.
+	bool SendInt16(int value, bool bigEndian);
+
+	// Sends a 32-bit integer (4 bytes). Set ARG2 equal to true to send the integer
+	// in big-endian byte order (this is the standard network byte order). Otherwise
+	// set ARG2 equal to false to send in little-endian byte order.
+	bool SendInt32(int value, bool bigEndian);
 
 	// Sends a string over a connected SSL or non-SSL (TCP/IP) socket. If transmission
 	// halts for more than MaxSendIdleMs milliseconds, the send is aborted. The string
@@ -1421,6 +1476,44 @@ class CK_VISIBLE_PUBLIC CkSocketW  : public CkWideCharBase
 	// Convenience method to force the calling process to sleep for a number of
 	// milliseconds.
 	void SleepMs(int millisec);
+
+	// Authenticates with the SSH server using public-key authentication. The
+	// corresponding public key must have been installed on the SSH server for the
+	// sshLogin. Authentication will succeed if the matching  privateKey is provided.
+	// 
+	// Important: When reporting problems, please send the full contents of the
+	// LastErrorText property to support@chilkatsoft.com.
+	// 
+	bool SshAuthenticatePk(const wchar_t *sshLogin, CkSshKeyW &privateKey);
+
+	// Authenticates with the SSH server using a sshLogin and  sshPassword. This method is only
+	// used for SSH tunneling. The tunnel is established by calling SshOpenTunnel, then
+	// (if necessary) authenticated by calling SshAuthenticatePw or SshAuthenticatePk.
+	bool SshAuthenticatePw(const wchar_t *sshLogin, const wchar_t *sshPassword);
+
+	// Closes the SSH tunnel previously opened by SshOpenTunnel.
+	bool SshCloseTunnel(void);
+
+	// Opens a new channel within an SSH tunnel. Returns the socket that is connected
+	// to the destination host:port through the SSH tunnel via port forwarding. If ARG3
+	// is true, the connection is TLS (i.e. TLS inside the SSH tunnel). Returns the
+	// socket object that is the port-forwarded tunneled connection. Any number of
+	// channels may be opened within a single SSH tunnel, and may be port-forwarded to
+	// different remote host:port endpoints.
+	// The caller is responsible for deleting the object returned by this method.
+	CkSocketW *SshOpenChannel(const wchar_t *hostname, int port, bool ssl, int maxWaitMs);
+
+	// Connects to an SSH server and creates a tunnel for port forwarding. The ARG1 is
+	// the hostname (or IP address) of the SSH server. The ARG2 is typically 22, which
+	// is the standard SSH port number.
+	// 
+	// An SSH tunneling (port forwarding) session always begins by first calling
+	// SshOpenTunnel to connect to the SSH server, followed by calling either
+	// SshAuthenticatePw or SshAuthenticatePk to authenticate. A program would then
+	// call SshOpenChannel to connect to the destination server (via the SSH tunnel).
+	// Any number of channels can be opened over the same SSH tunnel.
+	// 
+	bool SshOpenTunnel(const wchar_t *sshHostname, int sshPort);
 
 	// Used in combination with the ElapsedSeconds property, which will contain the
 	// number of seconds since the last call to this method. (The StartTiming method

@@ -540,18 +540,18 @@ class CK_VISIBLE_PUBLIC CkCrypt2W  : public CkWideCharBase
 	void put_CryptAlgorithm(const wchar_t *newVal);
 
 	// Controls the encoding of binary data to a printable string for many methods. The
-	// valid modes are "Base64", "modBase64", "Base32", "UU", "QP" (for
-	// quoted-printable), "URL" (for url-encoding), "Hex", "Q", "B", "url_oath",
+	// valid modes are "Base64", "modBase64", "Base32", "Base58", "UU", "QP" (for
+	// quoted-printable), "URL" (for url-encoding), "Hex", "Q", "B", "url_oauth",
 	// "url_rfc1738", "url_rfc2396", and "url_rfc3986".
 	void get_EncodingMode(CkString &str);
 	// Controls the encoding of binary data to a printable string for many methods. The
-	// valid modes are "Base64", "modBase64", "Base32", "UU", "QP" (for
-	// quoted-printable), "URL" (for url-encoding), "Hex", "Q", "B", "url_oath",
+	// valid modes are "Base64", "modBase64", "Base32", "Base58", "UU", "QP" (for
+	// quoted-printable), "URL" (for url-encoding), "Hex", "Q", "B", "url_oauth",
 	// "url_rfc1738", "url_rfc2396", and "url_rfc3986".
 	const wchar_t *encodingMode(void);
 	// Controls the encoding of binary data to a printable string for many methods. The
-	// valid modes are "Base64", "modBase64", "Base32", "UU", "QP" (for
-	// quoted-printable), "URL" (for url-encoding), "Hex", "Q", "B", "url_oath",
+	// valid modes are "Base64", "modBase64", "Base32", "Base58", "UU", "QP" (for
+	// quoted-printable), "URL" (for url-encoding), "Hex", "Q", "B", "url_oauth",
 	// "url_rfc1738", "url_rfc2396", and "url_rfc3986".
 	void put_EncodingMode(const wchar_t *newVal);
 
@@ -1490,6 +1490,13 @@ class CK_VISIBLE_PUBLIC CkCrypt2W  : public CkWideCharBase
 	// to iso-8859-1 (1 byte per character) before hashing. The full list fo supported
 	// charsets is listed in the EncryptString method description.
 	// 
+	// IMPORTANT: Hash algorithms hash bytes. Changing the bytes passed to a hash
+	// algorithm changes the result. A character (i.e. a visible glyph) can have
+	// different byte representations. The byte representation is defined by the
+	// Charset. For example, 'A' in us-ascii is a single byte 0x41, whereas in utf-16
+	// it is 2 bytes (0x41 0x00). The byte representation should be explicitly
+	// specified, otherwise unexpected results may occur.
+	// 
 	bool HashString(const wchar_t *str, CkByteData &outData);
 
 	// Hashes a string and returns an encoded (printable) string of the binary hash.
@@ -1821,13 +1828,17 @@ class CK_VISIBLE_PUBLIC CkCrypt2W  : public CkWideCharBase
 
 	// Provides a means for converting from one encoding to another (such as base64 to
 	// hex). This is helpful for programming environments where byte arrays are a real
-	// pain-in-the-***. The  fromEncoding and  toEncoding may be "base64", "hex", "quoted-printable"
-	// (or "qp"), or "url".
+	// pain-in-the-***. The  fromEncoding and  toEncoding may be (case-insensitive) "Base64",
+	// "modBase64", "Base32", "Base58", "UU", "QP" (for quoted-printable), "URL" (for
+	// url-encoding), "Hex", "Q", "B", "url_oauth", "url_rfc1738", "url_rfc2396", and
+	// "url_rfc3986".
 	bool ReEncode(const wchar_t *data, const wchar_t *fromEncoding, const wchar_t *toEncoding, CkString &outStr);
 	// Provides a means for converting from one encoding to another (such as base64 to
 	// hex). This is helpful for programming environments where byte arrays are a real
-	// pain-in-the-***. The  fromEncoding and  toEncoding may be "base64", "hex", "quoted-printable"
-	// (or "qp"), or "url".
+	// pain-in-the-***. The  fromEncoding and  toEncoding may be (case-insensitive) "Base64",
+	// "modBase64", "Base32", "Base58", "UU", "QP" (for quoted-printable), "URL" (for
+	// url-encoding), "Hex", "Q", "B", "url_oauth", "url_rfc1738", "url_rfc2396", and
+	// "url_rfc3986".
 	const wchar_t *reEncode(const wchar_t *data, const wchar_t *fromEncoding, const wchar_t *toEncoding);
 
 	// Convenience method to read an entire file and return as a byte array.
