@@ -9,7 +9,7 @@ CC = g++
 CFLAGS =		-W -Wall -Wextra -static
 
 
-CHILKAT =		libchilkat-9.5.0
+CHILKAT =		chilkat-9.5.0
 
 WIN32 =			-Wl,--enable-auto-import
 AMENDLD_WIN32 =	-L/MinGW/lib -lcrypt32 -lws2_32 -ldnsapi
@@ -32,7 +32,7 @@ OBJ =			$(OBJF)/main.o			\
 all:			$(NAME)
 
 WIN32:
-	cp ./lib/bin/$(CHILKAT).dll ./bin/
+	cp ./lib/bin/lib$(CHILKAT).dll ./bin/
 
 stdrule:
 	@mkdir -p $(BINF)
