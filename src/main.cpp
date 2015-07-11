@@ -20,7 +20,7 @@ int											main( int argc, char * * argv )
 
 			for (std::deque< std::string * >::iterator it = extract->begin(); it != extract->end(); ++it)
 			{
-				std::cout << *it << std::endl;
+				std::cout << **it << std::endl;
 				delete (*it);
 			};
 			delete (extract);

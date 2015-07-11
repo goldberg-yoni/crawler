@@ -36,7 +36,7 @@ std::deque< std::string * > *		Spider::crawlDomain( void )
 	
 	inf << "Crawling at: " << domain << std::endl;
 	
-	/*this->spider.AddUnspidered(domain.c_str());*/
+	this->spider.AddUnspidered(domain.c_str());
 	if (this->spider.CrawlNext() && this->spider.get_NumUnspidered())
 		for (std::deque< toPrint >::iterator it = this->thsPrint.begin(); it != this->thsPrint.end(); ++it)
 			{

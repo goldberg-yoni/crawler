@@ -6,13 +6,14 @@ OBJF =			./obj
 
 
 CC = g++
-CFLAGS =		-W -Wall -Wextra -static
+CFLAGS =
+__CFLAGS =		-W -Wall -Wextra -static $(CFLAGS)
 
 
 CHILKAT =		chilkat-9.5.0
 
 WIN32 =			-Wl,--enable-auto-import
-AMENDLD_WIN32 =	-L/MinGW/lib -lcrypt32 -lws2_32 -ldnsapi
+AMENDLD_WIN32 =	-L/MinGW/lib -lcrypt32 -lws2_32 -ldnsapi -dll-search-prefix=lib
 
 AMENDLD_ =
 OPTLD =
@@ -20,7 +21,7 @@ __OPTLD =		$(OPTLD)
 
 
 LIBSI =			-I./lib/inc
-LIBS =			-L./lib/bin -l$(CHILKAT) $(AMENDLD_$(__OPTLD))
+LIBS =			$(AMENDLD_$(__OPTLD)) -L./lib/bin/$(OPTLD) -l$(CHILKAT)
 LDFLAGS =		$(LIBS)
 
 INCS =			-I./inc $(LIBSI)
@@ -32,7 +33,7 @@ OBJ =			$(OBJF)/main.o			\
 all:			$(NAME)
 
 WIN32:
-	cp ./lib/bin/lib$(CHILKAT).dll ./bin/
+	cp ./lib/bin/$(OPTLD)/lib$(CHILKAT).dll ./bin/
 
 stdrule:
 	@mkdir -p $(BINF)
