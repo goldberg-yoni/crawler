@@ -6,11 +6,11 @@ OBJF =			./obj
 
 
 CC = g++
-CFLAGS =
-__CFLAGS =		-W -Wall -Wextra -static $(CFLAGS)
+CFLAGS =		-W -Wall -Wextra -static
 
 
 CHILKAT =		chilkat-9.5.0
+TINYXML =		tinyXML
 
 WIN32 =			-Wl,--enable-auto-import
 AMENDLD_WIN32 =	-L/MinGW/lib -lcrypt32 -lws2_32 -ldnsapi -dll-search-prefix=lib
@@ -21,7 +21,7 @@ __OPTLD =		$(OPTLD)
 
 
 LIBSI =			-I./lib/inc
-LIBS =			$(AMENDLD_$(__OPTLD)) -L./lib/bin/$(OPTLD) -l$(CHILKAT)
+LIBS =			$(AMENDLD_$(__OPTLD)) -L./lib/bin/$(OPTLD) -L./lib/bin/ -l$(CHILKAT) -l$(TINYXML)
 LDFLAGS =		$(LIBS)
 
 INCS =			-I./inc $(LIBSI)
@@ -37,11 +37,14 @@ WIN32:
 
 stdrule:
 	@mkdir -p $(BINF)
-	@$(MAKE) $(__OPTLD) compile
+
+	@$(MAKE) -C ./lib/balls/TinyXML/ all __CFLAGS=-static
+	@cp ./lib/balls/TinyXML/bin/libtinyXML.a $(BINF)
 
 preope:			stdrule
+	@$(MAKE) $(__OPTLD) compile
 
-$(OBJF)/%.o:	src/%.cpp
+$(OBJF)/%.o:	$(SRCF)/%.cpp
 	@mkdir -p $(OBJF)
 	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
@@ -56,9 +59,11 @@ clean:
 	@rm -rf $(SRCF)/*~
 	@rm -rf $(OBJF)/*~
 fclean:		clean
+	@$(MAKE) -C ./lib/balls/TinyXML/ fclean
+
 	@rm -rf $(OBJF)
 	@rm -rf $(BINF)
 
 re:				fclean all
 
-.PHONY:			all $(NAME) clean fclean re
+.PHONY:			all WIN32 stdrule preope $(NAME) compile clean fclean re

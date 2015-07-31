@@ -19,3 +19,8 @@ Spider Crawler aims for crawling sites and harvest the required datas as keyword
 ```
 	make OPTLD=WIN32
 ```
+
+## Thanks to
+This program is made with:
+- TinyXPath (1.3.1)
+- Chilkat (9.5.0)

@@ -3,8 +3,9 @@
 #include	<map>
 #include	<iostream>
 
-#include	<CkString.h>
-#include	<CkSpider.h>
+#include	<Chilkat/CkString.h>
+#include	<Chilkat/CkSpider.h>
+#include	<TinyXPath/xpath_static.h>
 
 #include	"utils.h"
 
@@ -32,22 +33,30 @@ std::deque< std::string * > *		Spider::crawlDomain( void )
 {
 	std::deque< std::string * > *	ret = new std::deque< std::string * >();
 	std::ostream &					inf = *(this->getLoger(INFO));
+	std::ostream &					err = *(this->getLoger(ERROR));
 	std::string						domain = ("http://"+ this->s_crawlURL);
 	
 	inf << "Crawling at: " << domain << std::endl;
 	
-	this->spider.AddUnspidered(domain.c_str());
+	/*this->spider.AddUnspidered(domain.c_str());*/
 	if (this->spider.CrawlNext() && this->spider.get_NumUnspidered())
 		for (std::deque< toPrint >::iterator it = this->thsPrint.begin(); it != this->thsPrint.end(); ++it)
 			{
 				switch (*it)
 				{
 					case (EXPRESSION):
-						ret->push_back(new std::string(this->spider.lastHtml()));
+						{
+							std::string		expression = "*";
+							TiXmlElement *	XEp_main = new TiXmlElement(this->spider.lastHtml());
+
+							ret->push_back(new std::string(TinyXPath::S_xpath_string(static_cast<const TiXmlNode *>(XEp_main), expression.c_str()).c_str()));
+
+							delete (XEp_main);
+						};
 						break;
-					//~ case (ERRORHTML):
-						//~ ret.push_back(new std::string(this->spider.lastErrorHTML()));
-						//~ break;
+					/*case (ERRORHTML):
+						ret->push_back(new std::string(this->spider.lastErrorHTML()));
+						break;*/
 					case (ERRORTEXT):
 						ret->push_back(new std::string(this->spider.lastErrorText()));
 						break;

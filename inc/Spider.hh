@@ -7,8 +7,8 @@
 # include	<map>
 # include	<iostream>
 
-# include	<CkString.h>
-# include	<CkSpider.h>
+# include	<Chilkat/CkString.h>
+# include	<Chilkat/CkSpider.h>
 
 class											Spider
 {
