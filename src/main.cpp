@@ -1,19 +1,23 @@
+#include	<deque>
 #include	<iostream>
 
 #include	"Spider.hh"
 
-int			main( int argc, char * * argv )
+int											main( int argc, char * * argv )
 {
-	for (int i = 1; i < argc; i++)
+	char *									expr = argv[1];
+	
+	for (int i = 2; i < argc; i++)
 	{
-		Spider *	spider = new Spider(argv[i]);
+		Spider *							spider = new Spider(argv[i]);
 		
 		spider->getLoger() = &(std::cout);
 		spider->getLoger(Spider::INFO) = &(std::cout);
-		spider->getLoger(Spider::RAWDATA) = &(std::cout);
+		spider->getLoger(Spider::DEBUG) = &(std::cout);
+		spider->getLoger(Spider::ERROR) = &(std::cerr);
 		
-		spider->getThsPrint() = Spider::HTMLTITLE | Spider::HTMLKEYWORDS;
-
+		spider->addThsPrint(Spider::EXPRESSION)->setExpr(expr);
+		
 		spider->crawlDomain();
 
 		delete (spider);

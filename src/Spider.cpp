@@ -1,8 +1,11 @@
 #include	<string>
+#include	<deque>
+#include	<map>
 #include	<iostream>
 
-#include	<CkString.h>
-#include	<CkSpider.h>
+#include	<Chilkat/CkString.h>
+#include	<Chilkat/CkSpider.h>
+#include	<TinyXPath/xpath_static.h>
 
 #include	"utils.h"
 
@@ -19,48 +22,81 @@ std::ostream * &	Spider::getLoger( unsigned int type )
 	return (this->logers[type]);
 }
 
-int &				Spider::getThsPrint( void )
+Spider *			Spider::addThsPrint( toPrint ask )
 {
-	return (this->thsPrint);
+	this->thsPrint.push_back(ask);
+
+	return (this);
 }
 
-void				Spider::crawlDomain( void )
+Spider *			Spider::setExpr( std::string const _expr )
 {
-	std::ostream &	inf = *(this->getLoger(INFO));
-	std::ostream &	rdt = *(this->getLoger(RAWDATA));
-	std::string		domain = ("http://"+ this->s_crawlURL);
+	this->expr = _expr;
+}
+
+void								Spider::crawlDomain( void )
+{
+	std::ostream &					inf = *(this->getLoger(INFO));
+	std::ostream &					err = *(this->getLoger(ERROR));
+	std::string						domain = ("http://"+ this->s_crawlURL);
 	
 	inf << "Crawling at: " << domain << std::endl;
 	
 	this->spider.AddUnspidered(domain.c_str());
-	bool success;
-	while ((success = this->spider.CrawlNext()) && this->spider.get_NumUnspidered())
+	do
 	{
-		if (IS(thsPrint, EXPRESSION))
-			;
-		else
-		{
-			//~ if (HAS(thsPrint, ERRORHTML))
-				//~ rdt << this->spider.lastErrorHTML() << std::endl;
-			if (HAS(thsPrint, ERRORTEXT))
-				rdt << this->spider.lastErrorText() << std::endl;
-			if (HAS(thsPrint, ERRORXML))
-				rdt << this->spider.lastErrorXml() << std::endl;
-			if (HAS(thsPrint, HTML))
-				rdt << this->spider.lastHtml() << std::endl;
-			if (HAS(thsPrint, HTMLDESCRIPTION))
-				rdt << this->spider.lastHtmlDescription() << std::endl;
-			if (HAS(thsPrint, HTMLKEYWORDS))
-				rdt << this->spider.lastHtmlKeywords() << std::endl;
-			if (HAS(thsPrint, HTMLTITLE))
-				rdt << this->spider.lastHtmlTitle() << std::endl;
-			if (HAS(thsPrint, MODDATESTR))
-				rdt << this->spider.lastModDateStr() << std::endl;
-			if (HAS(thsPrint, URL))
-				rdt << this->spider.lastUrl() << std::endl;
-		}
-		rdt << std::endl;
+		std::deque< std::string * > *	extract = new std::deque< std::string * >();
 		
-		this->spider.CrawlNext();
+		for (std::deque< toPrint >::iterator it = this->thsPrint.begin(); it != this->thsPrint.end(); ++it)
+		{
+			switch (*it)
+			{
+				case (EXPRESSION):
+					{
+						TiXmlElement *	XEp_main = new TiXmlElement(this->spider.lastHtml());
+						std::string *	result = new std::string(TinyXPath::S_xpath_string(static_cast<const TiXmlNode *>(XEp_main), expr.c_str()).c_str());
+						std::cout << *result << std::endl;
+						extract->push_back(result);
+						
+						delete (XEp_main);
+					};
+					break;
+				/*case (ERRORHTML):
+					ret->push_back(new std::string(this->spider.lastErrorHTML()));
+					break;*/
+				case (ERRORTEXT):
+					extract->push_back(new std::string(this->spider.lastErrorText()));
+					break;
+				case (ERRORXML):
+					extract->push_back(new std::string(this->spider.lastErrorXml()));
+					break;
+				case (HTML):
+					extract->push_back(new std::string(this->spider.lastHtml()));
+					break;
+				case (HTMLDESCRIPTION):
+					extract->push_back(new std::string(this->spider.lastHtmlDescription()));
+					break;
+				case (HTMLKEYWORDS):
+					extract->push_back(new std::string(this->spider.lastHtmlKeywords()));
+					break;
+				case (HTMLTITLE):
+					extract->push_back(new std::string(this->spider.lastHtmlTitle()));
+					break;
+				case (MODDATESTR):
+					extract->push_back(new std::string(this->spider.lastModDateStr()));
+					break;
+				case (URL):
+					extract->push_back(new std::string(this->spider.lastUrl()));
+					break;
+			}
+		}
+		for (std::deque< std::string * >::iterator it = extract->begin(); it != extract->end(); ++it)
+		{
+			std::cout << **it << std::endl;
+			
+			delete (*it);
+		};
+		delete (extract);
 	}
+	while (this->spider.CrawlNext() && this->spider.get_NumUnspidered());
 }
