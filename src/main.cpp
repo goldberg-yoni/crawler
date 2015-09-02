@@ -5,9 +5,7 @@
 
 int											main( int argc, char * * argv )
 {
-	char *									expr = argv[1];
-	
-	for (int i = 2; i < argc; i++)
+	for (int i = 1; i < argc; i++)
 	{
 		Spider *							spider = new Spider(argv[i]);
 		
@@ -16,9 +14,18 @@ int											main( int argc, char * * argv )
 		spider->getLoger(Spider::DEBUG) = &(std::cout);
 		spider->getLoger(Spider::ERROR) = &(std::cerr);
 		
-		spider->addThsPrint(Spider::EXPRESSION)->setExpr(expr);
-		
-		spider->crawlDomain();
+		spider->addThsPrint(Spider::EXPRESSION);
+
+		{
+			std::deque< std::string * > *	extract = spider->crawlDomain();
+
+			for (std::deque< std::string * >::iterator it = extract->begin(); it != extract->end(); ++it)
+			{
+				std::cout << *it << std::endl;
+				delete (*it);
+			};
+			delete (extract);
+		};
 
 		delete (spider);
 	}

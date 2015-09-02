@@ -41,19 +41,15 @@ private:
 	std::map< unsigned int, std::ostream * >	logers;
 	std::deque< toPrint >						thsPrint;
 	
-	std::string									expr;
-	
 public:
 	Spider( std::string _s_crawlURL );
 
 public:
 	std::ostream * &							getLoger( unsigned int type = UNDEFINED );
 	Spider *									addThsPrint( toPrint ask );
-	
-	Spider *									setExpr( std::string const _expr );
 
 public:
-	void										crawlDomain( void );
+	std::deque< std::string * > *				crawlDomain( void );
 };
 
 #endif

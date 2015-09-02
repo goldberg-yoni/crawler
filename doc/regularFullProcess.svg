@@ -1,0 +1,220 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" class="railroad-diagram" width="1603" height="111" >
+<g transform="translate(.5 .5)" >
+<path d="M 20 61 v 20 m 10 -20 v 20 m -10 -10 h 20.5" >
+</path>
+<path d="M40 71h10" >
+</path>
+<g >
+<path d="M50 71h0" >
+</path>
+<path d="M95 71h0" >
+</path>
+<text x="72.5" y="76" class="comment" >
+crawl</text>
+</g>
+<path d="M95 71h10" >
+</path>
+<g >
+<path d="M105 71h0" >
+</path>
+<path d="M1562 71h0" >
+</path>
+<path d="M105 71a10 10 0 0 0 10 -10v-29a10 10 0 0 1 10 -10" >
+</path>
+<g >
+<path d="M125 22h1417" >
+</path>
+</g>
+<path d="M1542 22a10 10 0 0 1 10 10v29a10 10 0 0 0 10 10" >
+</path>
+<path d="M105 71h20" >
+</path>
+<g >
+<path d="M125 71h0" >
+</path>
+<path d="M1542 71h0" >
+</path>
+<path d="M125 71h10" >
+</path>
+<g >
+<path d="M135 71h0" >
+</path>
+<path d="M187 71h0" >
+</path>
+<rect x="135" y="60" width="52" height="22" rx="10" ry="10" >
+</rect>
+<text x="161" y="75" >
+args</text>
+</g>
+<path d="M187 71h10" >
+</path>
+<path d="M197 71h10" >
+</path>
+<g >
+<path d="M207 71h0" >
+</path>
+<path d="M607 71h0" >
+</path>
+<path d="M207 71h10" >
+</path>
+<g >
+<path d="M217 71h0" >
+</path>
+<path d="M597 71h0" >
+</path>
+<rect x="217" y="60" width="380" height="22" >
+</rect>
+<text x="407" y="75" >
+loop on the sites/pages to crawl (args gived)</text>
+</g>
+<path d="M597 71h10" >
+</path>
+<path d="M217 71a10 10 0 0 0 -10 10v0a10 10 0 0 0 10 10" >
+</path>
+<g >
+<path d="M217 91h380" >
+</path>
+</g>
+<path d="M597 91a10 10 0 0 0 10 -10v0a10 10 0 0 0 -10 -10" >
+</path>
+</g>
+<path d="M607 71h10" >
+</path>
+<path d="M617 71h10" >
+</path>
+<g >
+<path d="M627 71h0" >
+</path>
+<path d="M721 71h0" >
+</path>
+<text x="674" y="76" class="comment" >
+XPath_parser</text>
+</g>
+<path d="M721 71h10" >
+</path>
+<g >
+<path d="M731 71h0" >
+</path>
+<path d="M1542 71h0" >
+</path>
+<path d="M731 71a10 10 0 0 0 10 -10v-10a10 10 0 0 1 10 -10" >
+</path>
+<g >
+<path d="M751 41h331.5" >
+</path>
+<path d="M1190.5 41h331.5" >
+</path>
+<rect x="1082.5" y="30" width="108" height="22" rx="10" ry="10" >
+</rect>
+<text x="1136.5" y="45" >
+Full output</text>
+</g>
+<path d="M1522 41a10 10 0 0 1 10 10v10a10 10 0 0 0 10 10" >
+</path>
+<path d="M731 71h20" >
+</path>
+<g >
+<path d="M751 71h0" >
+</path>
+<path d="M1522 71h0" >
+</path>
+<path d="M751 71h10" >
+</path>
+<g >
+<path d="M761 71h0" >
+</path>
+<path d="M813 71h0" >
+</path>
+<rect x="761" y="60" width="52" height="22" rx="10" ry="10" >
+</rect>
+<text x="787" y="75" >
+args</text>
+</g>
+<path d="M813 71h10" >
+</path>
+<path d="M823 71h10" >
+</path>
+<g >
+<path d="M833 71h0" >
+</path>
+<path d="M1377 71h0" >
+</path>
+<path d="M833 71h10" >
+</path>
+<g >
+<path d="M843 71h0" >
+</path>
+<path d="M1367 71h0" >
+</path>
+<rect x="843" y="60" width="524" height="22" >
+</rect>
+<text x="1105" y="75" >
+loop on the expressions (args gived) to parse on each std input</text>
+</g>
+<path d="M1367 71h10" >
+</path>
+<path d="M843 71a10 10 0 0 0 -10 10v0a10 10 0 0 0 10 10" >
+</path>
+<g >
+<path d="M843 91h524" >
+</path>
+</g>
+<path d="M1367 91a10 10 0 0 0 10 -10v0a10 10 0 0 0 -10 -10" >
+</path>
+</g>
+<path d="M1377 71h10" >
+</path>
+<path d="M1387 71h10" >
+</path>
+<g >
+<path d="M1397 71h0" >
+</path>
+<path d="M1512 71h0" >
+</path>
+<text x="1454.5" y="76" class="comment" >
+Formated output</text>
+</g>
+<path d="M1512 71h10" >
+</path>
+</g>
+<path d="M1522 71h20" >
+</path>
+</g>
+</g>
+<path d="M1542 71h20" >
+</path>
+</g>
+<path d="M 1562 71 h 20 m -10 -10 v 20 m 10 -20 v 20" >
+</path>
+</g>
+
+	<style type="text/css" ><![CDATA[
+		svg.railroad-diagram {
+			background-color: hsl(30,20%,95%);
+		}
+		svg.railroad-diagram path {
+			stroke-width: 3;
+			stroke: black;
+			fill: rgba(0,0,0,0);
+		}
+		svg.railroad-diagram text {
+			font: bold 14px monospace;
+			text-anchor: middle;
+		}
+		svg.railroad-diagram text.label {
+			text-anchor: start;
+		}
+		svg.railroad-diagram text.comment {
+			font: italic 12px monospace;
+		}
+		svg.railroad-diagram rect {
+			stroke-width: 3;
+			stroke: black;
+			fill: hsl(120,100%,90%);
+		}
+	]]></style>
+<!-- 
+Diagram(Comment('crawl'), Optional(Sequence('args', OneOrMore(NonTerminal('loop on the sites/pages to crawl (args gived)')), Comment('XPath_parser'), Choice(1, 'Full output', Sequence('args', OneOrMore(NonTerminal('loop on the expressions (args gived) to parse on each std input')), Comment('Formated output'))))))
+ --></svg>
