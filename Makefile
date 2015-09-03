@@ -1,16 +1,21 @@
 NAME =			crawler
 
-BINF =			./bin/
+parserXML =		./parserXML
+spider =		./spider
+
+BINF =			./bin
 
 AMENDLD_ =
 OPTLD =
 __OPTLD =		$(OPTLD)
 
 all:			$(NAME)
-	@$(MAKE) -C ./parserXML $(__OPTLD) $@
-	@$(MAKE) -C ./spider $(__OPTLD) $@
+	mkdir -p $(BINF)
+	@cp $(parserXML)/$(BINF)/* $(spider)/$(BINF)/* $(BINF)
 
 $(NAME):
+	@$(MAKE) -C ./parserXML OPTLD=$(__OPTLD) $(parserXML)
+	@$(MAKE) -C ./spider OPTLD=$(__OPTLD) $(spider)
 
 clean:
 	@$(MAKE) -C ./parserXML $@

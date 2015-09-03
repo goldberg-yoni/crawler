@@ -33,19 +33,19 @@ OBJ =			$(OBJF)/main.o			\
 all:			$(NAME)
 
 WIN32:
-	cp ./lib/bin/$(OPTLD)/lib$(CHILKAT).dll ./bin/
+	@cp ./lib/bin/$(OPTLD)/lib$(CHILKAT).dll ./bin/
 
-stdrule:
+preope:
 	@mkdir -p $(BINF)
-	@$(MAKE) $(__OPTLD) compile
 
-preope:			stdrule
+stdrule:		preope
+	@$(MAKE) $(__OPTLD) compile
 
 $(OBJF)/%.o:	src/%.cpp
 	@mkdir -p $(OBJF)
 	$(CC) $(CFLAGS) $(INCS) -o $@ -c $<
 
-$(NAME):		preope
+$(NAME):		stdrule
 
 compile:		$(OBJ)
 	$(CC) $($(__OPTLD)) -o $(BINF)/$(NAME) $(OBJ) $(LDFLAGS)

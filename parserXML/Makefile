@@ -38,8 +38,8 @@ WIN32:
 preope:
 	@mkdir -p $(BINF)
 
-	@$(MAKE) -C ./lib/balls/TinyXML/ all __CFLAGS=-static
-	@cp ./lib/balls/TinyXML/bin/lib$(TINYXML).a $(BINF)
+	@$(MAKE) -C ./lib/balls/TinyXML/ all CFLAGS=-static
+	@cp ./lib/bin/lib$(TINYXML).a $(BINF)
 
 stdrule:		preope
 	@$(MAKE) $(__OPTLD) compile
