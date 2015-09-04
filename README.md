@@ -1,21 +1,21 @@
 # Spider Crawler
 
-Spider Crawler aims for crawling sites and harvest the required datas as keywords, description, title, etc.
+Spider Crawler is a couple of program makes you able to crawl a web domain and harvest the XPath expressed datas.
 
 ## To build
 ```
-    make
+    make all
 ```
 ## To clean the project repository
 ```
     make fclean
 ```
-## To run the project
+## To run the project (BETA)
 ```
-    ./bin/spider FAV_URLs
+    ./bin/spider -f FAV_URLs | ./bin/parserXML 'expression;...' -f -p'echo "\n"' -
 ```
 ## Special
-### To build for MinGW
+### To build for MinGW (temporarly unavailable)
 ```
 	make OPTLD=WIN32
 ```
