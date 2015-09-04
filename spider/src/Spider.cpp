@@ -28,64 +28,22 @@ Spider *			Spider::addThsPrint( toPrint ask )
 	return (this);
 }
 
-<<<<<<< HEAD:src/Spider.cpp
-std::deque< std::string * > *		Spider::crawlDomain( void )
-=======
 void								Spider::crawlDomain( void )
->>>>>>> draft:spider/src/Spider.cpp
 {
-	std::deque< std::string * > *	ret = new std::deque< std::string * >();
 	std::ostream &					inf = *(this->getLoger(INFO));
 	std::string						domain = ("http://"+ this->s_crawlURL);
 	
 	inf << "Crawling at: " << domain << std::endl;
 	
-	/*this->spider.AddUnspidered(domain.c_str());*/
-	if (this->spider.CrawlNext() && this->spider.get_NumUnspidered())
+	this->spider.AddUnspidered(domain.c_str());
+	do
+	{
+		std::deque< std::string * > *	extract = new std::deque< std::string * >();
+		
 		for (std::deque< toPrint >::iterator it = this->thsPrint.begin(); it != this->thsPrint.end(); ++it)
+		{
+			switch (*it)
 			{
-<<<<<<< HEAD:src/Spider.cpp
-				switch (*it)
-				{
-					case (EXPRESSION):
-						{
-							std::string		expression = "*";
-							TiXmlElement *	XEp_main = new TiXmlElement(this->spider.lastHtml());
-
-							ret->push_back(new std::string(TinyXPath::S_xpath_string(static_cast<const TiXmlNode *>(XEp_main), expression.c_str()).c_str()));
-
-							delete (XEp_main);
-						};
-						break;
-					/*case (ERRORHTML):
-						ret->push_back(new std::string(this->spider.lastErrorHTML()));
-						break;*/
-					case (ERRORTEXT):
-						ret->push_back(new std::string(this->spider.lastErrorText()));
-						break;
-					case (ERRORXML):
-						ret->push_back(new std::string(this->spider.lastErrorXml()));
-						break;
-					case (HTML):
-						ret->push_back(new std::string(this->spider.lastHtml()));
-						break;
-					case (HTMLDESCRIPTION):
-						ret->push_back(new std::string(this->spider.lastHtmlDescription()));
-						break;
-					case (HTMLKEYWORDS):
-						ret->push_back(new std::string(this->spider.lastHtmlKeywords()));
-						break;
-					case (HTMLTITLE):
-						ret->push_back(new std::string(this->spider.lastHtmlTitle()));
-						break;
-					case (MODDATESTR):
-						ret->push_back(new std::string(this->spider.lastModDateStr()));
-						break;
-					case (URL):
-						ret->push_back(new std::string(this->spider.lastUrl()));
-						break;
-				}
-=======
 				/*case (ERRORHTML):
 					ret->push_back(new std::string(this->spider.lastErrorHTML()));
 					break;*/
@@ -113,8 +71,15 @@ void								Spider::crawlDomain( void )
 				case (URL):
 					extract->push_back(new std::string(this->spider.lastUrl()));
 					break;
->>>>>>> draft:spider/src/Spider.cpp
 			}
-
-	return (ret);
+		}
+		for (std::deque< std::string * >::iterator it = extract->begin(); it != extract->end(); ++it)
+		{
+			std::cout << **it << std::endl;
+			
+			delete (*it);
+		};
+		delete (extract);
+	}
+	while (this->spider.CrawlNext() && this->spider.get_NumUnspidered());
 }

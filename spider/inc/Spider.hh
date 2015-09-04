@@ -48,7 +48,7 @@ public:
 	Spider *									addThsPrint( toPrint ask );
 
 public:
-	std::deque< std::string * > *				crawlDomain( void );
+	void										crawlDomain( void );
 };
 
 #endif
