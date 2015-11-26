@@ -9,4 +9,14 @@ a = Mechanize.new { |agent|
 
 a.get(ARGV[0]) do |page|
 	pp page.at('meta[name="description"]')[:content]
+	pp page.at('meta[name="keywords"]')[:content]
+	i = e = 0
+	page.links.each do |link|
+		# puts link.href
+		if link.href =~ URI::regexp
+			i += 1
+		end
+		e += 1
+	end
+	pp i.to_s + "/" + e.to_s
 end
