@@ -27,7 +27,7 @@ while uncheckUrls.empty? === false
 	uncheckUrls.subtract url
 
 	url = url[0]
-	agent.get(url) do |page|
+	agent.get( url ) do |page|
 		page.links.each do |t_link|
 			if t_link.href === nil
 				link = nil
@@ -40,20 +40,20 @@ while uncheckUrls.empty? === false
 				end
 			end
 
-			if link != nil
+			if link != nil && link.slice( baseUrl ) != nil
 				link.slice! /\#(.)*/
 				if urlPool.add?( URI.parse( link ).to_s ) != nil
 					## only clean urls and not done goes here.
 					uncheckUrls.add link
 				end
 			end
-			pp link
+			# pp link
 		end
 
-		# redis.sadd "urlPool", url
-		# redis.sadd "item_" + i.to_s, url
-		# redis.sadd "item_" + i.to_s, page.at('meta[name="description"]')[:content]
-		# redis.sadd "item_" + i.to_s, page.at('meta[name="keywords"]')[:content]
+		redis.sadd "urlPool", url
+		redis.sadd "item_" + i.to_s, url
+		redis.sadd "item_" + i.to_s, page.at('meta[name="description"]')[:content]
+		redis.sadd "item_" + i.to_s, page.at('meta[name="keywords"]')[:content]
 
 		i += 1
 
