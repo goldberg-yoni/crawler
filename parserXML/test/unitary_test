@@ -1,0 +1,105 @@
+/a/*[name()!='b']	x
+//b/@val	123
+//x/text()	sub text
+//*/comment()	 -122.0 
+( //dummy1 or  //dummy2  or /dummy/dummy2 or /a/b )	true
+( //dummy1 or  //dummy2  or /dummy/dummy2  )	false
+translate('aabbccdd','aaabc','AXYB')	AABBdd
+translate('aabbccdde','abcd','')	e
+translate('aabbccdd','','ASDF')	aabbccdd
+translate('aabbccdd','','')	aabbccdd
+translate('The quick brown fox jumps over the lazy dog','abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ')	THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG
+count(//*/comment())	2
+sum(//@*)	123
+sum(//*/comment())	378
+true()	true
+not(false())	true
+count(//*[position()=2])	2
+name(/*/*/*[position()=2])	c
+name(/*/*/*[last()])	d
+count(//c/following::*)	2
+count(/a/b/b/following::*)	3
+count(//d/preceding::*)	2
+name(//attribute::*)	val
+count(//b/child::*)	3
+count(//x/ancestor-or-self::*)	2
+count(//b/descendant-or-self::*)	4
+count(//self::*)	6
+count(/a/descendant::*)	5
+count(/a/descendant::x)	1
+count(/a/descendant::b)	2
+count(/a/descendant::b[@val=123])	1
+count(//c/ancestor::a)	1
+name(//d/parent::*)	b
+count(//c/ancestor::*)	2
+name(/a/b/ancestor::*)	a
+name(/a/b/c/following-sibling::*)	d
+count(//b/following-sibling::*)	3
+count(//b|//a)	3
+count(//d/preceding-sibling::*)	2
+-3 * 4	-12
+-3.1 * 4	-12.4
+12 div 5	2.4
+3 * 7	21
+-5.5 >= -5.5	true
+-5.5 < 3	true
+-6.0 < -7	false
+12 < 14	true
+12 > 14	false
+14 <= 14	true
+/a or /b	true
+/c or /b	false
+/a and /b	false
+/a and /*/b	true
+18-12	6
+18+12	30
+count(//a|//b)	3
+count(//*[@val])	1
+name(//*[@val=123])	b
+3=4	false
+3!=4	true
+12=12	true
+'here is a string'='here is a string'	true
+'here is a string'!='here is a string'	false
+/a/b/@val	123
+count(//*/b)	2
+name(/*/*/*[2])	c
+name(/*)	a
+name(/a)	a
+name(/a/b)	b
+name(/*/*)	b
+name(/a/b/c)	c
+count(/a/b/*)	3
+ceiling(3.5)	4
+concat('first ','second',' third','')	first second third
+ceiling(5)	5
+floor(3.5)	3
+floor(5)	5
+string-length('try')	3
+concat(name(/a/b[1]/*[1]),' ',name(/a/b/*[2]))	b c
+count(/a/b/*)	3
+count(//*)	6
+count(//b)	2
+contains('base','as')	true
+contains('base','x')	false
+not(contains('base','as'))	false
+starts-with('blabla','bla')	true
+starts-with('blebla','bla')	false
+substring('12345',2,3)	234
+substring('12345',2)	2345
+substring('12345',2,6)	2345
+concat('[',normalize-space('  before and   after      '),']')	[before and after]
+//*	6
+2+3+4+5	14
+20-2-3+5	20
+count(/a/x[1])	1
+name(/a/*[2])	x
+name(/a/*[1])	b
+name(/a/x[1])	x
+count(/a/b/c[1])	1
+count(/a/b/c[position()=1])	1
+count(/a/b/d[position()=3])	0
+//*[@val]/@val	123
+//x[text()='sub text']/@target	xyz
+substring('123.4',1)	123.4
+//**	syntax error
